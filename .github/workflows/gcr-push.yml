@@ -20,10 +20,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      - uses: google-github-actions/setup-gcloud@v0.2.0
         with:
-          version: "270.0.0"
           service_account_key: ${{ secrets.GCLOUD_SECRET }}
+          project_id: ${{ secrets.GCLOUD_PROJECT_NAME }}
 
       - run: |
           gcloud auth configure-docker
