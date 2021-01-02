@@ -13,5 +13,6 @@ COPY Pipfile* /app/
 RUN pipenv lock --requirements > requirements.txt && pip install --no-cache-dir -r requirements.txt
 
 COPY app /app/app
+COPY serviceAccountKey.json /
 
 CMD ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]

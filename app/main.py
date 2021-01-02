@@ -1,21 +1,15 @@
 from os import environ
 
+import firebase_admin
 from fastapi import FastAPI
+from firebase_admin import credentials
 from neomodel import config
 
-from .routers import (
-    agency,
-    attraction,
-    blog,
-    city,
-    hotel,
-    hotel_owner,
-    package,
-    shop,
-    shop_owner,
-    traveller,
-)
+from .routers import traveller
 from .seed import seed_db
+
+cred = credentials.Certificate("/serviceAccountKey.json")
+firebase_admin.initialize_app(cred)
 
 app = FastAPI()
 config.DATABASE_URL = (
@@ -35,13 +29,4 @@ def seed_endpoint():
     seed_db()
 
 
-app.include_router(agency.router, prefix="/agency")
-app.include_router(attraction.router, prefix="/attraction")
-app.include_router(blog.router, prefix="/blog")
-app.include_router(city.router, prefix="/city")
-app.include_router(hotel.router, prefix="/hotel")
-app.include_router(hotel_owner.router, prefix="/hotel_owner")
-app.include_router(package.router, prefix="/package")
-app.include_router(shop.router, prefix="/shop")
-app.include_router(shop_owner.router, prefix="/shop_owner")
 app.include_router(traveller.router, prefix="/traveller")
