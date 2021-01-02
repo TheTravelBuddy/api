@@ -11,6 +11,7 @@ env:
   IMAGE: tb-api
   PROJECT_NAME: ${{ secrets.GCLOUD_PROJECT_NAME }}
   REGISTRY_HOSTNAME: gcr.io
+  ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
 
 jobs:
   setup-build-publish-deploy:
@@ -19,6 +20,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - run: |
+          ./decryptSecrets.sh
 
       - uses: google-github-actions/setup-gcloud@v0.2.0
         with:
