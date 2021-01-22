@@ -30,6 +30,7 @@ MOODS = {"RELAX": "Relax", "ADVENTURE": "Adventure", "MIXED": "Mixed"}
 
 class User(StructuredNode):
     uid = UniqueIdProperty()
+    firebase_id = StringProperty()
     name = StringProperty(max_length=120, required=True)
     phone = RegexProperty(expression=r"^\+(\d){12}$", required=True)
 

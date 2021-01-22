@@ -9,7 +9,7 @@ async def get_firebase_user(Authorization: str = Header(...)) -> str:
     try:
         token = Authorization.split(" ")[1]
         user = auth.verify_id_token(token)
-        return user["uid"]
+        return user
     except (
         IndexError,
         auth.ExpiredIdTokenError,
@@ -22,9 +22,9 @@ async def get_firebase_user(Authorization: str = Header(...)) -> str:
         )
 
 
-async def get_registered_user(user_id=Depends(get_firebase_user)):
+async def get_registered_user(user=Depends(get_firebase_user)):
     try:
-        return Traveller.nodes.get(uid=user_id)
+        return Traveller.nodes.get(firebase_id=user["uid"])
     except Traveller.DoesNotExist:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
