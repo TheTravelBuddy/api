@@ -20,3 +20,14 @@ def deflate_request(object, keys):
         result[result_key] = value
 
     return result
+
+
+def identity(**kwargs):
+    return kwargs
+
+
+def inflate_query_result(query_result, model=identity):
+    data, columns = query_result
+    return [
+        model(**{column: value for column, value in zip(columns, row)}) for row in data
+    ]
