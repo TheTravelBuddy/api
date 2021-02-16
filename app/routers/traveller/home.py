@@ -24,7 +24,7 @@ class TopPackagesResponse(BaseModel):
 class TopDestinationResponse(BaseModel):
     id: str
     name: constr(min_length=10, max_length=100)
-    photos: List[AnyUrl]
+    coverUri: AnyUrl
     rating: float
 
 
