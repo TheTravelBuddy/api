@@ -36,7 +36,7 @@ LIMIT $n
 """
 GET_TOP_DESTINATIONS_QUERY = """
 MATCH (c:City)-[r:REVIEWED_CITY]-()
-RETURN c.uid AS id, r.photos[0] AS coveruri, c.name AS name, AVG(r.rating) AS rating
+RETURN c.uid AS id, r.photos[0] AS coverUri, c.name AS name, AVG(r.rating) AS rating
 ORDER BY rating DESC 
 LIMIT $n
 """
