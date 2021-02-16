@@ -38,6 +38,14 @@ class TopHotelResponse(BaseModel):
     price: int
 
 
+class TopBlogResponse(BaseModel):
+    id: str
+    authorProfile: str
+    title: str
+    content: str
+    likes: int
+
+
 GET_TOP_PACKAGES_QUERY = """
 MATCH (package:Package)-[review:REVIEWED_PACKAGE]-(user)
 RETURN
@@ -73,6 +81,18 @@ ORDER BY rating DESC
 LIMIT $n
 """
 
+GET_TOP_BLOG_QUERY = """
+MATCH (b:Blog)-[l:LIKES_BLOG]-(), 
+    (b:Blog)-[:AUTHOR_OF]-(a) 
+RETURN 
+    b.uid AS id, 
+    b.title AS title, 
+    left(b.content,50) AS content,  
+    COUNT(l) AS likes,
+    a.uid as authorProfile   
+ORDER BY likes DESC LIMIT $n;
+"""
+
 # TODO: add back `user=Depends(get_registered_user)`,
 
 
@@ -90,8 +110,15 @@ async def get_top_destinations(n: int = 5):
     )
 
 
-@router.get("/topHotel", response_model=List[TopHotelResponse])
+@router.get("/topHotels", response_model=List[TopHotelResponse])
 async def get_top_hotel(n: int = 5):
     return inflate_query_result(
         db.cypher_query(GET_TOP_HOTELS_QUERY, {"n": n}), TopHotelResponse
+    )
+
+
+@router.get("/topBlogs", response_model=List[TopBlogResponse])
+async def get_top_blogs(n: int = 5):
+    return inflate_query_result(
+        db.cypher_query(GET_TOP_BLOG_QUERY, {"n": n}), TopBlogResponse
     )
