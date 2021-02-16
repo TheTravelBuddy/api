@@ -30,7 +30,7 @@ class TopDestinationResponse(BaseModel):
 
 GET_TOP_PACKAGES_QUERY = """
 MATCH (p:Package)-[r:REVIEWED_PACKAGE]-()
-RETURN p.uid AS id, p.photos[0] AS coveruri, p.name AS name, AVG(r.rating) AS rating
+RETURN p.uid AS id, p.photos[0] AS coverUri, p.name AS name, AVG(r.rating) AS rating
 ORDER BY rating DESC 
 LIMIT $n
 """
