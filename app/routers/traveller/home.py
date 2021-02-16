@@ -17,7 +17,7 @@ router = APIRouter()
 class TopPackagesResponse(BaseModel):
     id: str
     name: constr(min_length=5, max_length=100)
-    photos: List[AnyUrl]
+    coverUri: AnyUrl
     rating: float
 
 
