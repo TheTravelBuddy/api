@@ -144,7 +144,7 @@ def seed_city_review_relation(travellers, cities):
         cities["Mumbai"],
         {"rating": 5, "review": "sweet city", "photos": ["https://picsum.photo/1666"]},
     )
-    travellers["Micheal"].reviewed_city.connect(
+    travellers["Justin"].reviewed_city.connect(
         cities["Pune"],
         {"rating": 5, "review": "sweet city", "photos": ["https://picsum.photo/1666"]},
     )
@@ -164,7 +164,7 @@ def seed_city_review_relation(travellers, cities):
         cities["Delhi"],
         {"rating": 4, "review": "sweet city", "photos": ["https://picsum.photo/1666"]},
     )
-    travellers["Micheal"].reviewed_city.connect(
+    travellers["Selena"].reviewed_city.connect(
         cities["Delhi"],
         {"rating": 3, "review": "sweet city", "photos": ["https://picsum.photo/1666"]},
     )
@@ -180,15 +180,15 @@ def seed_city_review_relation(travellers, cities):
         cities["Jaipur"],
         {"rating": 4, "review": "sweet city", "photos": ["https://picsum.photo/1666"]},
     )
-    travellers["Lucifer"].reviewed_city.connect(
-        cities["Ahemdabad"],
+    travellers["Selena"].reviewed_city.connect(
+        cities["Ahmedabad"],
         {"rating": 5, "review": "sweet city", "photos": ["https://picsum.photo/1666"]},
     )
     travellers["Lucifer"].reviewed_city.connect(
-        cities["Ahemdabad"],
+        cities["Ahmedabad"],
         {"rating": 5, "review": "sweet city", "photos": ["https://picsum.photo/1666"]},
     )
-    travellers["Lucifer"].reviewed_city.connect(
-        cities["Ahemdabad"],
+    travellers["Ester"].reviewed_city.connect(
+        cities["Ahmedabad"],
         {"rating": 3, "review": "sweet city", "photos": ["https://picsum.photo/1666"]},
     )

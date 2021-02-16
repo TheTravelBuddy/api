@@ -21,9 +21,22 @@ class TopPackagesResponse(BaseModel):
     rating: float
 
 
+class TopDestinationResponse(BaseModel):
+    id: str
+    name: constr(min_length=10, max_length=100)
+    photos: List[AnyUrl]
+    rating: float
+
+
 GET_TOP_PACKAGES_QUERY = """
 MATCH (p:Package)-[r:REVIEWED_PACKAGE]-()
-RETURN p.uid AS id, p.photos AS photos, p.name AS name, AVG(r.rating) AS rating
+RETURN p.uid AS id, p.photos[0] AS coveruri, p.name AS name, AVG(r.rating) AS rating
+ORDER BY rating DESC 
+LIMIT $n
+"""
+GET_TOP_DESTINATIONS_QUERY = """
+MATCH (c:City)-[r:REVIEWED_PACKAGE]-()
+RETURN c.uid AS id, r.photos[0] AS coveruri, c.name AS name, AVG(r.rating) AS rating
 ORDER BY rating DESC 
 LIMIT $n
 """
@@ -35,4 +48,10 @@ async def get_top_packages(n: int = 3):
     return inflate_query_result(
         db.cypher_query(GET_TOP_PACKAGES_QUERY, {"n": n}), TopPackagesResponse
     )
-    # package = Package.nodes.all()
+
+
+@router.get("/topdestinations", response_model=List[TopDestinationResponse])
+async def get_top_destinations(n: int = 5):
+    return inflate_query_result(
+        db.cypher_query(GET_TOP_DESTINATIONS_QUERY, {"n": n}), TopDestinationResponse
+    )
