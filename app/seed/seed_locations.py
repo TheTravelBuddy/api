@@ -15,28 +15,28 @@ def seed_city():
             description="Dillbar Dilli",
             latitude=28.644800,
             longitude=77.216721,
-            photos=["https://picsum.photos/1099"],
+            photos=["https://picsum.photos/1100"],
         ).save(),
         Ahmedabad=City(
             name="Ahmedabad",
             description="Aapnu amdavad",
             latitude=23.033863,
             longitude=72.585022,
-            photos=["https://picsum.photos/1099"],
+            photos=["https://picsum.photos/1101"],
         ).save(),
         Jaipur=City(
             name="Jaipur",
             description="Padharo mhare desh",
             latitude=26.922070,
             longitude=75.778885,
-            photos=["https://picsum.photos/1099"],
+            photos=["https://picsum.photos/1102"],
         ).save(),
         Pune=City(
             name="Pune",
             description="Punari parimano",
             latitude=18.516726,
             longitude=73.856255,
-            photos=["https://picsum.photos/1099"],
+            photos=["https://picsum.photos/1103"],
         ).save(),
     )
 

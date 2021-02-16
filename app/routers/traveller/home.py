@@ -1,13 +1,12 @@
 from typing import List
 
-from fastapi import APIRouter, Depends
+# from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 from neomodel import db
 from pydantic import AnyUrl, BaseModel, constr
 
-from ...dependencies.auth import get_registered_user
+# from ...dependencies.auth import get_registered_user
 from ...helpers.conversion import inflate_query_result
-from ...models import database, validation
-from ...models.database import Package
 
 # from ...helpers.conversion import deflate_request
 
@@ -23,7 +22,7 @@ class TopPackagesResponse(BaseModel):
 
 class TopDestinationResponse(BaseModel):
     id: str
-    name: constr(min_length=10, max_length=100)
+    name: constr(min_length=3, max_length=100)
     coverUri: AnyUrl
     rating: float
 
@@ -40,26 +39,30 @@ class TopHotelResponse(BaseModel):
 
 
 GET_TOP_PACKAGES_QUERY = """
-MATCH (p:Package)-[r:REVIEWED_PACKAGE]-()
-RETURN p.uid AS id, p.photos[0] AS coverUri, p.name AS name, AVG(r.rating) AS rating
-ORDER BY rating DESC 
-LIMIT $n
-"""
-GET_TOP_DESTINATIONS_QUERY = """
-MATCH (c:City)-[r:REVIEWED_CITY]-()
-RETURN c.uid AS id, c.photos[0] AS coverUri, c.name AS name, AVG(r.rating) AS rating
-ORDER BY rating DESC 
-LIMIT $n
-"""
-GET_TOP_HOTEL_QUERY = """
-MATCH (h:Hotel)-[r:REVIEWED_HOTEL]-()
-RETURN h.uid AS id, h.photos[0] AS coverUri, h.name AS name, AVG(r.rating) AS rating, h.price as price
-ORDER BY rating DESC 
+MATCH (package:Package)-[review:REVIEWED_PACKAGE]-(user)
+RETURN
+    package.uid AS id,
+    package.photos[0] AS coverUri,
+    package.name AS name,
+    AVG(review.rating) AS rating
+ORDER BY rating DESC
 LIMIT $n
 """
 
+GET_TOP_DESTINATIONS_QUERY = """
+MATCH (city:City)-[review:REVIEWED_CITY]-(user)
+RETURN
+    city.uid AS id,
+    city.photos[0] AS coverUri,
+    city.name AS name,
+    AVG(review.rating) AS rating
+ORDER BY rating DESC
+LIMIT $n
+"""
 
 # TODO: add back `user=Depends(get_registered_user)`,
+
+
 @router.get("/topPackages", response_model=List[TopPackagesResponse])
 async def get_top_packages(n: int = 3):
     return inflate_query_result(
