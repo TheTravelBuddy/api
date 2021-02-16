@@ -60,6 +60,19 @@ ORDER BY rating DESC
 LIMIT $n
 """
 
+
+GET_TOP_HOTELS_QUERY = """
+MATCH (hotel:Hotel)-[review:REVIEWED_HOTEL]-(user)
+RETURN
+    hotel.uid AS id,
+    hotel.photos[0] AS coverUri,
+    hotel.name AS name,
+    hotel.price AS price,
+    AVG(review.rating) AS rating
+ORDER BY rating DESC
+LIMIT $n
+"""
+
 # TODO: add back `user=Depends(get_registered_user)`,
 
 
@@ -80,5 +93,5 @@ async def get_top_destinations(n: int = 5):
 @router.get("/topHotel", response_model=List[TopHotelResponse])
 async def get_top_hotel(n: int = 5):
     return inflate_query_result(
-        db.cypher_query(GET_TOP_HOTEL_QUERY, {"n": n}), TopHotelResponse
+        db.cypher_query(GET_TOP_HOTELS_QUERY, {"n": n}), TopHotelResponse
     )
