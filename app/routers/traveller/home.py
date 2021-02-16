@@ -42,7 +42,7 @@ LIMIT $n
 """
 
 
-# user=Depends(get_registered_user),
+# TODO: add back `user=Depends(get_registered_user)`,
 @router.get("/topPackages", response_model=List[TopPackagesResponse])
 async def get_top_packages(n: int = 3):
     return inflate_query_result(
