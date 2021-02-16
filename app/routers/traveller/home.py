@@ -50,7 +50,7 @@ async def get_top_packages(n: int = 3):
     )
 
 
-@router.get("/topdestinations", response_model=List[TopDestinationResponse])
+@router.get("/topDestinations", response_model=List[TopDestinationResponse])
 async def get_top_destinations(n: int = 5):
     return inflate_query_result(
         db.cypher_query(GET_TOP_DESTINATIONS_QUERY, {"n": n}), TopDestinationResponse
