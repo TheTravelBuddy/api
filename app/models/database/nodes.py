@@ -147,7 +147,7 @@ class Hotel(StructuredNode):
     photos = ArrayProperty(base_property=StringProperty())
     address = StringProperty(max_length=512, required=True)
     locality = StringProperty()
-    PostalCode = IntegerProperty()
+    postalCode = IntegerProperty()
     latitude = FloatProperty(required=True)
     longitude = FloatProperty(required=True)
 
