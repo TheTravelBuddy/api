@@ -27,7 +27,7 @@ class TopDestinationResponse(BaseModel):
     rating: float
 
 
-class TopHotelResponse(BaseModel):
+class TopHotelsResponse(BaseModel):
     id: str
     name: constr(max_length=120)
     coverUri: AnyUrl
@@ -37,9 +37,9 @@ class TopHotelResponse(BaseModel):
     price: int
 
 
-class TopBlogResponse(BaseModel):
+class TopBlogsResponse(BaseModel):
     id: str
-    authorProfile: str
+    authorId: str
     title: str
     content: str
     likes: int
@@ -82,15 +82,16 @@ ORDER BY rating DESC
 LIMIT $n
 """
 
-GET_TOP_BLOG_QUERY = """
-MATCH (b:Blog)-[l:LIKES_BLOG]-(), 
-    (b:Blog)-[:AUTHOR_OF]-(a) 
-RETURN 
-    b.uid AS id, 
-    b.title AS title, 
-    left(b.content,50) AS content,  
-    COUNT(l) AS likes,
-    a.uid as authorProfile   
+# TODO: Add profile pic for users
+GET_TOP_BLOGS_QUERY = """
+MATCH (blog:Blog)-[like:LIKES_BLOG]-(),
+    (blog:Blog)-[:AUTHOR_OF]-(author)
+RETURN
+    blog.uid AS id,
+    blog.title AS title,
+    left(blog.content, 100) AS content,
+    COUNT(like) AS likes,
+    author.uid as authorId
 ORDER BY likes DESC LIMIT $n;
 """
 
@@ -111,15 +112,15 @@ async def get_top_destinations(n: int = 5):
     )
 
 
-@router.get("/topHotels", response_model=List[TopHotelResponse])
+@router.get("/topHotels", response_model=List[TopHotelsResponse])
 async def get_top_hotel(n: int = 5):
     return inflate_query_result(
-        db.cypher_query(GET_TOP_HOTELS_QUERY, {"n": n}), TopHotelResponse
+        db.cypher_query(GET_TOP_HOTELS_QUERY, {"n": n}), TopHotelsResponse
     )
 
 
-@router.get("/topBlogs", response_model=List[TopBlogResponse])
+@router.get("/topBlogs", response_model=List[TopBlogsResponse])
 async def get_top_blogs(n: int = 5):
     return inflate_query_result(
-        db.cypher_query(GET_TOP_BLOG_QUERY, {"n": n}), TopBlogResponse
+        db.cypher_query(GET_TOP_BLOGS_QUERY, {"n": n}), TopBlogsResponse
     )
