@@ -192,3 +192,106 @@ def seed_city_review_relation(travellers, cities):
         cities["Ahmedabad"],
         {"rating": 3, "review": "sweet city", "photos": ["https://picsum.photo/1666"]},
     )
+
+
+def seed_hotel_review_relation(travellers, hotels):
+    travellers["Selena"].reviewed_hotel.connect(
+        hotels["hotel1"],
+        {
+            "rating": 5,
+            "review": "nice hotel",
+            "photos": [
+                "https://media-cdn.tripadvisor.com/media/photo-m/1280/1b/a5/d8/c1/exterior.jpg"
+            ],
+        },
+    )
+    travellers["Justin"].reviewed_hotel.connect(
+        hotels["hotel1"],
+        {
+            "rating": 3,
+            "review": "nice hotel",
+            "photos": [
+                "https://media-cdn.tripadvisor.com/media/photo-m/1280/19/3f/1e/5b/other.jpg"
+            ],
+        },
+    )
+    travellers["Lucifer"].reviewed_hotel.connect(
+        hotels["hotel2"],
+        {
+            "rating": 5,
+            "review": "nice hotel",
+            "photos": [
+                "https://media-cdn.tripadvisor.com/media/photo-m/1280/1c/32/d3/ca/recreational-facilities.jpg"
+            ],
+        },
+    )
+    travellers["Jelena"].reviewed_hotel.connect(
+        hotels["hotel3"],
+        {
+            "rating": 5,
+            "review": "nice hotel",
+            "photos": [
+                "https://media-cdn.tripadvisor.com/media/photo-o/11/ad/f2/bd/premier-plus-rooms-555.jpg"
+            ],
+        },
+    )
+    travellers["Justin"].reviewed_hotel.connect(
+        hotels["hotel3"],
+        {
+            "rating": 4,
+            "review": "nice hotel",
+            "photos": [
+                "https://media-cdn.tripadvisor.com/media/photo-o/11/ad/f2/bd/premier-plus-rooms-555.jpg"
+            ],
+        },
+    )
+    travellers["Selena"].reviewed_hotel.connect(
+        hotels["hotel7"],
+        {
+            "rating": 5,
+            "review": "nice hotel",
+            "photos": [
+                "https://media-cdn.tripadvisor.com/media/photo-o/11/ad/f2/bd/premier-plus-rooms-555.jpg"
+            ],
+        },
+    )
+    travellers["Lucifer"].reviewed_hotel.connect(
+        hotels["hotel7"],
+        {
+            "rating": 5,
+            "review": "nice hotel",
+            "photos": [
+                "https://media-cdn.tripadvisor.com/media/photo-o/11/ad/f2/bd/premier-plus-rooms-555.jpg"
+            ],
+        },
+    )
+    travellers["Lucifer"].reviewed_hotel.connect(
+        hotels["hotel5"],
+        {
+            "rating": 4,
+            "review": "nice hotel",
+            "photos": [
+                "https://media-cdn.tripadvisor.com/media/photo-o/11/ad/f2/bd/premier-plus-rooms-555.jpg"
+            ],
+        },
+    )
+    travellers["Selena"].reviewed_hotel.connect(
+        hotels["hotel5"],
+        {
+            "rating": 4,
+            "review": "nice hotel",
+            "photos": [
+                "https://media-cdn.tripadvisor.com/media/photo-o/11/ad/f2/bd/premier-plus-rooms-555.jpg"
+            ],
+        },
+    )
+    travellers["Justin"].reviewed_hotel.connect(
+        hotels["hotel5"],
+        {
+            "rating": 4,
+            "review": "nice hotel",
+            "photos": [
+                "https://media-cdn.tripadvisor.com/media/photo-o/11/ad/f2/bd/premier-plus-rooms-555.jpg"
+            ],
+        },
+    )
