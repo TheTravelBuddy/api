@@ -1,3 +1,25 @@
+def seed_hotel_city_relations(hotels, cities):
+    hotels["hotel1"].located_in.connect(cities["Mumbai"])
+    hotels["hotel2"].located_in.connect(cities["Mumbai"])
+    hotels["hotel3"].located_in.connect(cities["Mumbai"])
+
+    hotels["hotel5"].located_in.connect(cities["Delhi"])
+    hotels["hotel6"].located_in.connect(cities["Delhi"])
+    hotels["hotel7"].located_in.connect(cities["Delhi"])
+
+    hotels["hotel8"].located_in.connect(cities["Pune"])
+    hotels["hotel9"].located_in.connect(cities["Pune"])
+    hotels["hotel10"].located_in.connect(cities["Pune"])
+
+    hotels["hotel11"].located_in.connect(cities["Jaipur"])
+    hotels["hotel12"].located_in.connect(cities["Jaipur"])
+    hotels["hotel13"].located_in.connect(cities["Jaipur"])
+
+    hotels["hotel14"].located_in.connect(cities["Ahmedabad"])
+    hotels["hotel15"].located_in.connect(cities["Ahmedabad"])
+    hotels["hotel16"].located_in.connect(cities["Ahmedabad"])
+
+
 def seed_blog_relations(travellers, blogs):
     travellers["Jenovah"].author_of.connect(blogs["blog1"])
     travellers["Ester"].author_of.connect(blogs["blog2"])

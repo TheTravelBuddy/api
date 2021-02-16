@@ -32,9 +32,8 @@ class TopHotelResponse(BaseModel):
     name: constr(max_length=120)
     coverUri: AnyUrl
     rating: float
-    # TODO:Add these back
-    # locality: str
-    # city: str
+    locality: str
+    city: str
     price: int
 
 
@@ -70,13 +69,15 @@ LIMIT $n
 
 
 GET_TOP_HOTELS_QUERY = """
-MATCH (hotel:Hotel)-[review:REVIEWED_HOTEL]-(user)
+MATCH (city:City)-[:LOCATED_IN]-(hotel:Hotel)-[review:REVIEWED_HOTEL]-(user)
 RETURN
     hotel.uid AS id,
     hotel.photos[0] AS coverUri,
     hotel.name AS name,
     hotel.price AS price,
-    AVG(review.rating) AS rating
+    AVG(review.rating) AS rating,
+    hotel.locality AS locality,
+    city.name AS city
 ORDER BY rating DESC
 LIMIT $n
 """

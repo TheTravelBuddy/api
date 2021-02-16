@@ -6,6 +6,7 @@ from .seed_locations import seed_attraction, seed_city
 from .seed_relations import (
     seed_blog_relations,
     seed_city_review_relation,
+    seed_hotel_city_relations,
     seed_hotel_review_relation,
     seed_package_review_relation,
 )
@@ -33,6 +34,7 @@ def seed_db():
         blogs = seed_blog()
 
         print("Seeding Relations...")
+        seed_hotel_city_relations(hotels, cities)
         seed_blog_relations(travellers, blogs)
         seed_package_review_relation(travellers, packages)
         seed_city_review_relation(travellers, cities)
