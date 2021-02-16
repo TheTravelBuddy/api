@@ -1,48 +1,15 @@
 from typing import List
 
-# from fastapi import APIRouter, Depends
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from neomodel import db
 from pydantic import AnyUrl, BaseModel, constr
 
-# from ...dependencies.auth import get_registered_user
-from ...helpers.conversion import inflate_query_result
+from ...dependencies.auth import get_registered_user
+from ...helpers.conversion import get_query_response
 
 # from ...helpers.conversion import deflate_request
 
 router = APIRouter()
-
-
-class TopPackagesResponse(BaseModel):
-    id: str
-    name: constr(min_length=5, max_length=100)
-    coverUri: AnyUrl
-    rating: float
-
-
-class TopDestinationResponse(BaseModel):
-    id: str
-    name: constr(min_length=3, max_length=100)
-    coverUri: AnyUrl
-    rating: float
-
-
-class TopHotelsResponse(BaseModel):
-    id: str
-    name: constr(max_length=120)
-    coverUri: AnyUrl
-    rating: float
-    locality: str
-    city: str
-    price: int
-
-
-class TopBlogsResponse(BaseModel):
-    id: str
-    authorId: str
-    title: str
-    content: str
-    likes: int
 
 
 GET_TOP_PACKAGES_QUERY = """
@@ -95,32 +62,51 @@ RETURN
 ORDER BY likes DESC LIMIT $n;
 """
 
-# TODO: add back `user=Depends(get_registered_user)`,
+
+class PackagePreviewResponse(BaseModel):
+    id: str
+    name: constr(min_length=5, max_length=100)
+    coverUri: AnyUrl
+    rating: float
 
 
-@router.get("/topPackages", response_model=List[TopPackagesResponse])
-async def get_top_packages(n: int = 3):
-    return inflate_query_result(
-        db.cypher_query(GET_TOP_PACKAGES_QUERY, {"n": n}), TopPackagesResponse
-    )
+class DestinationPreviewResponse(BaseModel):
+    id: str
+    name: constr(min_length=3, max_length=100)
+    coverUri: AnyUrl
+    rating: float
 
 
-@router.get("/topDestinations", response_model=List[TopDestinationResponse])
-async def get_top_destinations(n: int = 5):
-    return inflate_query_result(
-        db.cypher_query(GET_TOP_DESTINATIONS_QUERY, {"n": n}), TopDestinationResponse
-    )
+class HotelPreviewResponse(BaseModel):
+    id: str
+    name: constr(max_length=120)
+    coverUri: AnyUrl
+    rating: float
+    locality: str
+    city: str
+    price: int
 
 
-@router.get("/topHotels", response_model=List[TopHotelsResponse])
-async def get_top_hotel(n: int = 5):
-    return inflate_query_result(
-        db.cypher_query(GET_TOP_HOTELS_QUERY, {"n": n}), TopHotelsResponse
-    )
+class BlogPreviewResponse(BaseModel):
+    id: str
+    authorId: str
+    title: str
+    content: str
+    likes: int
 
 
-@router.get("/topBlogs", response_model=List[TopBlogsResponse])
-async def get_top_blogs(n: int = 5):
-    return inflate_query_result(
-        db.cypher_query(GET_TOP_BLOGS_QUERY, {"n": n}), TopBlogsResponse
+class HomeApiResponse(BaseModel):
+    topPackages: List[PackagePreviewResponse]
+    topDestinations: List[DestinationPreviewResponse]
+    topHotels: List[HotelPreviewResponse]
+    topBlogs: List[BlogPreviewResponse]
+
+
+@router.get("", response_model=HomeApiResponse)
+async def get_home_data(user=Depends(get_registered_user)):
+    return HomeApiResponse(
+        topPackages=get_query_response(GET_TOP_PACKAGES_QUERY, {"n": 3}),
+        topDestinations=get_query_response(GET_TOP_DESTINATIONS_QUERY, {"n": 5}),
+        topHotels=get_query_response(GET_TOP_HOTELS_QUERY, {"n": 5}),
+        topBlogs=get_query_response(GET_TOP_BLOGS_QUERY, {"n": 5}),
     )
