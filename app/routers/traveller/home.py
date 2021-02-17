@@ -1,13 +1,10 @@
 from typing import List
 
 from fastapi import APIRouter, Depends
-from neomodel import db
 from pydantic import AnyUrl, BaseModel, constr
 
 from ...dependencies.auth import get_registered_user
 from ...helpers.conversion import get_query_response
-
-# from ...helpers.conversion import deflate_request
 
 router = APIRouter()
 
@@ -49,7 +46,6 @@ ORDER BY rating DESC
 LIMIT $n
 """
 
-# TODO: Add profile pic for users
 GET_TOP_BLOGS_QUERY = """
 MATCH (blog:Blog)-[like:LIKES_BLOG]-(),
     (blog:Blog)-[:AUTHOR_OF]-(author)
@@ -58,7 +54,7 @@ RETURN
     blog.title AS title,
     left(blog.content, 100) AS content,
     COUNT(like) AS likes,
-    author.profile_picture as authorId
+    author.profile_picture as authorProfile
 ORDER BY likes DESC LIMIT $n;
 """
 
@@ -89,7 +85,7 @@ class HotelPreviewResponse(BaseModel):
 
 class BlogPreviewResponse(BaseModel):
     id: str
-    authorId: str
+    authorProfile: AnyUrl
     title: str
     content: str
     likes: int
