@@ -58,7 +58,7 @@ RETURN
     blog.title AS title,
     left(blog.content, 100) AS content,
     COUNT(like) AS likes,
-    author.uid as authorId
+    author.profile_picture as authorId
 ORDER BY likes DESC LIMIT $n;
 """
 
