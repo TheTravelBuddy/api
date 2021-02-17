@@ -1,5 +1,7 @@
 from enum import Enum
 
+from neomodel import db
+
 
 def deflate_request(object, keys):
     result = {}
@@ -20,3 +22,18 @@ def deflate_request(object, keys):
         result[result_key] = value
 
     return result
+
+
+def identity(**kwargs):
+    return kwargs
+
+
+def inflate_query_result(query_result, model=identity):
+    data, columns = query_result
+    return [
+        model(**{column: value for column, value in zip(columns, row)}) for row in data
+    ]
+
+
+def get_query_response(query, params={}, model=identity):
+    return inflate_query_result(db.cypher_query(query, params), model)

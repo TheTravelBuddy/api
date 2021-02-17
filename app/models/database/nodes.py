@@ -12,6 +12,7 @@ from neomodel import (
     StringProperty,
     StructuredNode,
     UniqueIdProperty,
+    cardinality,
 )
 
 from .relations import (
@@ -33,6 +34,9 @@ class User(StructuredNode):
     firebase_id = StringProperty()
     name = StringProperty(max_length=120, required=True)
     phone = RegexProperty(expression=r"^\+(\d){12}$", required=True)
+    profile_picture = StringProperty(
+        default="https:/picsum.photos/201"  # TODO: get proper asset for new user
+    )
 
 
 class Traveller(User):
@@ -107,6 +111,8 @@ class City(Location):
 
     stayed_by = RelationshipFrom("Traveller", "STAYED_AT_CITY", model=StayedAtRel)
 
+    has_hotels = RelationshipFrom("Hotel", "LOCATED_IN", model=OwnsRel)
+
 
 class Attraction(Location):
     liked_by = RelationshipFrom("Traveller", "LIKES_ATTRACTION", model=LikesRel)
@@ -144,10 +150,16 @@ class Hotel(StructuredNode):
     name = StringProperty(max_length=120, required=True)
     price = IntegerProperty(required=True)
     description = StringProperty(max_length=1024, required=True)
-    photos = ArrayProperty(base_property=StringProperty())
+    photos = ArrayProperty(required=True, base_property=StringProperty())
     address = StringProperty(max_length=512, required=True)
+    locality = StringProperty(required=True)
+    postal_code = IntegerProperty(required=True)
     latitude = FloatProperty(required=True)
     longitude = FloatProperty(required=True)
+
+    located_in = RelationshipTo(
+        "City", "LOCATED_IN", model=OwnsRel, cardinality=cardinality.One
+    )
 
     owned_by = RelationshipFrom("HotelOwner", "OWNS_HOTEL", model=OwnsRel)
 
