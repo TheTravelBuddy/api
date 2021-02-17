@@ -35,7 +35,7 @@ class User(StructuredNode):
     name = StringProperty(max_length=120, required=True)
     phone = RegexProperty(expression=r"^\+(\d){12}$", required=True)
     profile_picture = StringProperty(
-        default="https:/picsum.photos/201"  # TODO: get proper asset for new user
+        default="https://picsum.photos/201"  # TODO: get proper asset for new user
     )
 
 
