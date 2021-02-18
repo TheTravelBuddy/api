@@ -16,6 +16,7 @@ from neomodel import (
 )
 
 from .relations import (
+    AboutRel,
     BookedRel,
     CommentedOnRel,
     LikesRel,
@@ -144,6 +145,8 @@ class Blog(StructuredNode):
     liked_by = RelationshipFrom("Traveller", "LIKES_BLOG", model=LikesRel)
     commented_by = RelationshipFrom("Traveller", "COMMENTED_ON", model=CommentedOnRel)
 
+    is_about = RelationshipFrom("Topic", "IS_ABOUT", model=AboutRel)
+
 
 class Hotel(StructuredNode):
     uid = UniqueIdProperty()
@@ -183,3 +186,9 @@ class Package(StructuredNode):
     liked_by = RelationshipFrom("Traveller", "LIKES_PACKAGE", model=LikesRel)
     booked_by = RelationshipFrom("Traveller", "BOOKED_PACKAGE", model=BookedRel)
     reviewed_by = RelationshipFrom("Traveller", "REVIEWED_PACKAGE", model=ReviewedRel)
+
+
+class Topic(StructuredNode):
+    uid = UniqueIdProperty()
+    name = StringProperty(max_length=100, required=True)
+    is_in = RelationshipTo("Blog", "IS_IN", model=True)
