@@ -51,5 +51,5 @@ class CommentedOnRel(StructuredRel):
     datetime = DateTimeProperty(default_now=True)
 
 
-class AboutRel(StructuredRel):
+class TaggedRel(StructuredRel):
     pass

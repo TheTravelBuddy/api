@@ -12,13 +12,13 @@ from .nodes import (
     Traveller,
 )
 from .relations import (
-    AboutRel,
     BookedRel,
     CommentedOnRel,
     LikesRel,
     OwnsRel,
     ReviewedRel,
     StayedAtRel,
+    TaggedRel,
     VisitedRel,
 )
 
@@ -32,6 +32,7 @@ __all__ = [
     "Package",
     "Shop",
     "ShopOwner",
+    "Topic",
     "Traveller",
     "BookedRel",
     "CommentedOnRel",
@@ -39,6 +40,6 @@ __all__ = [
     "OwnsRel",
     "ReviewedRel",
     "StayedAtRel",
+    "TaggedRel",
     "VisitedRel",
-    "AboutRel",
 ]

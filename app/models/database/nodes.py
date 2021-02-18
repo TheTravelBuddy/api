@@ -16,13 +16,13 @@ from neomodel import (
 )
 
 from .relations import (
-    AboutRel,
     BookedRel,
     CommentedOnRel,
     LikesRel,
     OwnsRel,
     ReviewedRel,
     StayedAtRel,
+    TaggedRel,
     VisitedRel,
 )
 
@@ -104,7 +104,8 @@ class Location(StructuredNode):
     latitude = FloatProperty(required=True)
     longitude = FloatProperty(required=True)
     photos = ArrayProperty(base_property=StringProperty(), default=[])
-    is_in = RelationshipFrom("Blog", "IS_IN", model=AboutRel)
+
+    tagged_in_blog = RelationshipFrom("Blog", "TAGGED_LOCATION", model=TaggedRel)
 
 
 class City(Location):
@@ -146,8 +147,8 @@ class Blog(StructuredNode):
     liked_by = RelationshipFrom("Traveller", "LIKES_BLOG", model=LikesRel)
     commented_by = RelationshipFrom("Traveller", "COMMENTED_ON", model=CommentedOnRel)
 
-    about_topic = RelationshipTo("Topic", "ABOUT_TOPIC", model=AboutRel)
-    about_location = RelationshipTo("Location", "ABOUT_LOCATION", model=AboutRel)
+    tagged_topic = RelationshipTo("Topic", "TAGGED_TOPIC", model=TaggedRel)
+    tagged_location = RelationshipTo("Location", "TAGGED_LOCATION", model=TaggedRel)
 
 
 class Hotel(StructuredNode):
@@ -193,4 +194,5 @@ class Package(StructuredNode):
 class Topic(StructuredNode):
     uid = UniqueIdProperty()
     name = StringProperty(max_length=100, required=True)
-    is_in = RelationshipFrom("Blog", "IS_IN", model=AboutRel)
+
+    tagged_in_blog = RelationshipFrom("Blog", "TAGGED_TOPIC", model=TaggedRel)

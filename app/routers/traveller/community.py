@@ -45,7 +45,7 @@ class TopBlogTopicResponse(BaseModel):
 
 GET_TOP_BLOG_TOPICS_QUERY = """
 MATCH
-    (blog:Blog)-[:ABOUT_TOPIC]->(topic:Topic) 
+    (blog:Blog)-[:ABOUT_TOPIC]->(topic:Topic)
 RETURN
     topic.uid as id,
     topic.name as name,
@@ -100,8 +100,7 @@ class CommunityApiResponse(BaseModel):
 
 
 @router.get("", response_model=CommunityApiResponse)
-# TODO: Add user=Depends(get_registered_user)
-async def get_community_data():
+async def get_community_data(user=Depends(get_registered_user)):
     return CommunityApiResponse(
         topBannerBlogs=get_query_response(GET_TOP_BANNER_BLOGS_QUERY, {"n": 3}),
         topBlogTopics=get_query_response(GET_TOP_BLOG_TOPICS_QUERY, {"n": 5}),
