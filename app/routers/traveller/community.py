@@ -16,7 +16,7 @@ class TopBannerBlogResponse(BaseModel):
     title: str
     content: str
     likes: int
-    # coverUri: AnyUrl # TODO: Add photos to blogs
+    coverUri: AnyUrl
     publishedOn: datetime
 
 
@@ -30,6 +30,7 @@ RETURN
     left(blog.content, 100) AS content,
     COUNT(like) AS likes,
     author.profile_picture AS authorProfile,
+    blog.photos[0] as coverUri,
     blog.published_on AS publishedOn
 ORDER BY likes DESC
 LIMIT $n;
@@ -56,7 +57,7 @@ LIMIT $n
 
 class TopLocationBlogResponse(BaseModel):
     id: str
-    # coverUri: AnyUrl # TODO: Add photos to blogs
+    coverUri: AnyUrl
     title: str
     content: str
     likes: int
@@ -80,6 +81,7 @@ WITH
     location
 RETURN
     blog.uid AS id,
+    blog.photos[0] as coverUri,
     blog.title AS title,
     blog.published_on AS publishedOn,
     LEFT(blog.content, 100) AS content,
