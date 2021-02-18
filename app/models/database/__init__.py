@@ -8,6 +8,7 @@ from .nodes import (
     Package,
     Shop,
     ShopOwner,
+    Topic,
     Traveller,
 )
 from .relations import (
@@ -17,6 +18,7 @@ from .relations import (
     OwnsRel,
     ReviewedRel,
     StayedAtRel,
+    TaggedRel,
     VisitedRel,
 )
 
@@ -30,6 +32,7 @@ __all__ = [
     "Package",
     "Shop",
     "ShopOwner",
+    "Topic",
     "Traveller",
     "BookedRel",
     "CommentedOnRel",
@@ -37,5 +40,6 @@ __all__ = [
     "OwnsRel",
     "ReviewedRel",
     "StayedAtRel",
+    "TaggedRel",
     "VisitedRel",
 ]

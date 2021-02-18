@@ -49,3 +49,7 @@ class ReviewedRel(StructuredRel):
 class CommentedOnRel(StructuredRel):
     content = StringProperty(max_length=120, required=True)
     datetime = DateTimeProperty(default_now=True)
+
+
+class TaggedRel(StructuredRel):
+    pass

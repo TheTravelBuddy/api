@@ -38,6 +38,24 @@ def seed_blog_relations(travellers, blogs):
     travellers["Selena"].likes_blog.connect(blogs["blog4"])
 
 
+def seed_blog_topic_relation(topics, blogs):
+    blogs["blog1"].about_topic.connect(topics["adventure"])
+    blogs["blog2"].about_topic.connect(topics["cuisine"])
+    blogs["blog3"].about_topic.connect(topics["adventure"])
+    blogs["blog4"].about_topic.connect(topics["adventure"])
+    blogs["blog5"].about_topic.connect(topics["cuisine"])
+    blogs["blog6"].about_topic.connect(topics["history"])
+
+
+def seed_blog_location_relation(cities, blogs):
+    blogs["blog1"].about_location.connect(cities["Mumbai"])
+    blogs["blog2"].about_location.connect(cities["Pune"])
+    blogs["blog3"].about_location.connect(cities["Pune"])
+    blogs["blog4"].about_location.connect(cities["Mumbai"])
+    blogs["blog5"].about_location.connect(cities["Delhi"])
+    blogs["blog6"].about_location.connect(cities["Delhi"])
+
+
 def seed_package_review_relation(travellers, packages):
     travellers["Selena"].reviewed_package.connect(
         packages["package1"],
