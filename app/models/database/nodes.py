@@ -145,7 +145,7 @@ class Blog(StructuredNode):
     liked_by = RelationshipFrom("Traveller", "LIKES_BLOG", model=LikesRel)
     commented_by = RelationshipFrom("Traveller", "COMMENTED_ON", model=CommentedOnRel)
 
-    is_about = RelationshipFrom("Topic", "IS_ABOUT", model=AboutRel)
+    is_about = RelationshipTo("Topic", "IS_ABOUT", model=AboutRel)
 
 
 class Hotel(StructuredNode):
@@ -191,4 +191,4 @@ class Package(StructuredNode):
 class Topic(StructuredNode):
     uid = UniqueIdProperty()
     name = StringProperty(max_length=100, required=True)
-    is_in = RelationshipTo("Blog", "IS_IN", model=True)
+    is_in = RelationshipTo("Blog", "IS_IN", model=AboutRel)

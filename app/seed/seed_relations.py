@@ -38,6 +38,15 @@ def seed_blog_relations(travellers, blogs):
     travellers["Selena"].likes_blog.connect(blogs["blog4"])
 
 
+def seed_blog_topic_relation(topics, blogs):
+    blogs["blog1"].is_about.connect(topics["adventure"])
+    blogs["blog2"].is_about.connect(topics["cuisine"])
+    blogs["blog3"].is_about.connect(topics["adventure"])
+    blogs["blog4"].is_about.connect(topics["adventure"])
+    blogs["blog5"].is_about.connect(topics["cuisine"])
+    blogs["blog6"].is_about.connect(topics["history"])
+
+
 def seed_package_review_relation(travellers, packages):
     travellers["Selena"].reviewed_package.connect(
         packages["package1"],

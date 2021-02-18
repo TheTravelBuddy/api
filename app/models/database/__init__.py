@@ -8,9 +8,11 @@ from .nodes import (
     Package,
     Shop,
     ShopOwner,
+    Topic,
     Traveller,
 )
 from .relations import (
+    AboutRel,
     BookedRel,
     CommentedOnRel,
     LikesRel,
@@ -38,4 +40,5 @@ __all__ = [
     "ReviewedRel",
     "StayedAtRel",
     "VisitedRel",
+    "AboutRel",
 ]

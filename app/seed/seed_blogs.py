@@ -31,13 +31,13 @@ def seed_blog():
         ).save(),
         blog5=Blog(
             title="Delhi wali dastan",
-            content="I think Delhi is a glorious city. As well as being my home-away-from-home, I also find it inspiring and endlessly fascinating. Like Rome, Delhi is an eternal city. Not only is it the capital of modern India, it has been the capital of at least seven previous civilizations, and each have left behind a trail of monuments.",
+            content="I think Delhi is a glorious city.The Delhi Darbar Food is amazing.Especilly the mutton. As well as being my home-away-from-home, I also find it inspiring and endlessly fascinating. Like Rome, Delhi is an eternal city. Not only is it the capital of modern India, it has been the capital of at least seven previous civilizations, and each have left behind a trail of monuments.",
             published_on=datetime(2020, 3, 2),
             photos=[],
         ).save(),
         blog6=Blog(
-            title="Diligent Dilli",
-            content=" I prefer to stay where I am treated as something more than a walking wallet. My top Delhi tip is to stay away from the hustle and bustle, and avoid the sharks. Stay instead in the leafy, upscale neighbourhoods of central New Delhi, South Delhi, or Mehrauli. In South Delhi, I rarely get ripped off, because this is not a tourist area: when I get in an auto, I get charged the same price as my neighbours, the locals.",
+            title="Dynasty Delhi",
+            content=" I prefer to stay where I am treated as something more than a walking wallet. My top Delhi tip is to stay away from the hustle and bustle, and avoid the sharks.The Sultana Rule in Delhi is a awe-royal story. Stay instead in the leafy, upscale neighbourhoods of central New Delhi, South Delhi, or Mehrauli. In South Delhi, I rarely get ripped off, because this is not a tourist area: when I get in an auto, I get charged the same price as my neighbours, the locals.",
             published_on=datetime(2020, 1, 10),
             photos=[],
         ).save(),
