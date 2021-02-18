@@ -104,6 +104,7 @@ class Location(StructuredNode):
     latitude = FloatProperty(required=True)
     longitude = FloatProperty(required=True)
     photos = ArrayProperty(base_property=StringProperty(), default=[])
+    is_in = RelationshipFrom("Blog", "IS_IN", model=AboutRel)
 
 
 class City(Location):
@@ -145,7 +146,8 @@ class Blog(StructuredNode):
     liked_by = RelationshipFrom("Traveller", "LIKES_BLOG", model=LikesRel)
     commented_by = RelationshipFrom("Traveller", "COMMENTED_ON", model=CommentedOnRel)
 
-    is_about = RelationshipTo("Topic", "IS_ABOUT", model=AboutRel)
+    about_topic = RelationshipTo("Topic", "ABOUT_TOPIC", model=AboutRel)
+    about_location = RelationshipTo("Location", "ABOUT_LOCATION", model=AboutRel)
 
 
 class Hotel(StructuredNode):
@@ -191,4 +193,4 @@ class Package(StructuredNode):
 class Topic(StructuredNode):
     uid = UniqueIdProperty()
     name = StringProperty(max_length=100, required=True)
-    is_in = RelationshipTo("Blog", "IS_IN", model=AboutRel)
+    is_in = RelationshipFrom("Blog", "IS_IN", model=AboutRel)
