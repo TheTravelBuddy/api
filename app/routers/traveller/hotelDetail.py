@@ -47,7 +47,7 @@ RETURN
 
 
 @router.get("", response_model=HotelDetailResponse)
-async def get_hotel_detail(id: int, user: int):
+async def get_hotel_detail(id: str, user=Depends(get_registered_user)):
     return HotelDetailResponse(
-        get_query_response(GET_HOTELDETAIL_QUERY, {"hotel": id, "user": userid})
+        get_query_response(GET_HOTELDETAIL_QUERY, {"hotel": id, "user": user.uid})
     )
