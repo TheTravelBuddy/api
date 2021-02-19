@@ -1,14 +1,43 @@
-from neomodel import (ArrayProperty, BooleanProperty, DateProperty,
-                      DateTimeProperty, FloatProperty, IntegerProperty,
-                      JSONProperty, RegexProperty, RelationshipFrom,
-                      RelationshipTo, StringProperty, StructuredNode,
-                      UniqueIdProperty, cardinality)
+from neomodel import (
+    ArrayProperty,
+    BooleanProperty,
+    DateProperty,
+    DateTimeProperty,
+    FloatProperty,
+    IntegerProperty,
+    JSONProperty,
+    RegexProperty,
+    RelationshipFrom,
+    RelationshipTo,
+    StringProperty,
+    StructuredNode,
+    UniqueIdProperty,
+    cardinality,
+)
 
-from .relations import (BookedRel, CommentedOnRel, LikesRel, OwnsRel,
-                        ReviewedRel, StayedAtRel, TaggedRel, VisitedRel)
+from .relations import (
+    BookedRel,
+    CommentedOnRel,
+    LikesRel,
+    OwnsRel,
+    ReviewedRel,
+    StayedAtRel,
+    TaggedRel,
+    VisitedRel,
+)
 
 GENDERS = {"F": "Female", "M": "Male", "O": "Other"}
 MOODS = {"RELAX": "Relax", "ADVENTURE": "Adventure", "MIXED": "Mixed"}
+AMENITIES = {
+    "WIFI": "WiFi",
+    "SWIMMINGPOOL": "Swimming Pool",
+    "AC": "Ac",
+    "TOILETRIES": "Toiletries",
+    "GYM": "Gym",
+    "PARKING": "Parking",
+    "MEDICAL": "Medical",
+    "SPA": "Spa",
+}
 
 
 class User(StructuredNode):
@@ -145,7 +174,7 @@ class Hotel(StructuredNode):
     latitude = FloatProperty(required=True)
     longitude = FloatProperty(required=True)
     phone = RegexProperty(expression=r"^\+(\d){12}$", required=True)
-    amenities  = ArrayProperty(base_property=StringProperty())
+    amenities = ArrayProperty(base_property=StringProperty(choices=AMENITIES))
 
     located_in = RelationshipTo(
         "City", "LOCATED_IN", model=OwnsRel, cardinality=cardinality.One

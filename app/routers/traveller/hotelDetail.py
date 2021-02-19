@@ -1,12 +1,13 @@
 from datetime import datetime
+from enum import Enum
 from typing import List
 
 from fastapi import APIRouter, Depends
 from pydantic import AnyUrl, BaseModel, confloat, constr
 
 from ...dependencies.auth import get_registered_user
-from ...helpers.conversion import Enum, get_query_response
-from ...helpers.validatation import PHONE_NUMBER_REGEX
+from ...helpers.conversion import get_query_response
+from ...helpers.validatation import PHONE_NUMBER_REGEX, HotelAmenitiesEnum
 
 router = APIRouter()
 
@@ -22,7 +23,7 @@ class HotelDetailResponse(BaseModel):
     latitude: confloat(ge=-90, le=90)
     longitude: confloat(ge=-180, le=180)
     about: str
-    amenities: List[Enum]
+    amenities: List[HotelAmenitiesEnum]
     likes: bool
 
 
@@ -49,5 +50,9 @@ RETURN
 @router.get("", response_model=HotelDetailResponse)
 async def get_hotel_detail(id: str, user=Depends(get_registered_user)):
     return HotelDetailResponse(
-        get_query_response(GET_HOTELDETAIL_QUERY, {"hotel": id, "user": user.uid})
+        **(
+            get_query_response(GET_HOTELDETAIL_QUERY, {"hotel": id, "user": user.uid})[
+                0
+            ]
+        )
     )
