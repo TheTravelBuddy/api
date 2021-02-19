@@ -27,7 +27,7 @@ MATCH
 RETURN
     blog.uid AS id,
     blog.title AS title,
-    left(blog.content, 100) AS content,
+    left(blog.content, 150) AS content,
     COUNT(like) AS likes,
     author.profile_picture AS authorProfile,
     blog.photos[0] as coverUri,
@@ -45,7 +45,7 @@ class TopBlogTopicResponse(BaseModel):
 
 GET_TOP_BLOG_TOPICS_QUERY = """
 MATCH
-    (blog:Blog)-[:ABOUT_TOPIC]->(topic:Topic)
+    (blog:Blog)-[:TAGGED_TOPIC]->(topic:Topic)
 RETURN
     topic.uid as id,
     topic.name as name,
@@ -71,7 +71,7 @@ GET_TOP_LOCATION_BLOGS_QUERY = """
 MATCH
     (blog:Blog)-[like:LIKES_BLOG]-(),
     (blog:Blog)-[:AUTHOR_OF]-(author),
-    (blog:Blog)-[:ABOUT_LOCATION]-(location)
+    (blog:Blog)-[:TAGGED_LOCATION]-(location)
 WITH blog, author, location, COUNT(like) AS likes
 ORDER BY likes DESC
 WITH
