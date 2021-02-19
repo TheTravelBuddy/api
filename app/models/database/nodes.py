@@ -1,30 +1,11 @@
-from neomodel import (
-    ArrayProperty,
-    BooleanProperty,
-    DateProperty,
-    DateTimeProperty,
-    FloatProperty,
-    IntegerProperty,
-    JSONProperty,
-    RegexProperty,
-    RelationshipFrom,
-    RelationshipTo,
-    StringProperty,
-    StructuredNode,
-    UniqueIdProperty,
-    cardinality,
-)
+from neomodel import (ArrayProperty, BooleanProperty, DateProperty,
+                      DateTimeProperty, FloatProperty, IntegerProperty,
+                      JSONProperty, RegexProperty, RelationshipFrom,
+                      RelationshipTo, StringProperty, StructuredNode,
+                      UniqueIdProperty, cardinality)
 
-from .relations import (
-    BookedRel,
-    CommentedOnRel,
-    LikesRel,
-    OwnsRel,
-    ReviewedRel,
-    StayedAtRel,
-    TaggedRel,
-    VisitedRel,
-)
+from .relations import (BookedRel, CommentedOnRel, LikesRel, OwnsRel,
+                        ReviewedRel, StayedAtRel, TaggedRel, VisitedRel)
 
 GENDERS = {"F": "Female", "M": "Male", "O": "Other"}
 MOODS = {"RELAX": "Relax", "ADVENTURE": "Adventure", "MIXED": "Mixed"}
@@ -104,6 +85,7 @@ class Location(StructuredNode):
     latitude = FloatProperty(required=True)
     longitude = FloatProperty(required=True)
     photos = ArrayProperty(base_property=StringProperty(), default=[])
+    is_in = RelationshipFrom("Blog", "IS_IN", model=TaggedRel)
 
     tagged_in_blog = RelationshipFrom("Blog", "TAGGED_LOCATION", model=TaggedRel)
 
@@ -162,6 +144,8 @@ class Hotel(StructuredNode):
     postal_code = IntegerProperty(required=True)
     latitude = FloatProperty(required=True)
     longitude = FloatProperty(required=True)
+    phone = RegexProperty(expression=r"^\+(\d){12}$", required=True)
+    amenities  = ArrayProperty(base_property=StringProperty())
 
     located_in = RelationshipTo(
         "City", "LOCATED_IN", model=OwnsRel, cardinality=cardinality.One

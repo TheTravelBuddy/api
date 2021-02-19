@@ -9,6 +9,7 @@ from .seed_relations import (
     seed_blog_topic_relation,
     seed_city_review_relation,
     seed_hotel_city_relations,
+    seed_hotel_like_relation,
     seed_hotel_review_relation,
     seed_package_review_relation,
 )
@@ -47,4 +48,5 @@ def seed_db():
         seed_blog_location_relation(
             cities, blogs
         )  # EXTRA: locations=cities+attractions
+        seed_hotel_like_relation(travellers, hotels)
         print("Done.")

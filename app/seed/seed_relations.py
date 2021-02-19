@@ -335,3 +335,13 @@ def seed_hotel_review_relation(travellers, hotels):
             ],
         },
     )
+
+
+def seed_hotel_like_relation(travellers, hotels):
+    travellers["Justin"].likes_hotel.connect(hotels["hotel1"])
+    travellers["Justin"].likes_hotel.connect(hotels["hotel3"])
+    travellers["Lucifer"].likes_hotel.connect(hotels["hotel5"])
+    travellers["Lucifer"].likes_hotel.connect(hotels["hotel6"])
+    travellers["Selena"].likes_hotel.connect(hotels["hotel2"])
+    travellers["Selena"].likes_hotel.connect(hotels["hotel1"])
+    travellers["Selena"].likes_hotel.connect(hotels["hotel5"])
