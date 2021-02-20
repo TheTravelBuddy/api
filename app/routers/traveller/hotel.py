@@ -8,6 +8,7 @@ from pydantic import AnyUrl, BaseModel, confloat, constr
 from ...dependencies.auth import get_registered_user
 from ...helpers.conversion import get_query_response
 from ...helpers.validatation import PHONE_NUMBER_REGEX, HotelAmenitiesEnum
+from ...models.database import Hotel, Traveller
 
 router = APIRouter()
 
@@ -28,7 +29,7 @@ class HotelDetailsResponse(BaseModel):
     address: str
     postalCode: str
     city: str
-    rating: Optional[float]
+    rating: Optional[float] = None
     price: int
     phoneNumber: constr(min_length=13, max_length=13, regex=PHONE_NUMBER_REGEX)
     latitude: confloat(ge=-90, le=90)
@@ -87,3 +88,9 @@ async def get_hotel_detail(id: str, user=Depends(get_registered_user)):
         )[0],
         hotelReviews=get_query_response(GET_HOTELDETAILREVIEW_QUERY, {"hotel": id}),
     )
+
+
+# =Depends(get_registered_user)
+@router.post("/like")
+async def post_like(id: str, user=Depends(get_registered_user)):
+    Traveller.nodes.get(uid=user.uid).likes_hotel.connect(Hotel.nodes.get(uid=id))
