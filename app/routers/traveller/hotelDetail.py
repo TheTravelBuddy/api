@@ -30,6 +30,7 @@ class HotelDetailsResponse(BaseModel):
     postalCode: str
     city: str
     rating: float
+    price: int
     phoneNumber: constr(min_length=13, max_length=13, regex=PHONE_NUMBER_REGEX)
     latitude: confloat(ge=-90, le=90)
     longitude: confloat(ge=-180, le=180)
@@ -58,6 +59,7 @@ RETURN
     hotel.phone as phoneNumber,
     hotel.latitude as latitude,
     hotel.longitude as longitude,
+    hotel.price as price
     hotel.description as about,
     hotel.amenities as amenities,
     EXISTS ((hotel)-[:LIKES_HOTEL]-(:User {uid:$user})) as likes
@@ -73,15 +75,14 @@ RETURN
     traveller.name as name
 ORDER BY datetime DESC LIMIT 3
 """
-# user=Depends(get_registered_user) TODO add back
 
-# e2813cf7e74a441bbe416589b976475c user id
+
 @router.get("", response_model=HotelApiResponse)
-async def get_hotel_detail(id: str):
+async def get_hotel_detail(id: str, user=Depends(get_registered_user)):
     return HotelApiResponse(
         hotelDetails=get_query_response(
             GET_HOTELDETAIL_QUERY,
-            {"hotel": id, "user": "e2813cf7e74a441bbe416589b976475c"},
+            {"hotel": id, "user": user.uid},
         )[0],
         hotelReviews=get_query_response(GET_HOTELDETAILREVIEW_QUERY, {"hotel": id}),
     )
