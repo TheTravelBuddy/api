@@ -61,14 +61,14 @@ ORDER BY likes DESC LIMIT $n;
 
 class PackagePreviewResponse(BaseModel):
     id: str
-    name: constr(min_length=5, max_length=100)
+    name: constr(min_length=5, max_length=120)
     coverUri: AnyUrl
     rating: float
 
 
 class DestinationPreviewResponse(BaseModel):
     id: str
-    name: constr(min_length=3, max_length=100)
+    name: constr(min_length=3, max_length=120)
     coverUri: AnyUrl
     rating: float
 

@@ -1,6 +1,6 @@
 from datetime import datetime
 from enum import Enum
-from typing import List
+from typing import List, Optional
 
 from fastapi import APIRouter, Depends
 from pydantic import AnyUrl, BaseModel, confloat, constr
@@ -13,12 +13,11 @@ router = APIRouter()
 
 
 class HotelReviewsResponse(BaseModel):
-    id: str  # traveller's id
+    id: str
     rating: int
-    # photos: List[AnyUrl]
-    review: str  # len 100
+    review: str
     datetime: datetime
-    name: str  # traveller's name
+    name: str
 
 
 class HotelDetailsResponse(BaseModel):
@@ -29,7 +28,7 @@ class HotelDetailsResponse(BaseModel):
     address: str
     postalCode: str
     city: str
-    rating: float
+    rating: Optional[float]
     price: int
     phoneNumber: constr(min_length=13, max_length=13, regex=PHONE_NUMBER_REGEX)
     latitude: confloat(ge=-90, le=90)
@@ -46,7 +45,9 @@ class HotelApiResponse(BaseModel):
 
 GET_HOTELDETAIL_QUERY = """
 MATCH
-    (city:City)-[:LOCATED_IN]-(hotel:Hotel {uid:$hotel})-[review:REVIEWED_HOTEL]-()
+    (city:City)-[:LOCATED_IN]-(hotel:Hotel {uid:$hotel})
+OPTIONAL MATCH
+    (hotel)-[review:REVIEWED_HOTEL]-()
 RETURN
     hotel.uid as id,
     hotel.photos as photos,
@@ -59,7 +60,7 @@ RETURN
     hotel.phone as phoneNumber,
     hotel.latitude as latitude,
     hotel.longitude as longitude,
-    hotel.price as price
+    hotel.price as price,
     hotel.description as about,
     hotel.amenities as amenities,
     EXISTS ((hotel)-[:LIKES_HOTEL]-(:User {uid:$user})) as likes
@@ -70,7 +71,7 @@ MATCH
 RETURN
     traveller.uid as id,
     review.rating as rating,
- 	left(review.review,150) as review,
+    left(review.review,150) as review,
     review.datetime as datetime,
     traveller.name as name
 ORDER BY datetime DESC LIMIT 3

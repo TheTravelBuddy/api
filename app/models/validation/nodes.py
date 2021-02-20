@@ -54,7 +54,7 @@ class HotelOwner(Business):
 class Location(BaseModel):
     uid: str = None
     name: constr(min_length=3, max_length=120)
-    description: constr(min_length=10, max_length=1024)
+    description: constr(min_length=10, max_length=4096)
     latitude: confloat(ge=-90, le=90)
     longitude: confloat(ge=-180, le=180)
     photos: List[AnyUrl]
@@ -84,9 +84,9 @@ class Hotel(BaseModel):
     uid: str = None
     name: constr(max_length=120)
     price: PositiveInt
-    description: constr(max_length=256)
+    description: constr(max_length=4096)
     photos: List[AnyUrl]
-    address: constr(max_length=256)
+    address: constr(max_length=1024)
     latitude: confloat(ge=-90, le=90)
     longitude: confloat(ge=-180, le=180)
 
@@ -95,6 +95,6 @@ class Package(BaseModel):
     uid: str = None
     name: constr(max_length=120)
     price: PositiveInt
-    description: constr(max_length=256)
+    description: constr(max_length=4096)
     photos: List[AnyUrl]
     itinerary: Any = {}

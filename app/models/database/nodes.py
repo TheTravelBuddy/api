@@ -110,7 +110,7 @@ class HotelOwner(Business):
 class Location(StructuredNode):
     uid = UniqueIdProperty()
     name = StringProperty(max_length=120, required=True)
-    description = StringProperty(max_length=1024, required=True)
+    description = StringProperty(max_length=4096, required=True)
     latitude = FloatProperty(required=True)
     longitude = FloatProperty(required=True)
     photos = ArrayProperty(base_property=StringProperty(), default=[])
@@ -147,7 +147,7 @@ class Shop(Location):
 
 class Blog(StructuredNode):
     uid = UniqueIdProperty()
-    title = StringProperty(max_length=120, required=True)
+    title = StringProperty(max_length=512, required=True)
     content = StringProperty(max_length=4096, required=True)
     published_on = DateTimeProperty(default_now=True)
     photos = ArrayProperty(base_property=StringProperty())
@@ -166,7 +166,7 @@ class Hotel(StructuredNode):
     uid = UniqueIdProperty()
     name = StringProperty(max_length=120, required=True)
     price = IntegerProperty(required=True)
-    description = StringProperty(max_length=1024, required=True)
+    description = StringProperty(max_length=4096, required=True)
     photos = ArrayProperty(required=True, base_property=StringProperty())
     address = StringProperty(max_length=512, required=True)
     locality = StringProperty(required=True)
@@ -191,9 +191,9 @@ class Hotel(StructuredNode):
 
 class Package(StructuredNode):
     uid = UniqueIdProperty()
-    name = StringProperty(max_length=120, required=True)
+    name = StringProperty(max_length=512, required=True)
     price = IntegerProperty(required=True)
-    description = StringProperty(max_length=1024, required=True)
+    description = StringProperty(max_length=4096, required=True)
     photos = ArrayProperty(base_property=StringProperty())
     itinerary = JSONProperty(required=True)
 
@@ -206,6 +206,6 @@ class Package(StructuredNode):
 
 class Topic(StructuredNode):
     uid = UniqueIdProperty()
-    name = StringProperty(max_length=100, required=True)
+    name = StringProperty(max_length=120, required=True)
 
     tagged_in_blog = RelationshipFrom("Blog", "TAGGED_TOPIC", model=TaggedRel)
