@@ -29,8 +29,7 @@ class HotelDetailResponse(BaseModel):
 
 GET_HOTELDETAIL_QUERY = """
 MATCH
-    (city:City)-[:LOCATED_IN]-(hotel:Hotel {uid:$hotel})-[review:REVIEWED_HOTEL]-(),
-    (user:Traveller {uid:$user})
+    (city:City)-[:LOCATED_IN]-(hotel:Hotel {uid:$hotel})-[review:REVIEWED_HOTEL]-()
 RETURN
     hotel.uid as id,
     hotel.photos as photos,
@@ -43,7 +42,7 @@ RETURN
     hotel.longitude as longitude,
     hotel.description as about,
     hotel.amenities as amenities,
-    EXISTS ((hotel)-[:LIKES_HOTEL]-(user)) as likes
+    EXISTS ((hotel)-[:LIKES_HOTEL]-(:User {uid:$user})) as likes
 """
 
 
