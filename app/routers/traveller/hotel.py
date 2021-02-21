@@ -78,6 +78,10 @@ RETURN
 ORDER BY datetime DESC LIMIT 3
 """
 
+# =Depends(get_registered_user)
+# e2813cf7e74a441bbe416589b976475c Selena id
+# 874951cbee4443d38867423834efe5c9 TMP id
+
 
 @router.get("", response_model=HotelApiResponse)
 async def get_hotel_detail(id: str, user=Depends(get_registered_user)):
@@ -90,7 +94,18 @@ async def get_hotel_detail(id: str, user=Depends(get_registered_user)):
     )
 
 
-# =Depends(get_registered_user)
 @router.post("/like")
-async def post_like(id: str, user=Depends(get_registered_user)):
-    Traveller.nodes.get(uid=user.uid).likes_hotel.connect(Hotel.nodes.get(uid=id))
+async def hotel_like(id: str, user: str):
+    traveller = Traveller.nodes.get(uid=user)
+    hotel = Hotel.nodes.get(uid=id)
+    traveller.likes_hotel.connect(hotel)
+    # if traveller.likes_hotel.is_connected(hotel):
+    #     print("Relation Exists")
+    # else:
+
+
+@router.post("/unlike")
+async def hotel_unlike(id: str, user: str):
+    traveller = Traveller.nodes.get(uid=user)
+    hotel = Hotel.nodes.get(uid=id)
+    traveller.likes_hotel.disconnect(hotel)
