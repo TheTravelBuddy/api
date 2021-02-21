@@ -104,7 +104,7 @@ async def hotel_like(id: str, user: str):
     # else:
 
 
-@router.post("/unlike")
+@router.delete("/unlike")
 async def hotel_unlike(id: str, user: str):
     traveller = Traveller.nodes.get(uid=user)
     hotel = Hotel.nodes.get(uid=id)
