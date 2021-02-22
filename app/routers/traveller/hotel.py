@@ -2,7 +2,9 @@ from datetime import datetime
 from enum import Enum
 from typing import List, Optional
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.params import Depends
+from neomodel import db
 from pydantic import AnyUrl, BaseModel, confloat, constr
 
 from ...dependencies.auth import get_registered_user
@@ -11,6 +13,15 @@ from ...helpers.validatation import PHONE_NUMBER_REGEX, HotelAmenitiesEnum
 from ...models.database import Hotel, Traveller
 
 router = APIRouter()
+
+
+async def get_hotel(hotelId: str):
+    try:
+        return Hotel.nodes.get(uid=hotelId)
+    except Hotel.DoesNotExist:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Hotel not found"
+        )
 
 
 class HotelReviewsResponse(BaseModel):
@@ -44,7 +55,7 @@ class HotelApiResponse(BaseModel):
     hotelReviews: List[HotelReviewsResponse]
 
 
-GET_HOTELDETAIL_QUERY = """
+GET_HOTEL_DETAILS_QUERY = """
 MATCH
     (city:City)-[:LOCATED_IN]-(hotel:Hotel {uid:$hotel})
 OPTIONAL MATCH
@@ -66,7 +77,7 @@ RETURN
     hotel.amenities as amenities,
     EXISTS ((hotel)-[:LIKES_HOTEL]-(:User {uid:$user})) as likes
 """
-GET_HOTELDETAILREVIEW_QUERY = """
+GET_HOTEL_REVIEWS_QUERY = """
 MATCH
     (hotel:Hotel {uid:$hotel})-[review:REVIEWED_HOTEL]-(traveller:Traveller)
 RETURN
@@ -75,7 +86,8 @@ RETURN
     left(review.review,150) as review,
     review.datetime as datetime,
     traveller.name as name
-ORDER BY datetime DESC LIMIT 3
+ORDER BY datetime 
+DESC LIMIT 3
 """
 
 # =Depends(get_registered_user)
@@ -84,28 +96,33 @@ ORDER BY datetime DESC LIMIT 3
 
 
 @router.get("", response_model=HotelApiResponse)
-async def get_hotel_detail(id: str, user=Depends(get_registered_user)):
-    return HotelApiResponse(
-        hotelDetails=get_query_response(
-            GET_HOTELDETAIL_QUERY,
-            {"hotel": id, "user": user.uid},
-        )[0],
-        hotelReviews=get_query_response(GET_HOTELDETAILREVIEW_QUERY, {"hotel": id}),
-    )
+async def get_hotel_detail(hotel=Depends(get_hotel), user=Depends(get_registered_user)):
+    try:
+        return HotelApiResponse(
+            hotelDetails=get_query_response(
+                GET_HOTEL_DETAILS_QUERY,
+                {"hotel": hotel.uid, "user": user.uid},
+            )[0],
+            hotelReviews=get_query_response(
+                GET_HOTEL_REVIEWS_QUERY, {"hotel": hotel.id}
+            ),
+        )
+    except IndexError:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Hotel not found.",
+        )
 
 
 @router.post("/like")
-async def hotel_like(id: str, user: str):
-    traveller = Traveller.nodes.get(uid=user)
-    hotel = Hotel.nodes.get(uid=id)
-    traveller.likes_hotel.connect(hotel)
-    # if traveller.likes_hotel.is_connected(hotel):
-    #     print("Relation Exists")
-    # else:
+async def hotel_like(hotel=Depends(get_hotel), user=Depends(get_registered_user)):
+    with db.transaction:
+        if not user.likes_hotel.is_connect(hotel):
+            user.likes_hotel.connect(hotel)
 
 
 @router.delete("/unlike")
-async def hotel_unlike(id: str, user: str):
-    traveller = Traveller.nodes.get(uid=user)
-    hotel = Hotel.nodes.get(uid=id)
-    traveller.likes_hotel.disconnect(hotel)
+async def hotel_unlike(hotel=Depends(get_hotel), user=Depends(get_registered_user)):
+    with db.transaction:
+        if user.likes_hotel.is_connect(hotel):
+            user.likes_hotel.disconnect(hotel)
