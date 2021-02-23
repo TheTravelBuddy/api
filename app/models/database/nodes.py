@@ -28,6 +28,35 @@ from .relations import (
 
 GENDERS = {"F": "Female", "M": "Male", "O": "Other"}
 MOODS = {"RELAX": "Relax", "ADVENTURE": "Adventure", "MIXED": "Mixed"}
+TOPICS = {
+    "CUISINE": "Cuisine",
+    "ADVENTURE": "Adventure",
+    "HISTORICAL": "Historical",
+    "CULTURE": "Culture",
+    "ART": "Art",
+    "BEACHES": "Beaches",
+    "MOUNTAINS": "Mountains",
+    "RELIGIOUS": "Religious",
+    "TREKKING": "Trekking",
+    "ROMANTIC": "Romantic",
+    "SHOPPING": "Shopping",
+    "JUNGLE_SAFARI": "Jungle Safari",
+    "HILL_STATIONS": "Hill stations",
+    "ROAD_TRIPS": "Road trips",
+    "TOURIST_ATTRACTIONS": "Tourist attractions",
+    "FESTIVALS": "Festivals",
+}
+SERVICES = {
+    "PETROL_PUMP": "Petrol pump",
+    "POLICE_STATION": "Police station",
+    "HOSPITAL": "Hospital",
+    "ATM": "ATM",
+    "Gym": "Gym",
+    "LIBRARY": "Library",
+    "BEAUTY SALON": "Beauty salon",
+    "PARKING": "Parking",
+    "CHEMIST": "Chemist",
+}
 
 
 class User(StructuredNode):
