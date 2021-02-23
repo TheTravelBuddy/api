@@ -12,7 +12,6 @@ from .nodes import (
     Traveller,
 )
 from .relations import (
-    TaggedRel,
     BookedRel,
     CommentedOnRel,
     LikesRel,
@@ -43,5 +42,4 @@ __all__ = [
     "StayedAtRel",
     "TaggedRel",
     "VisitedRel",
-    "TaggedRel",
 ]
