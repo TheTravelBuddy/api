@@ -41,13 +41,13 @@ class StayedAtRel(StructuredRel):
 
 class ReviewedRel(StructuredRel):
     rating = IntegerProperty(required=True)
-    review = StringProperty(max_length=120, required=True)
+    review = StringProperty(max_length=4096, required=True)
     photos = ArrayProperty(base_property=StringProperty())
     datetime = DateTimeProperty(default_now=True)
 
 
 class CommentedOnRel(StructuredRel):
-    content = StringProperty(max_length=120, required=True)
+    content = StringProperty(max_length=4096, required=True)
     datetime = DateTimeProperty(default_now=True)
 
 

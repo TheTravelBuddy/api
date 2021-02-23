@@ -13,4 +13,15 @@ class MoodEnum(str, Enum):
     Mixed = "MIXED"
 
 
+class HotelAmenitiesEnum(str, Enum):
+    WiFi = "WIFI"
+    SwimmingPool = "SWIMMINGPOOL"
+    Ac = "AC"
+    Toiletries = "TOILETRIES"
+    Gym = "GYM"
+    Parking = "PARKING"
+    Medical = "MEDICAL"
+    Spa = "SPA"
+
+
 PHONE_NUMBER_REGEX = r"^\+(\d){12}$"

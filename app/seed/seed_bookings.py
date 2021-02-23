@@ -17,6 +17,17 @@ def seed_hotel():
             address="Apollo Bandar",
             latitude=72.8333,
             longitude=18.922,
+            phone="+911234567890",
+            amenities=[
+                "WIFI",
+                "SWIMMINGPOOL",
+                "AC",
+                "TOILETRIES",
+                "GYM",
+                "PARKING",
+                "MEDICAL",
+                "SPA",
+            ],
         ).save(),
         hotel2=Hotel(
             name="JW Marriott",
@@ -31,6 +42,17 @@ def seed_hotel():
             address="Juhu Rd, Juhu Tara",
             latitude=72.83,
             longitude=19.1,
+            phone="+911234567890",
+            amenities=[
+                "WIFI",
+                "SWIMMINGPOOL",
+                "AC",
+                "TOILETRIES",
+                "GYM",
+                "PARKING",
+                "MEDICAL",
+                "SPA",
+            ],
         ).save(),
         hotel3=Hotel(
             name="Adarsh Baug Hotel",
@@ -44,6 +66,8 @@ def seed_hotel():
             address="No.103, Dr. Atmaram Merchant Road",
             latitude=72.835,
             longitude=18.955,
+            phone="+911234567890",
+            amenities=["WIFI", "AC", "TOILETRIES", "PARKING"],
         ).save(),
         hotel5=Hotel(
             name="The Oberoi",
@@ -59,6 +83,16 @@ def seed_hotel():
             address="Dr. Zakir Hussain Marg",
             latitude=77.237778,
             longitude=28.601633,
+            phone="+911234567890",
+            amenities=[
+                "WIFI",
+                "SWIMMINGPOOL",
+                "AC",
+                "TOILETRIES",
+                "PARKING",
+                "MEDICAL",
+                "SPA",
+            ],
         ).save(),
         hotel6=Hotel(
             name="Taj Palace",
@@ -73,6 +107,8 @@ def seed_hotel():
             address="Sardar Patel Marg",
             latitude=77.183970,
             longitude=28.603750,
+            phone="+911234567890",
+            amenities=["WIFI", "AC", "TOILETRIES", "GYM", "PARKING", "MEDICAL", "SPA"],
         ).save(),
         hotel7=Hotel(
             name="Hotel Novotel Aerocity",
@@ -87,6 +123,16 @@ def seed_hotel():
             address="Asset No 02 GMR Hospitality District",
             latitude=77.122304,
             longitude=28.5925928,
+            phone="+911234567890",
+            amenities=[
+                "WIFI",
+                "SWIMMINGPOOL",
+                "AC",
+                "TOILETRIES",
+                "GYM",
+                "PARKING",
+                "MEDICAL",
+            ],
         ).save(),
         hotel8=Hotel(
             name="The Corinthians Resort & Club",
@@ -100,6 +146,16 @@ def seed_hotel():
             address="Nyati County, NIBM Annex",
             latitude=73.8554,
             longitude=18.5196,
+            phone="+911234567890",
+            amenities=[
+                "WIFI",
+                "SWIMMINGPOOL",
+                "AC",
+                "TOILETRIES",
+                "PARKING",
+                "MEDICAL",
+                "SPA",
+            ],
         ).save(),
         hotel9=Hotel(
             name="Royal Orchid Central",
@@ -113,6 +169,8 @@ def seed_hotel():
             address="Kalyani Nagar, Marisoft Annexe",
             latitude=73.9248107,
             longitude=18.5514138,
+            phone="+911234567890",
+            amenities=["WIFI", "AC", "TOILETRIES", "GYM", "PARKING", "MEDICAL", "SPA"],
         ).save(),
         hotel10=Hotel(
             name="Amanora The Fern",
@@ -127,6 +185,8 @@ def seed_hotel():
             address="Amanora Magarpatta Road",
             latitude=73.9167,
             longitude=18.5167,
+            phone="+911234567890",
+            amenities=["WIFI", "SWIMMINGPOOL", "AC", "TOILETRIES", "GYM", "PARKING"],
         ).save(),
         hotel11=Hotel(
             name="Trident",
@@ -142,6 +202,8 @@ def seed_hotel():
             address="Amber Fort Rd",
             latitude=75.7878,
             longitude=26.9196,
+            phone="+911234567890",
+            amenities=["WIFI", "SWIMMINGPOOL", "AC", "TOILETRIES", "PARKING"],
         ).save(),
         hotel12=Hotel(
             name="The Fern Residency",
@@ -158,6 +220,17 @@ def seed_hotel():
             address="A-13, Govind Marg near Pink Square Mall",
             latitude=75.8189817,
             longitude=26.9154576,
+            phone="+911234567890",
+            amenities=[
+                "WIFI",
+                "SWIMMINGPOOL",
+                "AC",
+                "TOILETRIES",
+                "GYM",
+                "PARKING",
+                "MEDICAL",
+                "SPA",
+            ],
         ).save(),
         hotel13=Hotel(
             name="Hotel Anuraag Villa",
@@ -172,6 +245,8 @@ def seed_hotel():
             address="D-249, Devi Marg",
             latitude=75.7898622,
             longitude=26.9265113,
+            phone="+911234567890",
+            amenities=["WIFI", "SWIMMINGPOOL", "AC", "TOILETRIES", "MEDICAL", "SPA"],
         ).save(),
         hotel14=Hotel(
             name="Novotel",
@@ -187,6 +262,8 @@ def seed_hotel():
             address="S G Highway",
             latitude=78.1196,
             longitude=9.9173,
+            phone="+911234567890",
+            amenities=["WIFI", "AC", "TOILETRIES", "PARKING", "SPA"],
         ).save(),
         hotel15=Hotel(
             name="Fortune Park",
@@ -201,6 +278,8 @@ def seed_hotel():
             address="Opposite Gujarat College",
             latitude=72.3005439,
             longitude=22.7280538,
+            phone="+911234567890",
+            amenities=["WIFI", "AC", "TOILETRIES", "GYM", "PARKING", "SPA"],
         ).save(),
         hotel16=Hotel(
             name="Hyatt",
@@ -216,6 +295,8 @@ def seed_hotel():
             address="Plot 216, Town Plan Scheme 1",
             latitude=23.0233421,
             longitude=72.5303767,
+            phone="+911234567890",
+            amenities=["WIFI", "AC", "TOILETRIES", "PARKING", "MEDICAL", "SPA"],
         ).save(),
     )
 
