@@ -1,16 +1,14 @@
 from datetime import datetime
-from enum import Enum
 from typing import List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.params import Depends
 from neomodel import db
 from pydantic import AnyUrl, BaseModel, confloat, constr
 
 from ...dependencies.auth import get_registered_user
 from ...helpers.conversion import get_query_response
 from ...helpers.validatation import PHONE_NUMBER_REGEX, HotelAmenitiesEnum
-from ...models.database import Hotel, Traveller
+from ...models.database import Hotel
 
 router = APIRouter()
 
@@ -20,11 +18,11 @@ async def get_hotel(hotelId: str):
         return Hotel.nodes.get(uid=hotelId)
     except Hotel.DoesNotExist:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Hotel not found"
+            status_code=status.HTTP_404_NOT_FOUND, detail="Hotel not found."
         )
 
 
-class HotelReviewsResponse(BaseModel):
+class HotelReviewResponse(BaseModel):
     id: str
     rating: int
     review: str
@@ -52,7 +50,7 @@ class HotelDetailsResponse(BaseModel):
 
 class HotelApiResponse(BaseModel):
     hotelDetails: HotelDetailsResponse
-    hotelReviews: List[HotelReviewsResponse]
+    hotelReviews: List[HotelReviewResponse]
 
 
 GET_HOTEL_DETAILS_QUERY = """
@@ -86,13 +84,9 @@ RETURN
     left(review.review,150) as review,
     review.datetime as datetime,
     traveller.name as name
-ORDER BY datetime 
+ORDER BY datetime
 DESC LIMIT 3
 """
-
-# =Depends(get_registered_user)
-# e2813cf7e74a441bbe416589b976475c Selena id
-# 874951cbee4443d38867423834efe5c9 TMP id
 
 
 @router.get("", response_model=HotelApiResponse)
@@ -104,7 +98,7 @@ async def get_hotel_detail(hotel=Depends(get_hotel), user=Depends(get_registered
                 {"hotel": hotel.uid, "user": user.uid},
             )[0],
             hotelReviews=get_query_response(
-                GET_HOTEL_REVIEWS_QUERY, {"hotel": hotel.id}
+                GET_HOTEL_REVIEWS_QUERY, {"hotel": hotel.uid}
             ),
         )
     except IndexError:
@@ -117,12 +111,12 @@ async def get_hotel_detail(hotel=Depends(get_hotel), user=Depends(get_registered
 @router.post("/like")
 async def hotel_like(hotel=Depends(get_hotel), user=Depends(get_registered_user)):
     with db.transaction:
-        if not user.likes_hotel.is_connect(hotel):
+        if not user.likes_hotel.is_connected(hotel):
             user.likes_hotel.connect(hotel)
 
 
 @router.delete("/unlike")
 async def hotel_unlike(hotel=Depends(get_hotel), user=Depends(get_registered_user)):
     with db.transaction:
-        if user.likes_hotel.is_connect(hotel):
+        if user.likes_hotel.is_connected(hotel):
             user.likes_hotel.disconnect(hotel)
