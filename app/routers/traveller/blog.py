@@ -80,3 +80,17 @@ async def get_blog_data(blog=Depends(get_blog), user=Depends(get_registered_user
         blog=get_query_response(GET_BLOG_DETAIL_QUERY, {"blog": blog.uid})[0],
         comments=get_query_response(GET_BLOG_COMMENTS_QUERY, {"blog": blog.uid}),
     )
+
+
+@router.post("/like")
+async def blog_like(blog=Depends(get_blog), user=Depends(get_registered_user)):
+    with db.transaction:
+        if not user.likes_blog.is_connected(blog):
+            user.likes_blog.connect(blog)
+
+
+@router.delete("/unlike")
+async def blog_unlike(blog=Depends(get_blog), user=Depends(get_registered_user)):
+    with db.transaction:
+        if user.likes_blog.is_connected(blog):
+            user.likes_blog.disconnect(blog)
