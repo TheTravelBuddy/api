@@ -34,28 +34,49 @@ class BlogDetailResponse(BaseModel):
     likes: int
 
 
-class BlogCommentResponse(BaseModel):
-    id: str
+class BlogCommentsResponse(BaseModel):
     commenterName: str
     comment: str
+    datetime: datetime
 
 
 class BlogApiResponse(BaseModel):
     blog: BlogDetailResponse
-    comments: List[BlogCommentResponse]
+    comments: List[BlogCommentsResponse]
 
+
+GET_BLOG_DETAIL_QUERY = """
+MATCH 
+    ()-[like:LIKES_BLOG]-(blog:Blog {uid:$blog})-[:AUTHOR_OF]-(traveller:Traveller),
+    (blog)-[:TAGGED_TOPIC]-(topic),
+    (blog)-[:TAGGED_LOCATION]-(location)
+RETURN 
+    blog.uid as id, 
+    blog.title as title,
+    blog.content as content,
+    blog.published_on as published_on, 
+    blog.photos as photos,
+    topic.name as topic, 
+    location.name as location, 
+    traveller.name as authorName, 
+    traveller.profile_picture as authorUri,
+    COUNT(like) as likes
+"""
+
+GET_BLOG_COMMENTS_QUERY = """
+MATCH 
+    (blog:Blog {uid:$blog})-[comment:COMMENTED_ON]-(traveller:Traveller) 
+RETURN 
+    traveller.name as commenterName,
+    comment.content as comment, 
+    comment.datetime as datetime
+ORDER BY datetime DESC
+"""
 
 # user=Depends(get_registered_user)
 @router.get("", response_model=BlogApiResponse)
-async def get_blog_data(blog=Depends(get_blog)):
-    blogdetail = dict()
-    blogdetail["id"] = blog.uid
-    blogdetail["title"] = blog.title
-    blogdetail["content"] = blog.content
-    blogdetail["published_on"] = blog.published_on
-    blogdetail["photos"] = blog.photos
-    blogdetail["topic"] = blog.tagged_topic.all()[0].__dict__["name"]
-    blogdetail["authorName"] = blog.authored_by.all()[0].__dict__["name"]
-    blogdetail["authorUri"] = blog.authored_by.all()[0].__dict__["profile_picture"]
-    blogdetail["likes"] = len(blog.liked_by.all())
-    print(blogdetail)
+async def get_blog_data(blog=Depends(get_blog), user=Depends(get_registered_user)):
+    return BlogApiResponse(
+        blog=get_query_response(GET_BLOG_DETAIL_QUERY, {"blog": blog.uid})[0],
+        comments=get_query_response(GET_BLOG_COMMENTS_QUERY, {"blog": blog.uid}),
+    )
