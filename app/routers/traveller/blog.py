@@ -77,7 +77,7 @@ ORDER BY datetime DESC
 
 # user=Depends(get_registered_user)
 @router.get("", response_model=BlogApiResponse)
-async def get_blog_data(blog=Depends(get_blog)):
+async def get_blog_data(blog=Depends(get_blog), user=Depends(get_registered_user)):
     return BlogApiResponse(
         blog=get_query_response(GET_BLOG_DETAIL_QUERY, {"blog": blog.uid})[0],
         comments=get_query_response(GET_BLOG_COMMENTS_QUERY, {"blog": blog.uid}),
