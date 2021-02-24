@@ -53,9 +53,36 @@ SERVICES = {
     "ATM": "ATM",
     "Gym": "Gym",
     "LIBRARY": "Library",
-    "BEAUTY SALON": "Beauty salon",
+    "BEAUTYSALON": "Beauty salon",
     "PARKING": "Parking",
     "CHEMIST": "Chemist",
+}
+PACKAGE_AMENITIES = {
+    "HOTELS": "Hotels",
+    "SIGHTSEEING": "Sightseeing",
+    "TRANSFERS": "Transfers",
+    "ACTIVITIES": "Activities",
+    "FLIGHTS": "Flights",
+    "MEALS": "Meals",
+    "CITY_TOURS": "City Tours",
+}
+
+AMENITIES = {
+    "WIFI": "Wifi",
+    "SWIMMING_POOL": "Swimming pool",
+    "AIR_CONDITIONING": "Air conditioning",
+    "PARKING": "Parking",
+    "SPA": "Spa",
+    "BAR": "Bar",
+    "LAUNDRY": "Laundry",
+    "LAWN": "Lawn",
+    "IRONING_SERVICES": "Ironing services",
+    "HOUSEKEEPING": "Housekeeping",
+    "NEWSPAPER": "Newspaper",
+    "OUTDOOR_SPORTS": "Outdoor sports",
+    "CHILDCARE_SERVICES": "Childcare services",
+    "GYM": "Gym",
+    "SALON": "Salon",
 }
 
 

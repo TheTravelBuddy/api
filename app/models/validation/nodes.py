@@ -17,6 +17,65 @@ class MoodEnum(str, Enum):
     Mixed = "MIXED"
 
 
+class TopicsEnum(str, Enum):
+    CUISINE = "Cuisine"
+    ADVENTURE = "Adventure"
+    HISTORICAL = "Historical"
+    CULTURE = "Culture"
+    ART = "Art"
+    BEACHES = "Beaches"
+    MOUNTAINS = "Mountains"
+    RELIGIOUS = "Religious"
+    TREKKING = "Trekking"
+    ROMANTIC = "Romantic"
+    SHOPPING = "Shopping"
+    JUNGLE_SAFARI = "Jungle Safari"
+    HILL_STATIONS = "Hill stations"
+    ROAD_TRIPS = "Road trips"
+    TOURIST_ATTRACTIONS = "Tourist attractions"
+    FESTIVALS = "Festivals"
+
+
+class ServicesEnum(str, Enum):
+    PETROL_PUMP = "Petrol pump"
+    POLICE_STATION = "Police station"
+    HOSPITAL = "Hospital"
+    ATM = "ATM"
+    GYM = "Gym"
+    LIBRARY = "Library"
+    BEAUTY_SALON = "Beauty salon"
+    PARKING = "Parking"
+    CHEMIST = "Chemist"
+
+
+class PackageAmenitiesEnum(str, Enum):
+    HOTELS = "Hotels"
+    SIGHTSEEING = "Sightseeing"
+    TRANSFERS = "Transfers"
+    ACTIVITIES = "Activities"
+    FLIGHTS = "Flights"
+    MEALS = "Meals"
+    CITY_TOURS = "City Tours"
+
+
+class AmenitiesEnum(str, Enum):
+    WIFI = "Wifi"
+    SWIMMING_POOL = "Swimming pool"
+    AIR_CONDITIONING = "Air conditioning"
+    PARKING = "Parking"
+    SPA = "Spa"
+    BAR = "Bar"
+    LAUNDRY = "Laundry"
+    LAWN = "Lawn"
+    IRONING_SERVICES = "Ironing services"
+    HOUSEKEEPING = "Housekeeping"
+    NEWSPAPER = "Newspaper"
+    OUTDOOR_SPORTS = "Outdoor sports"
+    CHILDCARE_SERVICES = "Childcare services"
+    GYM = "Gym"
+    SALON = "Salon"
+
+
 PHONE_NUMBER_REGEX = r"^\+(\d){12}$"
 
 
