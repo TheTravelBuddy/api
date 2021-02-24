@@ -47,9 +47,11 @@ class BlogApiResponse(BaseModel):
 
 GET_BLOG_DETAIL_QUERY = """
 MATCH 
-    ()-[like:LIKES_BLOG]-(blog:Blog {uid:$blog})-[:AUTHOR_OF]-(traveller:Traveller),
+    (blog:Blog {uid:$blog})-[:AUTHOR_OF]-(traveller:Traveller),
     (blog)-[:TAGGED_TOPIC]-(topic),
     (blog)-[:TAGGED_LOCATION]-(location)
+OPTIONAL MATCH
+    (blog)-[like:LIKES_BLOG]-()
 RETURN 
     blog.uid as id, 
     blog.title as title,
@@ -75,7 +77,7 @@ ORDER BY datetime DESC
 
 # user=Depends(get_registered_user)
 @router.get("", response_model=BlogApiResponse)
-async def get_blog_data(blog=Depends(get_blog), user=Depends(get_registered_user)):
+async def get_blog_data(blog=Depends(get_blog)):
     return BlogApiResponse(
         blog=get_query_response(GET_BLOG_DETAIL_QUERY, {"blog": blog.uid})[0],
         comments=get_query_response(GET_BLOG_COMMENTS_QUERY, {"blog": blog.uid}),
