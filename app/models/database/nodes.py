@@ -28,15 +28,61 @@ from .relations import (
 
 GENDERS = {"F": "Female", "M": "Male", "O": "Other"}
 MOODS = {"RELAX": "Relax", "ADVENTURE": "Adventure", "MIXED": "Mixed"}
-AMENITIES = {
-    "WIFI": "WiFi",
-    "SWIMMINGPOOL": "Swimming Pool",
-    "AC": "Ac",
-    "TOILETRIES": "Toiletries",
-    "GYM": "Gym",
+TOPICS = {
+    "CUISINE": "Cuisine",
+    "ADVENTURE": "Adventure",
+    "HISTORICAL": "Historical",
+    "CULTURE": "Culture",
+    "ART": "Art",
+    "BEACHES": "Beaches",
+    "MOUNTAINS": "Mountains",
+    "RELIGIOUS": "Religious",
+    "TREKKING": "Trekking",
+    "ROMANTIC": "Romantic",
+    "SHOPPING": "Shopping",
+    "JUNGLE_SAFARI": "Jungle Safari",
+    "HILL_STATIONS": "Hill stations",
+    "ROAD_TRIPS": "Road trips",
+    "TOURIST_ATTRACTIONS": "Tourist attractions",
+    "FESTIVALS": "Festivals",
+}
+SERVICES = {
+    "PETROL_PUMP": "Petrol pump",
+    "POLICE_STATION": "Police station",
+    "HOSPITAL": "Hospital",
+    "ATM": "ATM",
+    "Gym": "Gym",
+    "LIBRARY": "Library",
+    "BEAUTYSALON": "Beauty salon",
     "PARKING": "Parking",
-    "MEDICAL": "Medical",
+    "CHEMIST": "Chemist",
+}
+PACKAGE_AMENITIES = {
+    "HOTELS": "Hotels",
+    "SIGHTSEEING": "Sightseeing",
+    "TRANSFERS": "Transfers",
+    "ACTIVITIES": "Activities",
+    "FLIGHTS": "Flights",
+    "MEALS": "Meals",
+    "CITY_TOURS": "City Tours",
+}
+
+AMENITIES = {
+    "WIFI": "Wifi",
+    "SWIMMING_POOL": "Swimming pool",
+    "AIR_CONDITIONING": "Air conditioning",
+    "PARKING": "Parking",
     "SPA": "Spa",
+    "BAR": "Bar",
+    "LAUNDRY": "Laundry",
+    "LAWN": "Lawn",
+    "IRONING_SERVICES": "Ironing services",
+    "HOUSEKEEPING": "Housekeeping",
+    "NEWSPAPER": "Newspaper",
+    "OUTDOOR_SPORTS": "Outdoor sports",
+    "CHILDCARE_SERVICES": "Childcare services",
+    "GYM": "Gym",
+    "SALON": "Salon",
 }
 
 

@@ -20,42 +20,6 @@ def seed_hotel_city_relations(hotels, cities):
     hotels["hotel16"].located_in.connect(cities["Ahmedabad"])
 
 
-def seed_blog_relations(travellers, blogs):
-    travellers["Jenovah"].author_of.connect(blogs["blog1"])
-    travellers["Ester"].author_of.connect(blogs["blog2"])
-    travellers["Ester"].author_of.connect(blogs["blog3"])
-    travellers["Jenovah"].author_of.connect(blogs["blog4"])
-    travellers["Ester"].author_of.connect(blogs["blog5"])
-    travellers["Lucifer"].author_of.connect(blogs["blog6"])
-
-    travellers["Justin"].likes_blog.connect(blogs["blog1"])
-    travellers["Justin"].likes_blog.connect(blogs["blog3"])
-    travellers["Justin"].likes_blog.connect(blogs["blog5"])
-    travellers["Justin"].likes_blog.connect(blogs["blog6"])
-
-    travellers["Selena"].likes_blog.connect(blogs["blog2"])
-    travellers["Selena"].likes_blog.connect(blogs["blog3"])
-    travellers["Selena"].likes_blog.connect(blogs["blog4"])
-
-
-def seed_blog_topic_relation(topics, blogs):
-    blogs["blog1"].tagged_topic.connect(topics["adventure"])
-    blogs["blog2"].tagged_topic.connect(topics["cuisine"])
-    blogs["blog3"].tagged_topic.connect(topics["adventure"])
-    blogs["blog4"].tagged_topic.connect(topics["adventure"])
-    blogs["blog5"].tagged_topic.connect(topics["cuisine"])
-    blogs["blog6"].tagged_topic.connect(topics["history"])
-
-
-def seed_blog_location_relation(cities, blogs):
-    blogs["blog1"].tagged_location.connect(cities["Mumbai"])
-    blogs["blog2"].tagged_location.connect(cities["Pune"])
-    blogs["blog3"].tagged_location.connect(cities["Pune"])
-    blogs["blog4"].tagged_location.connect(cities["Mumbai"])
-    blogs["blog5"].tagged_location.connect(cities["Delhi"])
-    blogs["blog6"].tagged_location.connect(cities["Delhi"])
-
-
 def seed_package_review_relation(travellers, packages):
     travellers["Selena"].reviewed_package.connect(
         packages["package1"],

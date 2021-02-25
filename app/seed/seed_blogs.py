@@ -11,7 +11,7 @@ def seed_blog():
             published_on=datetime(2017, 1, 1),
             photos=[
                 "https://media-cdn.tripadvisor.com/media/photo-c/2560x500/0b/4e/55/e6/chhatrapati-shivaji-terminus.jpg",
-                "https://media-cdn.tripadvisor.com/media/photo-w/01/b1/89/43/bombay-museum-chhatrapati.jpg"
+                "https://media-cdn.tripadvisor.com/media/photo-w/01/b1/89/43/bombay-museum-chhatrapati.jpg",
             ],
         ).save(),
         blog2=Blog(
@@ -20,7 +20,7 @@ def seed_blog():
             published_on=datetime(2017, 2, 10),
             photos=[
                 "https://www.holidify.com/images/compressed/2192.jpg?v=1.1",
-                "https://www.holidify.com/images/compressed/dest_wiki_13273.jpg"
+                "https://www.holidify.com/images/compressed/dest_wiki_13273.jpg",
             ],
         ).save(),
         blog3=Blog(
@@ -29,7 +29,7 @@ def seed_blog():
             published_on=datetime(2017, 2, 3),
             photos=[
                 "https://www.holidify.com/images/compressed/2197.jpg?v=1.1",
-                "https://www.holidify.com/images/cmsuploads/compressed/2631773306_4fef986832_o(1)_20190520173612.jpg"
+                "https://www.holidify.com/images/cmsuploads/compressed/2631773306_4fef986832_o(1)_20190520173612.jpg",
             ],
         ).save(),
         blog4=Blog(
@@ -38,7 +38,7 @@ def seed_blog():
             published_on=datetime(2019, 12, 10),
             photos=[
                 "https://images.unsplash.com/photo-1562979314-bee7453e911c?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8bXVtYmFpfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-                "https://images.unsplash.com/photo-1567157577867-05ccb1388e66?ixid=MXwxMjA3fDB8MHxzZWFyY2h8M3x8bXVtYmFpfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                "https://images.unsplash.com/photo-1567157577867-05ccb1388e66?ixid=MXwxMjA3fDB8MHxzZWFyY2h8M3x8bXVtYmFpfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
             ],
         ).save(),
         blog5=Blog(
@@ -57,7 +57,7 @@ def seed_blog():
             photos=[
                 "https://www.holidify.com/images/cmsuploads/compressed/Qutub_Minar_in_the_monsoons_20170908115259.jpg",
                 "https://www.holidify.com/images/cmsuploads/compressed/5399588805_cdcdc52ec1_b_20170908114633.jpg",
-                "https://www.holidify.com/images/cmsuploads/compressed/Humayun-tomb_20170809201316.jpg"
+                "https://www.holidify.com/images/cmsuploads/compressed/Humayun-tomb_20170809201316.jpg",
             ],
         ).save(),
     )
