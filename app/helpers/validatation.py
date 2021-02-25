@@ -13,15 +13,63 @@ class MoodEnum(str, Enum):
     Mixed = "MIXED"
 
 
-class HotelAmenitiesEnum(str, Enum):
-    WiFi = "WIFI"
-    SwimmingPool = "SWIMMING_POOL"
-    Ac = "AIR_CONDITIONING"
-    Toiletries = "TOILETRIES"
+class TopicsEnum(str, Enum):
+    Cuisine = "CUISINE"
+    Adventure = "ADVENTURE"
+    Historical = "HISTORICAL"
+    Culture = "CULTURE"
+    Art = "ART"
+    Beaches = "BEACHES"
+    Mountains = "MOUNTAINS"
+    Religious = "RELIGIOUS"
+    Trekking = "TREKKING"
+    Romantic = "ROMANTIC"
+    Shopping = "SHOPPING"
+    JungleSafari = "JUNGLE_SAFARI"
+    HillStations = "HILL_STATIONS"
+    RoadTrips = "ROAD_TRIPS"
+    TouristAttractions = "TOURIST_ATTRACTIONS"
+    Festivals = "FESTIVALS"
+
+
+class ServicesEnum(str, Enum):
+    PetrolPump = "PETROL _PUMP"
+    PoliceStation = "POLICE_STATION"
+    Hospital = "HOSPITAL"
+    Atm = "ATM"
     Gym = "GYM"
+    Library = "LIBRARY"
+    BeautySalon = "BEAUTY_SALON"
     Parking = "PARKING"
-    Medical = "MEDICAL"
+    Chemist = "CHEMIST"
+
+
+class PackageAmenitiesEnum(str, Enum):
+    Hotels = "HOTELS"
+    Sightseeing = "SIGHTSEEING"
+    Transfers = "TRANSFERS"
+    Activities = "ACTIVITIES"
+    Flights = "FLIGHTS"
+    Meals = "MEALS"
+    CityTours = "CITY TOURS"
+
+
+class HotelAmenitiesEnum(str, Enum):
+    Wifi = "WIFI"
+    Swimming_pool = "SWIMMING_POOL"
+    AirConditioning = "AIR_CONDITIONING"
+    Parking = "PARKING"
     Spa = "SPA"
+    Bar = "BAR"
+    Laundry = "LAUNDRY"
+    Lawn = "LAWN"
+    IroningServices = "IRONING_SERVICES"
+    Housekeeping = "HOUSEKEEPING"
+    Newspaper = "NEWSPAPER"
+    OutdoorSports = "OUTDOOR_SPORTS"
+    ChildcareServices = "CHILDCARE_SERVICES"
+    Gym = "GYM"
+    Salon = "SALON"
 
 
 PHONE_NUMBER_REGEX = r"^\+(\d){12}$"
