@@ -12,75 +12,78 @@ from ...models.database import Blog
 router = APIRouter()
 
 
-async def get_blog(blog_id: str):
+async def get_blog(blogId: str):
     try:
-        return Blog.nodes.get(uid=blog_id)
+        return Blog.nodes.get(uid=blogId)
     except Blog.DoesNotExist:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Blog not found."
         )
 
 
-class BlogDetailResponse(BaseModel):
-    id: str
-    title: str
-    content: str
-    published_on: datetime
-    photos: List[AnyUrl]
-    location: str
-    topic: str
-    authorName: str
-    authorUri: str
-    likes: int
-
-
-class BlogCommentsResponse(BaseModel):
-    commenterName: str
+class BlogCommentResponse(BaseModel):
+    name: str
     comment: str
     datetime: datetime
 
 
 class BlogApiResponse(BaseModel):
-    blog: BlogDetailResponse
-    comments: List[BlogCommentsResponse]
+    id: str
+    title: str
+    content: str
+    publishedOn: datetime
+    photos: List[AnyUrl]
+    location: str
+    topic: str
+    authorName: str
+    authorProfile: AnyUrl
+    likes: int
+    liked: bool
+    comments: List[BlogCommentResponse]
 
 
-GET_BLOG_DETAIL_QUERY = """
-MATCH 
+GET_BLOG_DETAILS_QUERY = """
+MATCH
     (blog:Blog {uid:$blog})-[:AUTHOR_OF]-(traveller:Traveller),
     (blog)-[:TAGGED_TOPIC]-(topic),
     (blog)-[:TAGGED_LOCATION]-(location)
 OPTIONAL MATCH
     (blog)-[like:LIKES_BLOG]-()
-RETURN 
-    blog.uid as id, 
-    blog.title as title,
-    blog.content as content,
-    blog.published_on as published_on, 
-    blog.photos as photos,
-    topic.name as topic, 
-    location.name as location, 
-    traveller.name as authorName, 
-    traveller.profile_picture as authorUri,
-    COUNT(like) as likes
+RETURN
+    blog.uid AS id,
+    blog.title AS title,
+    blog.content AS content,
+    blog.published_on AS publishedOn,
+    blog.photos AS photos,
+    topic.name AS topic,
+    location.name AS location,
+    traveller.name AS authorName,
+    traveller.profile_picture AS authorProfile,
+    COUNT(like) AS likes,
+    EXISTS ((blog)-[:LIKES_BLOG]-(:User {uid:$user})) as liked
 """
 
 GET_BLOG_COMMENTS_QUERY = """
-MATCH 
-    (blog:Blog {uid:$blog})-[comment:COMMENTED_ON]-(traveller:Traveller) 
-RETURN 
-    traveller.name as commenterName,
-    comment.content as comment, 
-    comment.datetime as datetime
+MATCH
+    (:Blog {uid:$blog})-[comment:COMMENTED_ON]-(traveller:Traveller)
+RETURN
+    traveller.name AS name,
+    comment.content AS comment,
+    comment.datetime AS datetime
 ORDER BY datetime DESC
+LIMIT $n
 """
 
-# user=Depends(get_registered_user)
+
 @router.get("", response_model=BlogApiResponse)
 async def get_blog_data(blog=Depends(get_blog), user=Depends(get_registered_user)):
     return BlogApiResponse(
-        blog=get_query_response(GET_BLOG_DETAIL_QUERY, {"blog": blog.uid})[0],
-        comments=get_query_response(GET_BLOG_COMMENTS_QUERY, {"blog": blog.uid}),
+        **get_query_response(
+            GET_BLOG_DETAILS_QUERY, {"blog": blog.uid, "user": user.uid}
+        )[0],
+        comments=get_query_response(
+            GET_BLOG_COMMENTS_QUERY, {"blog": blog.uid, "n": 3}
+        ),
     )
 
 
