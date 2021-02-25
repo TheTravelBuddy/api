@@ -15,8 +15,8 @@ class MoodEnum(str, Enum):
 
 class HotelAmenitiesEnum(str, Enum):
     WiFi = "WIFI"
-    SwimmingPool = "SWIMMINGPOOL"
-    Ac = "AC"
+    SwimmingPool = "SWIMMING_POOL"
+    Ac = "AIR_CONDITIONING"
     Toiletries = "TOILETRIES"
     Gym = "GYM"
     Parking = "PARKING"

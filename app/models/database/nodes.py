@@ -66,7 +66,6 @@ PACKAGE_AMENITIES = {
     "MEALS": "Meals",
     "CITY_TOURS": "City Tours",
 }
-
 AMENITIES = {
     "WIFI": "Wifi",
     "SWIMMING_POOL": "Swimming pool",

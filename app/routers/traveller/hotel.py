@@ -30,7 +30,7 @@ class HotelReviewResponse(BaseModel):
     name: str
 
 
-class HotelDetailsResponse(BaseModel):
+class HotelApiResponse(BaseModel):
     id: str
     photos: List[AnyUrl]
     name: str
@@ -45,12 +45,8 @@ class HotelDetailsResponse(BaseModel):
     longitude: confloat(ge=-180, le=180)
     about: str
     amenities: List[HotelAmenitiesEnum]
-    likes: bool
-
-
-class HotelApiResponse(BaseModel):
-    hotelDetails: HotelDetailsResponse
-    hotelReviews: List[HotelReviewResponse]
+    liked: bool
+    reviews: List[HotelReviewResponse]
 
 
 GET_HOTEL_DETAILS_QUERY = """
@@ -73,7 +69,7 @@ RETURN
     hotel.price as price,
     hotel.description as about,
     hotel.amenities as amenities,
-    EXISTS ((hotel)-[:LIKES_HOTEL]-(:User {uid:$user})) as likes
+    EXISTS ((hotel)-[:LIKES_HOTEL]-(:User {uid:$user})) as liked
 """
 GET_HOTEL_REVIEWS_QUERY = """
 MATCH
@@ -84,8 +80,8 @@ RETURN
     left(review.review,150) as review,
     review.datetime as datetime,
     traveller.name as name
-ORDER BY datetime
-DESC LIMIT 3
+ORDER BY datetime DESC
+LIMIT $n
 """
 
 
@@ -93,12 +89,12 @@ DESC LIMIT 3
 async def get_hotel_detail(hotel=Depends(get_hotel), user=Depends(get_registered_user)):
     try:
         return HotelApiResponse(
-            hotelDetails=get_query_response(
+            **get_query_response(
                 GET_HOTEL_DETAILS_QUERY,
                 {"hotel": hotel.uid, "user": user.uid},
             )[0],
-            hotelReviews=get_query_response(
-                GET_HOTEL_REVIEWS_QUERY, {"hotel": hotel.uid}
+            reviews=get_query_response(
+                GET_HOTEL_REVIEWS_QUERY, {"hotel": hotel.uid, "n": 3}
             ),
         )
     except IndexError:
