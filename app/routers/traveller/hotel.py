@@ -6,20 +6,13 @@ from neomodel import db
 from pydantic import AnyUrl, BaseModel, confloat, constr
 
 from ...dependencies.auth import get_registered_user
+from ...dependencies.entities import get_hotel
 from ...helpers.conversion import get_query_response
+from ...helpers.queries import GET_HOTEL_DETAILS_QUERY, GET_HOTEL_REVIEWS_QUERY
 from ...helpers.validatation import PHONE_NUMBER_REGEX, HotelAmenitiesEnum
 from ...models.database import Hotel
 
 router = APIRouter()
-
-
-async def get_hotel(hotelId: str):
-    try:
-        return Hotel.nodes.get(uid=hotelId)
-    except Hotel.DoesNotExist:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Hotel not found."
-        )
 
 
 class HotelReviewResponse(BaseModel):
@@ -47,42 +40,6 @@ class HotelApiResponse(BaseModel):
     amenities: List[HotelAmenitiesEnum]
     liked: bool
     reviews: List[HotelReviewResponse]
-
-
-GET_HOTEL_DETAILS_QUERY = """
-MATCH
-    (city:City)-[:LOCATED_IN]-(hotel:Hotel {uid:$hotel})
-OPTIONAL MATCH
-    (hotel)-[review:REVIEWED_HOTEL]-()
-RETURN
-    hotel.uid as id,
-    hotel.photos as photos,
-    hotel.name as name,
-    city.name as city,
-    hotel.locality as locality,
-    hotel.address as address,
-    hotel.postal_code as postalCode,
-    AVG(review.rating) as rating,
-    hotel.phone as phoneNumber,
-    hotel.latitude as latitude,
-    hotel.longitude as longitude,
-    hotel.price as price,
-    hotel.description as about,
-    hotel.amenities as amenities,
-    EXISTS ((hotel)-[:LIKES_HOTEL]-(:User {uid:$user})) as liked
-"""
-GET_HOTEL_REVIEWS_QUERY = """
-MATCH
-    (hotel:Hotel {uid:$hotel})-[review:REVIEWED_HOTEL]-(traveller:Traveller)
-RETURN
-    traveller.uid as id,
-    review.rating as rating,
-    left(review.review,150) as review,
-    review.datetime as datetime,
-    traveller.name as name
-ORDER BY datetime DESC
-LIMIT $n
-"""
 
 
 @router.get("", response_model=HotelApiResponse)

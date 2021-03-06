@@ -6,19 +6,12 @@ from neomodel import db
 from pydantic import AnyUrl, BaseModel
 
 from ...dependencies.auth import get_registered_user
+from ...dependencies.entities import get_blog
 from ...helpers.conversion import get_query_response
+from ...helpers.queries import GET_BLOG_COMMENTS_QUERY, GET_BLOG_DETAILS_QUERY
 from ...models.database import Blog
 
 router = APIRouter()
-
-
-async def get_blog(blogId: str):
-    try:
-        return Blog.nodes.get(uid=blogId)
-    except Blog.DoesNotExist:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Blog not found."
-        )
 
 
 class BlogCommentResponse(BaseModel):
@@ -40,39 +33,6 @@ class BlogApiResponse(BaseModel):
     likes: int
     liked: bool
     comments: List[BlogCommentResponse]
-
-
-GET_BLOG_DETAILS_QUERY = """
-MATCH
-    (blog:Blog {uid:$blog})-[:AUTHOR_OF]-(traveller:Traveller),
-    (blog)-[:TAGGED_TOPIC]-(topic),
-    (blog)-[:TAGGED_LOCATION]-(location)
-OPTIONAL MATCH
-    (blog)-[like:LIKES_BLOG]-()
-RETURN
-    blog.uid AS id,
-    blog.title AS title,
-    blog.content AS content,
-    blog.published_on AS publishedOn,
-    blog.photos AS photos,
-    topic.name AS topic,
-    location.name AS location,
-    traveller.name AS authorName,
-    traveller.profile_picture AS authorProfile,
-    COUNT(like) AS likes,
-    EXISTS ((blog)-[:LIKES_BLOG]-(:User {uid:$user})) as liked
-"""
-
-GET_BLOG_COMMENTS_QUERY = """
-MATCH
-    (:Blog {uid:$blog})-[comment:COMMENTED_ON]-(traveller:Traveller)
-RETURN
-    traveller.name AS name,
-    comment.content AS comment,
-    comment.datetime AS datetime
-ORDER BY datetime DESC
-LIMIT $n
-"""
 
 
 @router.get("", response_model=BlogApiResponse)
