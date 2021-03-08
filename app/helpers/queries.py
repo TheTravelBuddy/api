@@ -54,6 +54,7 @@ RETURN
     location.name AS locationName
 LIMIT $n
 """
+
 GET_TOP_BLOG_TOPICS_QUERY = """
 MATCH
     (blog:Blog)-[:TAGGED_TOPIC]->(topic:Topic)
@@ -80,6 +81,7 @@ RETURN
 ORDER BY likes DESC
 LIMIT $n;
 """
+
 GET_TOP_PACKAGES_QUERY = """
 MATCH (package:Package)-[review:REVIEWED_PACKAGE]-(user)
 RETURN
@@ -101,7 +103,6 @@ RETURN
 ORDER BY rating DESC
 LIMIT $n
 """
-
 
 GET_TOP_HOTELS_QUERY = """
 MATCH (city:City)-[:LOCATED_IN]-(hotel:Hotel)-[review:REVIEWED_HOTEL]-(user)
@@ -128,6 +129,7 @@ RETURN
     author.profile_picture as authorProfile
 ORDER BY likes DESC LIMIT $n;
 """
+
 GET_HOTEL_DETAILS_QUERY = """
 MATCH
     (city:City)-[:LOCATED_IN]-(hotel:Hotel {uid:$hotel})
@@ -150,6 +152,7 @@ RETURN
     hotel.amenities as amenities,
     EXISTS ((hotel)-[:LIKES_HOTEL]-(:User {uid:$user})) as liked
 """
+
 GET_HOTEL_REVIEWS_QUERY = """
 MATCH
     (hotel:Hotel {uid:$hotel})-[review:REVIEWED_HOTEL]-(traveller:Traveller)
