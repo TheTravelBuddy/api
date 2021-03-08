@@ -1,10 +1,6 @@
 from neomodel import db
 
-from ..helpers.conversion import inflate_query_result
-
-
-def identity(**kwargs):
-    return kwargs
+from ..helpers.conversion import identity, inflate_query_result
 
 
 def update_node(node, data):
