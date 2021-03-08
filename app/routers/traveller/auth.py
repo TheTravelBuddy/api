@@ -6,7 +6,7 @@ from pydantic import BaseModel, constr
 
 from ...dependencies.auth import get_firebase_user
 from ...helpers.conversion import deflate_request
-from ...helpers.validatation import PHONE_NUMBER_REGEX, GenderEnum, MoodEnum
+from ...helpers.validation import PHONE_NUMBER_REGEX, GenderEnum, MoodEnum
 from ...models.database import Traveller
 
 router = APIRouter()

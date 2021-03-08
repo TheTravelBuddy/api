@@ -9,7 +9,7 @@ from ...dependencies.auth import get_registered_user
 from ...dependencies.entities import get_hotel
 from ...helpers.conversion import get_query_response
 from ...helpers.queries import GET_HOTEL_DETAILS_QUERY, GET_HOTEL_REVIEWS_QUERY
-from ...helpers.validatation import PHONE_NUMBER_REGEX, HotelAmenitiesEnum
+from ...helpers.validation import PHONE_NUMBER_REGEX, HotelAmenitiesEnum
 from ...models.database import Hotel
 
 router = APIRouter()
