@@ -35,9 +35,5 @@ def inflate_query_result(query_result, model=identity):
     ]
 
 
-def get_query_response(query, params={}, model=identity):
-    return inflate_query_result(db.cypher_query(query, params), model)
-
-
 def str_enum_to_choices(enum):
     return {item.value: key for key, item in enum.__members__.items()}
