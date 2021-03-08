@@ -1,15 +1,12 @@
 from datetime import date
 
-from fastapi import APIRouter, Depends, HTTPException, status
-from neomodel import db
-from pydantic import AnyUrl, BaseModel, confloat, constr
+from fastapi import APIRouter, Depends
+from pydantic import BaseModel
 
 from ...dependencies.auth import get_registered_user
 from ...helpers.conversion import deflate_request
 from ...helpers.db_query import update_node
-from ...helpers.validatation import GenderEnum, MoodEnum
-from ...models.database.nodes import User
-from ...models.validation import Traveller
+from ...helpers.validation import GenderEnum, MoodEnum
 
 router = APIRouter()
 
