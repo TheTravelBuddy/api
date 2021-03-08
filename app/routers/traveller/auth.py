@@ -3,6 +3,7 @@ from typing import Union
 
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel, constr
+from pydantic.networks import AnyUrl
 
 from ...dependencies.auth import get_firebase_user
 from ...helpers.conversion import deflate_request
@@ -20,6 +21,10 @@ class RegisteredUserResponse(AuthUserRespose):
     registered: bool = True
     name: constr(min_length=3, max_length=120)
     phoneNumber: constr(min_length=13, max_length=13, regex=PHONE_NUMBER_REGEX)
+    gender: GenderEnum
+    dob: date
+    mood: MoodEnum = MoodEnum.Mixed
+    profilePicture: AnyUrl
 
 
 class UnregisteredUserResponse(AuthUserRespose):
@@ -33,7 +38,17 @@ async def get_traveller(user=Depends(get_firebase_user)):
     try:
         traveller = Traveller.nodes.get(firebase_id=user["uid"])
         return RegisteredUserResponse(
-            **deflate_request(traveller, {"name", ("phone", "phoneNumber")})
+            **deflate_request(
+                traveller,
+                {
+                    "name",
+                    ("phone", "phoneNumber"),
+                    "gender",
+                    "mood",
+                    "dob",
+                    ("profile_picture", "profilePicture"),
+                },
+            )
         )
     except Traveller.DoesNotExist:
         return UnregisteredUserResponse(uid=user["uid"])

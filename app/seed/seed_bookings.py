@@ -395,7 +395,7 @@ def seed_package():
             price=100,
             description="Have pleasure of reliving the marathas of pune",
             photos=[
-                "https://picsum.photos/1021",
+                "https://www.smartcitiesworld.net/AcuCustom/Sitename/DAM/022/Life-Republic-township-Pune_Planet.jpg",
                 "https://picsum.photos/1022",
                 "https://picsum.photos/1023",
                 "https://picsum.photos/1024",
