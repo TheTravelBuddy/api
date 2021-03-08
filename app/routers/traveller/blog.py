@@ -7,7 +7,7 @@ from pydantic import AnyUrl, BaseModel
 
 from ...dependencies.auth import get_registered_user
 from ...dependencies.entities import get_blog
-from ...helpers.conversion import get_query_response
+from ...helpers.db_query import get_query_response
 from ...helpers.queries import GET_BLOG_COMMENTS_QUERY, GET_BLOG_DETAILS_QUERY
 from ...models.database import Blog
 
