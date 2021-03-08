@@ -15,6 +15,15 @@ from neomodel import (
     cardinality,
 )
 
+from ...helpers.conversion import str_enum_to_choices
+from ...helpers.validation import (
+    GenderEnum,
+    HotelAmenitiesEnum,
+    MoodEnum,
+    PackageAmenitiesEnum,
+    ServicesEnum,
+    TopicsEnum,
+)
 from .relations import (
     BookedRel,
     CommentedOnRel,
@@ -26,64 +35,12 @@ from .relations import (
     VisitedRel,
 )
 
-GENDERS = {"F": "Female", "M": "Male", "O": "Other"}
-MOODS = {"RELAX": "Relax", "ADVENTURE": "Adventure", "MIXED": "Mixed"}
-TOPICS = {
-    "CUISINE": "Cuisine",
-    "ADVENTURE": "Adventure",
-    "HISTORICAL": "Historical",
-    "CULTURE": "Culture",
-    "ART": "Art",
-    "BEACHES": "Beaches",
-    "MOUNTAINS": "Mountains",
-    "RELIGIOUS": "Religious",
-    "TREKKING": "Trekking",
-    "ROMANTIC": "Romantic",
-    "SHOPPING": "Shopping",
-    "JUNGLE_SAFARI": "Jungle Safari",
-    "HILL_STATIONS": "Hill stations",
-    "ROAD_TRIPS": "Road trips",
-    "TOURIST_ATTRACTIONS": "Tourist attractions",
-    "FESTIVALS": "Festivals",
-}
-SERVICES = {
-    "PETROL_PUMP": "Petrol pump",
-    "POLICE_STATION": "Police station",
-    "HOSPITAL": "Hospital",
-    "ATM": "ATM",
-    "Gym": "Gym",
-    "LIBRARY": "Library",
-    "BEAUTYSALON": "Beauty salon",
-    "PARKING": "Parking",
-    "CHEMIST": "Chemist",
-}
-PACKAGE_AMENITIES = {
-    "HOTELS": "Hotels",
-    "SIGHTSEEING": "Sightseeing",
-    "TRANSFERS": "Transfers",
-    "ACTIVITIES": "Activities",
-    "FLIGHTS": "Flights",
-    "MEALS": "Meals",
-    "CITY_TOURS": "City Tours",
-}
-
-AMENITIES = {
-    "WIFI": "Wifi",
-    "SWIMMING_POOL": "Swimming pool",
-    "AIR_CONDITIONING": "Air conditioning",
-    "PARKING": "Parking",
-    "SPA": "Spa",
-    "BAR": "Bar",
-    "LAUNDRY": "Laundry",
-    "LAWN": "Lawn",
-    "IRONING_SERVICES": "Ironing services",
-    "HOUSEKEEPING": "Housekeeping",
-    "NEWSPAPER": "Newspaper",
-    "OUTDOOR_SPORTS": "Outdoor sports",
-    "CHILDCARE_SERVICES": "Childcare services",
-    "GYM": "Gym",
-    "SALON": "Salon",
-}
+GENDERS = str_enum_to_choices(GenderEnum)
+MOODS = str_enum_to_choices(MoodEnum)
+TOPICS = str_enum_to_choices(TopicsEnum)
+SERVICES = str_enum_to_choices(ServicesEnum)
+PACKAGE_AMENITIES = str_enum_to_choices(PackageAmenitiesEnum)
+HOTEL_AMENITIES = str_enum_to_choices(HotelAmenitiesEnum)
 
 
 class User(StructuredNode):
@@ -220,7 +177,7 @@ class Hotel(StructuredNode):
     latitude = FloatProperty(required=True)
     longitude = FloatProperty(required=True)
     phone = RegexProperty(expression=r"^\+(\d){12}$", required=True)
-    amenities = ArrayProperty(base_property=StringProperty(choices=AMENITIES))
+    amenities = ArrayProperty(base_property=StringProperty(choices=HOTEL_AMENITIES))
 
     located_in = RelationshipTo(
         "City", "LOCATED_IN", model=OwnsRel, cardinality=cardinality.One

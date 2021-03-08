@@ -22,7 +22,9 @@ def seed_city():
             description="Aapnu amdavad",
             latitude=23.033863,
             longitude=72.585022,
-            photos=["https://picsum.photos/1101"],
+            photos=[
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQB-L9mqh5Eo2Zpdh7IfnLlPXj6BQSTnR20Gw&usqp=CAU"
+            ],
         ).save(),
         Jaipur=City(
             name="Jaipur",
@@ -36,7 +38,9 @@ def seed_city():
             description="Punari parimano",
             latitude=18.516726,
             longitude=73.856255,
-            photos=["https://picsum.photos/1103"],
+            photos=[
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzzEDLMcDiA2bp3wTAYdYlWfX_9eG70r2wkQ&usqp=CAU"
+            ],
         ).save(),
     )
 

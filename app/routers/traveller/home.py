@@ -5,58 +5,14 @@ from pydantic import AnyUrl, BaseModel, constr
 
 from ...dependencies.auth import get_registered_user
 from ...helpers.conversion import get_query_response
+from ...helpers.queries import (
+    GET_TOP_BLOGS_QUERY,
+    GET_TOP_DESTINATIONS_QUERY,
+    GET_TOP_HOTELS_QUERY,
+    GET_TOP_PACKAGES_QUERY,
+)
 
 router = APIRouter()
-
-
-GET_TOP_PACKAGES_QUERY = """
-MATCH (package:Package)-[review:REVIEWED_PACKAGE]-(user)
-RETURN
-    package.uid AS id,
-    package.photos[0] AS coverUri,
-    package.name AS name,
-    AVG(review.rating) AS rating
-ORDER BY rating DESC
-LIMIT $n
-"""
-
-GET_TOP_DESTINATIONS_QUERY = """
-MATCH (city:City)-[review:REVIEWED_CITY]-(user)
-RETURN
-    city.uid AS id,
-    city.photos[0] AS coverUri,
-    city.name AS name,
-    AVG(review.rating) AS rating
-ORDER BY rating DESC
-LIMIT $n
-"""
-
-
-GET_TOP_HOTELS_QUERY = """
-MATCH (city:City)-[:LOCATED_IN]-(hotel:Hotel)-[review:REVIEWED_HOTEL]-(user)
-RETURN
-    hotel.uid AS id,
-    hotel.photos[0] AS coverUri,
-    hotel.name AS name,
-    hotel.price AS price,
-    AVG(review.rating) AS rating,
-    hotel.locality AS locality,
-    city.name AS city
-ORDER BY rating DESC
-LIMIT $n
-"""
-
-GET_TOP_BLOGS_QUERY = """
-MATCH (blog:Blog)-[like:LIKES_BLOG]-(),
-    (blog:Blog)-[:AUTHOR_OF]-(author)
-RETURN
-    blog.uid AS id,
-    blog.title AS title,
-    left(blog.content, 100) AS content,
-    COUNT(like) AS likes,
-    author.profile_picture as authorProfile
-ORDER BY likes DESC LIMIT $n;
-"""
 
 
 class PackagePreviewResponse(BaseModel):
