@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends
 from pydantic import AnyUrl, BaseModel
 
 from ...dependencies.auth import get_registered_user
-from ...helpers.conversion import get_query_response
+from ...helpers.db_query import get_query_response
 from ...helpers.queries import (
     GET_TOP_BANNER_BLOGS_QUERY,
     GET_TOP_BLOG_TOPICS_QUERY,
