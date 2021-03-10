@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import List
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, status
 from neomodel import db
 from pydantic import AnyUrl, BaseModel
 
@@ -78,3 +78,8 @@ async def update_blog(
     # print(user.uid == blog.authored_by.single().uid)
     if user.uid == blog.authored_by.single().uid:
         update_node(blog, deflate_request(blogDetail, {"title", "content", "photos"}))
+    else:
+        return HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User not authorized.",
+        )
