@@ -17,6 +17,7 @@ from neomodel import (
 
 from ...helpers.conversion import str_enum_to_choices
 from ...helpers.validation import (
+    BusinessTypeEnum,
     GenderEnum,
     HotelAmenitiesEnum,
     MoodEnum,
@@ -41,6 +42,7 @@ TOPICS = str_enum_to_choices(TopicsEnum)
 SERVICES = str_enum_to_choices(ServicesEnum)
 PACKAGE_AMENITIES = str_enum_to_choices(PackageAmenitiesEnum)
 HOTEL_AMENITIES = str_enum_to_choices(HotelAmenitiesEnum)
+BUSINESS_TYPE = str_enum_to_choices(BusinessTypeEnum)
 
 
 class User(StructuredNode):
@@ -92,21 +94,25 @@ class Traveller(User):
 
 
 class Business(User):
+    business_type = StringProperty(choices=BUSINESS_TYPE)
     is_verified = BooleanProperty(default=False)
-    address = StringProperty(max_length=512, required=True)
-    latitude = FloatProperty(required=True)
-    longitude = FloatProperty(required=True)
+    address = StringProperty(max_length=512)
+    latitude = FloatProperty()
+    longitude = FloatProperty()
 
 
 class Agency(Business):
+    business_type = StringProperty(choices=BUSINESS_TYPE, default="TRAVEL_AGENCY")
     offers_package = RelationshipTo("Package", "OFFERS_PACKAGE", model=OwnsRel)
 
 
 class ShopOwner(Business):
+    business_type = StringProperty(choices=BUSINESS_TYPE, default="SHOP_OWNER")
     owns_shop = RelationshipTo("Shop", "OWNS_SHOP", model=OwnsRel)
 
 
 class HotelOwner(Business):
+    business_type = StringProperty(choices=BUSINESS_TYPE, default="HOTEL_OWNER")
     owns_hotel = RelationshipTo("Hotel", "OWNS_HOTEL", model=OwnsRel)
 
 

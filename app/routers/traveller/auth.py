@@ -2,8 +2,7 @@ from datetime import date
 from typing import Union
 
 from fastapi import APIRouter, Depends
-from pydantic import BaseModel, constr
-from pydantic.networks import AnyUrl
+from pydantic import AnyUrl, BaseModel, constr
 
 from ...dependencies.auth import get_firebase_user
 from ...helpers.conversion import deflate_request

@@ -1,6 +1,12 @@
 from enum import Enum
 
 
+class BusinessTypeEnum(str, Enum):
+    TravelAgency = "TRAVEL_AGENCY"
+    HotelOwner = "HOTEL_OWNER"
+    ShopOwner = "SHOP_OWNER"
+
+
 class GenderEnum(str, Enum):
     Male = "M"
     Female = "F"

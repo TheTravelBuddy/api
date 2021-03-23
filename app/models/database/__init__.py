@@ -2,6 +2,7 @@ from .nodes import (
     Agency,
     Attraction,
     Blog,
+    Business,
     City,
     Hotel,
     HotelOwner,
@@ -25,6 +26,7 @@ from .relations import (
 __all__ = [
     "Agency",
     "Attraction",
+    "Business",
     "Blog",
     "City",
     "Hotel",

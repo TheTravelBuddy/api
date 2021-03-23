@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from firebase_admin import credentials
 from neomodel import config
 
-from .routers import traveller
+from .routers import business, traveller
 from .seed import seed_db
 
 cred = credentials.Certificate("/serviceAccountKey.json")
@@ -30,3 +30,4 @@ def seed_endpoint():
 
 
 app.include_router(traveller.router, prefix="/traveller")
+app.include_router(business.router, prefix="/business")
