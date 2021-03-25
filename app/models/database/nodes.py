@@ -67,7 +67,7 @@ class Traveller(User):
     likes_attraction = RelationshipTo("Attraction", "LIKES_ATTRACTION", model=LikesRel)
     likes_blog = RelationshipTo("Blog", "LIKES_BLOG", model=LikesRel)
 
-    booked_hotel = RelationshipTo("Hotel", "BOOKED_HOTEL", model=BookedRel)
+    has_hotel_booking = RelationshipTo("HotelBooking", "HAS_BOOKING", model=OwnsRel)
     booked_package = RelationshipTo("Package", "BOOKED_PACKAGE", model=BookedRel)
 
     reviewed_hotel = RelationshipTo("Hotel", "REVIEWED_HOTEL", model=ReviewedRel)
@@ -78,6 +78,9 @@ class Traveller(User):
         "Attraction", "REVIEWED_ATTRACTION", model=ReviewedRel
     )
 
+    visited_hotel = RelationshipTo("Hotel", "VISITED_HOTEL", model=VisitedRel)
+    taken_package = RelationshipTo("Package", "TAKEN_PACKAGE", model=VisitedRel)
+    visited_city = RelationshipTo("City", "VISITED_CITY", model=VisitedRel)
     visited_shop = RelationshipTo("Shop", "VISITED_SHOP", model=VisitedRel)
     visited_attraction = RelationshipTo(
         "Attraction", "VISITED_ATTRACTIONS", model=VisitedRel
@@ -192,7 +195,8 @@ class Hotel(StructuredNode):
     owned_by = RelationshipFrom("HotelOwner", "OWNS_HOTEL", model=OwnsRel)
 
     liked_by = RelationshipFrom("Traveller", "LIKES_HOTEL", model=LikesRel)
-    booked_by = RelationshipFrom("Traveller", "BOOKED_HOTEL", model=BookedRel)
+
+    has_booking = RelationshipFrom("HotelBooking", "FOR_HOTEL", model=OwnsRel)
     reviewed_by = RelationshipFrom("Traveller", "REVIEWED_HOTEL", model=ReviewedRel)
 
     stayed_by = RelationshipFrom("Traveller", "STAYED_AT_HOTEL", model=StayedAtRel)
@@ -218,3 +222,16 @@ class Topic(StructuredNode):
     name = StringProperty(max_length=120, required=True)
 
     tagged_in_blog = RelationshipFrom("Blog", "TAGGED_TOPIC", model=TaggedRel)
+
+
+class HotelBooking(StructuredNode):
+    uid = UniqueIdProperty()
+    booked_at = DateTimeProperty(default_now=True)
+    booking_date = DateProperty(required=True)
+    days = IntegerProperty(required=True)
+    adults = IntegerProperty(required=True)
+    children = IntegerProperty(required=True)
+    rooms = IntegerProperty(required=True)
+
+    by_user = RelationshipFrom("Traveller", "HAS_BOOKING", model=OwnsRel)
+    for_hotel = RelationshipTo("Hotel", "FOR_HOTEL", model=OwnsRel)

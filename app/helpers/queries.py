@@ -150,7 +150,8 @@ RETURN
     hotel.price AS price,
     hotel.description AS about,
     hotel.amenities AS amenities,
-    EXISTS ((hotel)-[:LIKES_HOTEL]-(:User {uid:$user})) AS liked
+    EXISTS ((hotel)-[:LIKES_HOTEL]-(:User {uid:$user})) AS liked,
+    EXISTS ((hotel)-[:VISITED_HOTEL]-(:User {uid:$user})) AS visited
 """
 
 GET_HOTEL_REVIEWS_QUERY = """
@@ -159,10 +160,10 @@ MATCH
 RETURN
     traveller.uid AS id,
     review.rating AS rating,
-    left(review.review,150) AS review,
-    review.datetime AS datetime,
+    review.review AS review,
+    review.datetime AS publishedOn,
     traveller.name AS name
-ORDER BY datetime DESC
+ORDER BY publishedOn DESC
 LIMIT $n
 """
 
@@ -195,8 +196,48 @@ RETURN
     round(distance(
         point({latitude: hotel.latitude, longitude: hotel.longitude}),
         point({latitude: city.latitude, longitude: city.longitude})
-    ) / 1000)
-    AS distance,
+    ) / 1000) AS distance,
     hotel.price AS price
 ORDER BY rating DESC
+"""
+
+
+GET_HOTEL_REVIEWS_ALL_QUERY = """
+MATCH (hotel:Hotel {uid:$hotelId})<-[review:REVIEWED_HOTEL]-(user)
+RETURN
+    ID(review) AS id,
+    user.name AS name,
+    user.profile_picture AS profileUri,
+    review.rating AS rating,
+    review.review AS review,
+    review.datetime AS publishedOn
+ORDER BY publishedOn DESC
+"""
+
+GET_HOTEL_BOOKING_DETAILS_QUERY = """
+MATCH
+    (:User)-[:HAS_BOOKING]->(booking:HotelBooking {uid:$hotelBooking}),
+    (booking)-[:FOR_HOTEL]->(hotel:Hotel)-[:LOCATED_IN]->(city:City)
+OPTIONAL MATCH
+    (hotel)-[review:REVIEWED_HOTEL]-()
+RETURN
+    {
+        id: hotel.uid,
+        name: hotel.name,
+        locality: hotel.locality,
+        coverUri: hotel.photos[0],
+        city: city.name,
+        rating: AVG(review.rating),
+        phone: hotel.phone,
+        price: hotel.price,
+        latitude: hotel.latitude,
+        longitude: hotel.longitude
+    } AS hotel,
+    {
+        adults: booking.adults,
+        children: booking.children,
+        rooms: booking.rooms,
+        days: booking.days,
+        date: booking.booking_date
+    } AS booking
 """

@@ -7,12 +7,6 @@ from neomodel import (
     StructuredRel,
 )
 
-BOOKING_STATUS = {
-    "REQUESTED": "Requested",
-    "ACCEPTED": "Accepted",
-    "ARCHIVED": "Archived",
-}
-
 
 class OwnsRel(StructuredRel):
     pass
@@ -27,7 +21,6 @@ class BookedRel(StructuredRel):
     booking_date = DateProperty(required=True)
     no_of_days = IntegerProperty(required=True)
     no_of_people = IntegerProperty(required=True)
-    status = StringProperty(choices=BOOKING_STATUS, default="REQUESTED")
 
 
 class VisitedRel(StructuredRel):
