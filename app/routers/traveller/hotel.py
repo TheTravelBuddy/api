@@ -8,7 +8,11 @@ from pydantic import AnyUrl, BaseModel, confloat, constr
 from ...dependencies.auth import get_registered_user
 from ...dependencies.entities import get_hotel
 from ...helpers.db_query import get_query_response
-from ...helpers.queries import GET_HOTEL_DETAILS_QUERY, GET_HOTEL_REVIEWS_QUERY
+from ...helpers.queries import (
+    GET_HOTEL_DETAILS_QUERY,
+    GET_HOTEL_REVIEWS_QUERY,
+    HOTEL_SEARCH_QUERY,
+)
 from ...helpers.validation import PHONE_NUMBER_REGEX, HotelAmenitiesEnum
 
 router = APIRouter()
@@ -58,6 +62,26 @@ async def get_hotel_detail(hotel=Depends(get_hotel), user=Depends(get_registered
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Hotel not found.",
         )
+
+
+@router.get("/search")
+async def hotel_search(
+    cityId: str,
+    budgetMin: int = 0,
+    budgetMax: int = 100_000_000,
+    query: str = "",
+    user=Depends(get_registered_user),
+):
+    print(cityId, budgetMin, budgetMax, query)
+    return get_query_response(
+        HOTEL_SEARCH_QUERY,
+        {
+            "cityId": cityId,
+            "budgetMin": budgetMin,
+            "budgetMax": budgetMax,
+            "query": query.lower(),
+        },
+    )
 
 
 @router.post("/like")

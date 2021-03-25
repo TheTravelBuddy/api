@@ -16,7 +16,7 @@ RETURN
     traveller.name AS authorName,
     traveller.profile_picture AS authorProfile,
     COUNT(like) AS likes,
-    EXISTS ((blog)-[:LIKES_BLOG]-(:User {uid:$user})) as liked
+    EXISTS ((blog)-[:LIKES_BLOG]-(:User {uid:$user})) AS liked
 """
 
 GET_BLOG_COMMENTS_QUERY = """
@@ -44,7 +44,7 @@ WITH
     location
 RETURN
     blog.uid AS id,
-    blog.photos[0] as coverUri,
+    blog.photos[0] AS coverUri,
     blog.title AS title,
     blog.published_on AS publishedOn,
     LEFT(blog.content, 100) AS content,
@@ -59,9 +59,9 @@ GET_TOP_BLOG_TOPICS_QUERY = """
 MATCH
     (blog:Blog)-[:TAGGED_TOPIC]->(topic:Topic)
 RETURN
-    topic.uid as id,
-    topic.name as name,
-    COUNT(blog) as blogs
+    topic.uid AS id,
+    topic.name AS name,
+    COUNT(blog) AS blogs
 ORDER BY blogs DESC
 LIMIT $n
 """
@@ -76,7 +76,7 @@ RETURN
     left(blog.content, 150) AS content,
     COUNT(like) AS likes,
     author.profile_picture AS authorProfile,
-    blog.photos[0] as coverUri,
+    blog.photos[0] AS coverUri,
     blog.published_on AS publishedOn
 ORDER BY likes DESC
 LIMIT $n;
@@ -126,7 +126,7 @@ RETURN
     blog.title AS title,
     left(blog.content, 100) AS content,
     COUNT(like) AS likes,
-    author.profile_picture as authorProfile
+    author.profile_picture AS authorProfile
 ORDER BY likes DESC LIMIT $n;
 """
 
@@ -136,32 +136,67 @@ MATCH
 OPTIONAL MATCH
     (hotel)-[review:REVIEWED_HOTEL]-()
 RETURN
-    hotel.uid as id,
-    hotel.photos as photos,
-    hotel.name as name,
-    city.name as city,
-    hotel.locality as locality,
-    hotel.address as address,
-    hotel.postal_code as postalCode,
-    AVG(review.rating) as rating,
-    hotel.phone as phoneNumber,
-    hotel.latitude as latitude,
-    hotel.longitude as longitude,
-    hotel.price as price,
-    hotel.description as about,
-    hotel.amenities as amenities,
-    EXISTS ((hotel)-[:LIKES_HOTEL]-(:User {uid:$user})) as liked
+    hotel.uid AS id,
+    hotel.photos AS photos,
+    hotel.name AS name,
+    city.name AS city,
+    hotel.locality AS locality,
+    hotel.address AS address,
+    hotel.postal_code AS postalCode,
+    AVG(review.rating) AS rating,
+    hotel.phone AS phoneNumber,
+    hotel.latitude AS latitude,
+    hotel.longitude AS longitude,
+    hotel.price AS price,
+    hotel.description AS about,
+    hotel.amenities AS amenities,
+    EXISTS ((hotel)-[:LIKES_HOTEL]-(:User {uid:$user})) AS liked
 """
 
 GET_HOTEL_REVIEWS_QUERY = """
 MATCH
     (hotel:Hotel {uid:$hotel})-[review:REVIEWED_HOTEL]-(traveller:Traveller)
 RETURN
-    traveller.uid as id,
-    review.rating as rating,
-    left(review.review,150) as review,
-    review.datetime as datetime,
-    traveller.name as name
+    traveller.uid AS id,
+    review.rating AS rating,
+    left(review.review,150) AS review,
+    review.datetime AS datetime,
+    traveller.name AS name
 ORDER BY datetime DESC
 LIMIT $n
+"""
+
+GET_ALL_CITIES_QUERY = """
+MATCH (city:City)
+RETURN
+    city.uid AS id,
+    city.name AS name,
+    city.latitude AS latitude,
+    city.longitude AS longitude
+"""
+
+HOTEL_SEARCH_QUERY = """
+MATCH
+    (hotel:Hotel)-[:LOCATED_IN]->(city:City {uid:$cityId})
+OPTIONAL MATCH
+    (hotel)-[review:REVIEWED_HOTEL]-()
+WITH hotel, city, AVG(review.rating) as rating
+WHERE
+    toLower(hotel.name) CONTAINS $query
+    AND hotel.price >= $budgetMin
+    AND hotel.price <= $budgetMax
+RETURN
+    hotel.uid AS id,
+    hotel.photos[0] AS coverUri,
+    hotel.name AS name,
+    city.name AS city,
+    rating,
+    hotel.locality AS locality,
+    round(distance(
+        point({latitude: hotel.latitude, longitude: hotel.longitude}),
+        point({latitude: city.latitude, longitude: city.longitude})
+    ) / 1000)
+    AS distance,
+    hotel.price AS price
+ORDER BY rating DESC
 """
