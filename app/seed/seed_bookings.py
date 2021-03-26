@@ -1,4 +1,4 @@
-from ..models.database import Hotel, Package
+from ..models.database import Hotel, Package, PackageDay
 
 
 def seed_hotel():
@@ -331,7 +331,7 @@ def seed_hotel():
 def seed_package():
     return dict(
         package1=Package(
-            name="monsoon mumbai",
+            name="Monsoon Mumbai",
             price=110,
             description="Enjoy monsoon of mumbai at your pleasure",
             photos=[
@@ -340,10 +340,16 @@ def seed_package():
                 "https://picsum.photos/1003",
                 "https://picsum.photos/1004",
             ],
-            itinerary={},
+            amenities=[
+                "HOTELS",
+                "SIGHTSEEING",
+                "TRANSFERS",
+                "MEALS",
+                "CITY_TOURS",
+            ],
         ).save(),
         package2=Package(
-            name="majistic mumbai",
+            name="Majistic Mumbai",
             price=15,
             description="The glory and majisticism of mumbai",
             photos=[
@@ -352,10 +358,15 @@ def seed_package():
                 "https://picsum.photos/1007",
                 "https://picsum.photos/1008",
             ],
-            itinerary={},
+            amenities=[
+                "HOTELS",
+                "SIGHTSEEING",
+                "TRANSFERS",
+                "MEALS",
+            ],
         ).save(),
         package3=Package(
-            name="aamchi mumbai",
+            name="Aamchi Mumbai",
             price=110,
             description="Enjoy your mumbai",
             photos=[
@@ -364,31 +375,48 @@ def seed_package():
                 "https://picsum.photos/1011",
                 "https://picsum.photos/1012",
             ],
-            itinerary={},
+            amenities=[
+                "HOTELS",
+                "FLIGHTS",
+                "MEALS",
+            ],
         ).save(),
         package4=Package(
             name="Royalty of Jaipur",
             price=200,
-            description="Experincy the royalty and plushiness of jaipur",
+            description="Experience the royalty and plushiness of jaipur",
             photos=[
                 "https://picsum.photos/1013",
                 "https://picsum.photos/1014",
                 "https://picsum.photos/1015",
                 "https://picsum.photos/1016",
             ],
-            itinerary={},
+            amenities=[
+                "HOTELS",
+                "SIGHTSEEING",
+                "TRANSFERS",
+                "ACTIVITIES",
+                "FLIGHTS",
+                "MEALS",
+                "CITY_TOURS",
+            ],
         ).save(),
         package5=Package(
-            name="Dil se Dilli dekho",
+            name="Dil se Dilli Dekho",
             price=500,
-            description="See the dehli for what it is, its heart",
+            description="See the delhi for what it is, its heart",
             photos=[
                 "https://picsum.photos/1017",
                 "https://picsum.photos/1018",
                 "https://picsum.photos/1019",
                 "https://picsum.photos/1020",
             ],
-            itinerary={},
+            amenities=[
+                "HOTELS",
+                "TRANSFERS",
+                "FLIGHTS",
+                "MEALS",
+            ],
         ).save(),
         package6=Package(
             name="Have Pleasure in Pune",
@@ -400,6 +428,51 @@ def seed_package():
                 "https://picsum.photos/1023",
                 "https://picsum.photos/1024",
             ],
-            itinerary={},
+            amenities=[
+                "HOTELS",
+                "ACTIVITIES",
+                "MEALS",
+                "CITY_TOURS",
+            ],
         ).save(),
     )
+
+
+def seed_package_day(packages, cities):
+    day1 = PackageDay(
+        title="Leaving for Mumbai", description="Leave for mumbai from pune station"
+    ).save()
+    day2 = PackageDay(title="Travelling full day").save()
+    day3 = PackageDay(
+        title="Reach mumbai and do masti",
+        description="Visit iconing bandra area of mumbai",
+    ).save()
+    day4 = PackageDay(
+        title="South Bombay",
+        description="Adore the victorian architecture of south bombay",
+    ).save()
+    day5 = PackageDay(
+        title="Back with memories",
+        description="Return to pune in flight",
+    ).save()
+
+    day1.visits_city.connect(cities["Pune"])
+    day3.visits_city.connect(cities["Mumbai"])
+    day4.visits_city.connect(cities["Mumbai"])
+    day5.visits_city.connect(cities["Pune"])
+
+    packages["package1"].has_day.connect(day1, {"day": 1})
+    packages["package1"].has_day.connect(day2, {"day": 2})
+    packages["package1"].has_day.connect(day3, {"day": 3})
+    packages["package1"].has_day.connect(day4, {"day": 4})
+    packages["package1"].has_day.connect(day5, {"day": 5})
+
+    packages["package2"].has_day.connect(day2, {"day": 1})
+    packages["package2"].has_day.connect(day3, {"day": 2})
+    packages["package2"].has_day.connect(day4, {"day": 3})
+
+    packages["package3"].has_day.connect(day1, {"day": 1})
+    packages["package3"].has_day.connect(day2, {"day": 2})
+    packages["package3"].has_day.connect(day3, {"day": 3})
+    packages["package3"].has_day.connect(day4, {"day": 4})
+    packages["package3"].has_day.connect(day5, {"day": 5})

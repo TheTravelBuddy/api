@@ -5,7 +5,6 @@ from neomodel import (
     DateTimeProperty,
     FloatProperty,
     IntegerProperty,
-    JSONProperty,
     RegexProperty,
     RelationshipFrom,
     RelationshipTo,
@@ -30,6 +29,7 @@ from .relations import (
     CommentedOnRel,
     LikesRel,
     OwnsRel,
+    PackageDayRel,
     ReviewedRel,
     StayedAtRel,
     TaggedRel,
@@ -68,7 +68,7 @@ class Traveller(User):
     likes_blog = RelationshipTo("Blog", "LIKES_BLOG", model=LikesRel)
 
     has_hotel_booking = RelationshipTo("HotelBooking", "HAS_BOOKING", model=OwnsRel)
-    booked_package = RelationshipTo("Package", "BOOKED_PACKAGE", model=BookedRel)
+    has_package_booking = RelationshipTo("PackageBooking", "HAS_BOOKING", model=OwnsRel)
 
     reviewed_hotel = RelationshipTo("Hotel", "REVIEWED_HOTEL", model=ReviewedRel)
     reviewed_package = RelationshipTo("Package", "REVIEWED_PACKAGE", model=ReviewedRel)
@@ -105,6 +105,7 @@ class Business(User):
 
 
 class Agency(Business):
+    description = StringProperty()
     business_type = StringProperty(choices=BUSINESS_TYPE, default="TRAVEL_AGENCY")
     offers_package = RelationshipTo("Package", "OFFERS_PACKAGE", model=OwnsRel)
 
@@ -138,6 +139,7 @@ class City(Location):
     stayed_by = RelationshipFrom("Traveller", "STAYED_AT_CITY", model=StayedAtRel)
 
     has_hotels = RelationshipFrom("Hotel", "LOCATED_IN", model=OwnsRel)
+    has_packages = RelationshipFrom("PackageDay", "VISITS_CITY", model=OwnsRel)
 
 
 class Attraction(Location):
@@ -208,13 +210,25 @@ class Package(StructuredNode):
     price = IntegerProperty(required=True)
     description = StringProperty(max_length=4096, required=True)
     photos = ArrayProperty(base_property=StringProperty())
-    itinerary = JSONProperty(required=True)
+    amenities = ArrayProperty(base_property=StringProperty(choices=PACKAGE_AMENITIES))
+
+    has_day = RelationshipTo("PackageDay", "HAS_DAY", model=PackageDayRel)
 
     offered_by = RelationshipFrom("Agency", "OFFERS_PACKAGE", model=OwnsRel)
+    has_booking = RelationshipFrom("PackageBooking", "FOR_HOTEL", model=OwnsRel)
 
     liked_by = RelationshipFrom("Traveller", "LIKES_PACKAGE", model=LikesRel)
     booked_by = RelationshipFrom("Traveller", "BOOKED_PACKAGE", model=BookedRel)
     reviewed_by = RelationshipFrom("Traveller", "REVIEWED_PACKAGE", model=ReviewedRel)
+
+
+class PackageDay(StructuredNode):
+    uid = UniqueIdProperty()
+    title = StringProperty(required=True)
+    description = StringProperty()
+
+    visits_city = RelationshipTo("City", "VISITS_CITY", model=OwnsRel)
+    of_package = RelationshipFrom("Package", "HAS_DAY", model=PackageDayRel)
 
 
 class Topic(StructuredNode):
@@ -235,3 +249,13 @@ class HotelBooking(StructuredNode):
 
     by_user = RelationshipFrom("Traveller", "HAS_BOOKING", model=OwnsRel)
     for_hotel = RelationshipTo("Hotel", "FOR_HOTEL", model=OwnsRel)
+
+
+class PackageBooking(StructuredNode):
+    uid = UniqueIdProperty()
+    booked_at = DateTimeProperty(default_now=True)
+    booking_date = DateProperty(required=True)
+    people = IntegerProperty(required=True)
+
+    by_user = RelationshipFrom("Traveller", "HAS_BOOKING", model=OwnsRel)
+    for_package = RelationshipTo("Package", "FOR_PACKAGE", model=OwnsRel)

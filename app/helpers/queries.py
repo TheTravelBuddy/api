@@ -201,7 +201,6 @@ RETURN
 ORDER BY rating DESC
 """
 
-
 GET_HOTEL_REVIEWS_ALL_QUERY = """
 MATCH (hotel:Hotel {uid:$hotelId})<-[review:REVIEWED_HOTEL]-(user)
 RETURN
@@ -240,4 +239,156 @@ RETURN
         days: booking.days,
         date: booking.booking_date
     } AS booking
+"""
+
+GET_PACKAGE_DETAILS_QUERY = """
+MATCH
+    (package:Package {uid:$package})
+CALL {
+    WITH package
+    MATCH
+        (package)-[dayRel:HAS_DAY]-(packageDay:PackageDay)
+    WITH
+        dayRel.day AS day,
+        packageDay
+    ORDER BY day
+    RETURN
+        COLLECT({
+            day: day,
+            title: packageDay.title,
+            description: packageDay.description
+        }) AS days
+}
+CALL {
+    WITH package
+    OPTIONAL MATCH
+        (package)-[review:REVIEWED_PACKAGE]-()
+    RETURN AVG(review.rating) AS rating
+}
+CALL {
+    WITH package
+    MATCH
+        (package)-[:OFFERS_PACKAGE]-(agency:Agency)
+    OPTIONAL MATCH
+        (agency)-[:OFFERS_PACKAGE]-(:Package)-[review:REVIEWED_PACKAGE]-()
+    RETURN
+        {
+            name: agency.name,
+            description: agency.description,
+            latitude: agency.latitude,
+            longitude: agency.longitude,
+            address: agency.address,
+            phone: agency.phone,
+            rating: AVG(review.rating)
+        } AS agency
+}
+RETURN
+    package.uid AS id,
+    package.photos AS photos,
+    package.name AS name,
+    package.price AS price,
+    package.description AS description,
+    rating,
+    package.amenities AS amenities,
+    days,
+    agency,
+    EXISTS ((package)-[:LIKES_PACKAGE]-(:User {uid:$user})) AS liked,
+    EXISTS ((package)-[:TAKEN_PACKAGE]-(:User {uid:$user})) AS visited
+"""
+
+GET_PACKAGE_REVIEWS_QUERY = """
+MATCH
+    (package:Package {uid:$package})-[review:REVIEWED_PACKAGE]-(traveller:Traveller)
+RETURN
+    traveller.uid AS id,
+    review.rating AS rating,
+    review.review AS review,
+    review.datetime AS publishedOn,
+    traveller.name AS name
+ORDER BY publishedOn DESC
+LIMIT $n
+"""
+
+GET_PACKAGE_REVIEWS_ALL_QUERY = """
+MATCH (package:Package {uid:$package})<-[review:REVIEWED_PACKAGE]-(user)
+RETURN
+    ID(review) AS id,
+    user.name AS name,
+    user.profile_picture AS profileUri,
+    review.rating AS rating,
+    review.review AS review,
+    review.datetime AS publishedOn
+ORDER BY publishedOn DESC
+"""
+
+PACKAGE_SEARCH_QUERY = """
+MATCH
+    (package:Package)-[:HAS_DAY]->(:PackageDay)-[:VISITS_CITY]-(:City {uid:$cityId})
+OPTIONAL MATCH
+    (package)-[review:REVIEWED_PACKAGE]-()
+WITH package, AVG(review.rating) as rating
+WHERE
+    toLower(package.name) CONTAINS $query
+    AND package.price >= $budgetMin
+    AND package.price <= $budgetMax
+CALL {
+    WITH package
+    MATCH
+        (package:Package)-[:HAS_DAY]->(day:PackageDay)
+    RETURN COUNT(day) AS days
+}
+RETURN
+    package.uid AS id,
+    package.photos[0] AS coverUri,
+    package.name AS name,
+    rating,
+    days,
+    package.price AS price
+ORDER BY rating DESC
+"""
+
+GET_PACKAGE_BOOKING_DETAILS_QUERY = """
+MATCH
+    (:User)-[:HAS_BOOKING]->(booking:PackageBooking {uid:$packageBooking}),
+    (booking)-[:FOR_PACKAGE]->(package:Package)
+OPTIONAL MATCH
+    (package)-[review:REVIEWED_PACKAGE]-()
+WITH package, booking, AVG(review.rating) AS rating
+CALL {
+    WITH package
+    MATCH
+        (package:Package)-[:HAS_DAY]->(day:PackageDay)
+    RETURN COUNT(day) AS days
+}
+CALL {
+    WITH package
+    MATCH
+        (package)-[:OFFERS_PACKAGE]-(agency:Agency)
+    OPTIONAL MATCH
+        (agency)-[:OFFERS_PACKAGE]-(:Package)-[review:REVIEWED_PACKAGE]-()
+    RETURN
+        {
+            name: agency.name,
+            description: agency.description,
+            latitude: agency.latitude,
+            longitude: agency.longitude,
+            address: agency.address,
+            phone: agency.phone,
+            rating: AVG(review.rating)
+        } AS agency
+}
+RETURN
+    {
+        id: package.uid,
+        name: package.name,
+        coverUri: package.photos[0],
+        rating: rating,
+        price: package.price,
+        days: days
+    } AS package,
+    {
+        people: booking.people,
+        date: booking.booking_date
+    } AS booking,
+    agency
 """

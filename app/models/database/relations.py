@@ -46,3 +46,7 @@ class CommentedOnRel(StructuredRel):
 
 class TaggedRel(StructuredRel):
     pass
+
+
+class PackageDayRel(StructuredRel):
+    day = IntegerProperty(required=True)
