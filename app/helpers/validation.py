@@ -57,7 +57,7 @@ class PackageAmenitiesEnum(str, Enum):
     Activities = "ACTIVITIES"
     Flights = "FLIGHTS"
     Meals = "MEALS"
-    CityTours = "CITY TOURS"
+    CityTours = "CITY_TOURS"
 
 
 class HotelAmenitiesEnum(str, Enum):

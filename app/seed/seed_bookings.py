@@ -1,4 +1,4 @@
-from ..models.database import Hotel, Package
+from ..models.database import Hotel, Package, PackageDay
 
 
 def seed_hotel():
@@ -15,8 +15,8 @@ def seed_hotel():
             locality="Colaba",
             postal_code=400001,
             address="Apollo Bandar",
-            latitude=72.8333,
-            longitude=18.922,
+            longitude=72.8333,
+            latitude=18.922,
             phone="+911234567890",
             amenities=[
                 "WIFI",
@@ -38,8 +38,8 @@ def seed_hotel():
             locality="Juhu",
             postal_code=400049,
             address="Juhu Rd, Juhu Tara",
-            latitude=72.83,
-            longitude=19.1,
+            longitude=72.83,
+            latitude=19.1,
             phone="+911234567890",
             amenities=[
                 "WIFI",
@@ -60,8 +60,8 @@ def seed_hotel():
             locality="Kalbadevi",
             postal_code=400002,
             address="No.103, Dr. Atmaram Merchant Road",
-            latitude=72.835,
-            longitude=18.955,
+            longitude=72.835,
+            latitude=18.955,
             phone="+911234567890",
             amenities=["WIFI", "AIR_CONDITIONING", "PARKING"],
         ).save(),
@@ -77,8 +77,8 @@ def seed_hotel():
             locality="Zakir Hussain Marg",
             postal_code=110003,
             address="Dr. Zakir Hussain Marg",
-            latitude=77.237778,
-            longitude=28.601633,
+            longitude=77.237778,
+            latitude=28.601633,
             phone="+911234567890",
             amenities=[
                 "WIFI",
@@ -99,8 +99,8 @@ def seed_hotel():
             locality="Diplomatic Enclave",
             postal_code=110021,
             address="Sardar Patel Marg",
-            latitude=77.183970,
-            longitude=28.603750,
+            longitude=77.183970,
+            latitude=28.603750,
             phone="+911234567890",
             amenities=[
                 "WIFI",
@@ -121,8 +121,8 @@ def seed_hotel():
             locality="IGI Airport",
             postal_code=110037,
             address="Asset No 02 GMR Hospitality District",
-            latitude=77.122304,
-            longitude=28.5925928,
+            longitude=77.122304,
+            latitude=28.5925928,
             phone="+911234567890",
             amenities=[
                 "WIFI",
@@ -142,8 +142,8 @@ def seed_hotel():
             locality="South Pune",
             postal_code=411001,
             address="Nyati County, NIBM Annex",
-            latitude=73.8554,
-            longitude=18.5196,
+            longitude=73.8554,
+            latitude=18.5196,
             phone="+911234567890",
             amenities=[
                 "WIFI",
@@ -163,8 +163,8 @@ def seed_hotel():
             locality="Kalyani Nagar",
             postal_code=411014,
             address="Kalyani Nagar, Marisoft Annexe",
-            latitude=73.9248107,
-            longitude=18.5514138,
+            longitude=73.9248107,
+            latitude=18.5514138,
             phone="+911234567890",
             amenities=[
                 "WIFI",
@@ -185,8 +185,8 @@ def seed_hotel():
             locality="Amanora Park Town",
             postal_code=411028,
             address="Amanora Magarpatta Road",
-            latitude=73.9167,
-            longitude=18.5167,
+            longitude=73.9167,
+            latitude=18.5167,
             phone="+911234567890",
             amenities=[
                 "WIFI",
@@ -208,8 +208,8 @@ def seed_hotel():
             locality="Jal Mahal",
             postal_code=302002,
             address="Amber Fort Rd",
-            latitude=75.7878,
-            longitude=26.9196,
+            longitude=75.7878,
+            latitude=26.9196,
             phone="+911234567890",
             amenities=[
                 "WIFI",
@@ -231,8 +231,8 @@ def seed_hotel():
             locality="Raja Park",
             postal_code=302004,
             address="A-13, Govind Marg near Pink Square Mall",
-            latitude=75.8189817,
-            longitude=26.9154576,
+            longitude=75.8189817,
+            latitude=26.9154576,
             phone="+911234567890",
             amenities=[
                 "WIFI",
@@ -254,8 +254,8 @@ def seed_hotel():
             locality="Bani Park",
             postal_code=302016,
             address="D-249, Devi Marg",
-            latitude=75.7898622,
-            longitude=26.9265113,
+            longitude=75.7898622,
+            latitude=26.9265113,
             phone="+911234567890",
             amenities=[
                 "WIFI",
@@ -276,8 +276,8 @@ def seed_hotel():
             locality="Ahmedabad",
             postal_code=380015,
             address="S G Highway",
-            latitude=78.1196,
-            longitude=9.9173,
+            longitude=78.1196,
+            latitude=9.9173,
             phone="+911234567890",
             amenities=["WIFI", "AIR_CONDITIONING", "PARKING", "SPA"],
         ).save(),
@@ -292,8 +292,8 @@ def seed_hotel():
             locality="Ellis Bridge",
             postal_code=380006,
             address="Opposite Gujarat College",
-            latitude=72.3005439,
-            longitude=22.7280538,
+            longitude=72.3005439,
+            latitude=22.7280538,
             phone="+911234567890",
             amenities=[
                 "WIFI",
@@ -315,8 +315,8 @@ def seed_hotel():
             locality="Vastrapur Lake",
             postal_code=380015,
             address="Plot 216, Town Plan Scheme 1",
-            latitude=23.0233421,
-            longitude=72.5303767,
+            longitude=23.0233421,
+            latitude=72.5303767,
             phone="+911234567890",
             amenities=[
                 "WIFI",
@@ -331,7 +331,7 @@ def seed_hotel():
 def seed_package():
     return dict(
         package1=Package(
-            name="monsoon mumbai",
+            name="Monsoon Mumbai",
             price=110,
             description="Enjoy monsoon of mumbai at your pleasure",
             photos=[
@@ -340,10 +340,16 @@ def seed_package():
                 "https://picsum.photos/1003",
                 "https://picsum.photos/1004",
             ],
-            itinerary={},
+            amenities=[
+                "HOTELS",
+                "SIGHTSEEING",
+                "TRANSFERS",
+                "MEALS",
+                "CITY_TOURS",
+            ],
         ).save(),
         package2=Package(
-            name="majistic mumbai",
+            name="Majistic Mumbai",
             price=15,
             description="The glory and majisticism of mumbai",
             photos=[
@@ -352,10 +358,15 @@ def seed_package():
                 "https://picsum.photos/1007",
                 "https://picsum.photos/1008",
             ],
-            itinerary={},
+            amenities=[
+                "HOTELS",
+                "SIGHTSEEING",
+                "TRANSFERS",
+                "MEALS",
+            ],
         ).save(),
         package3=Package(
-            name="aamchi mumbai",
+            name="Aamchi Mumbai",
             price=110,
             description="Enjoy your mumbai",
             photos=[
@@ -364,31 +375,48 @@ def seed_package():
                 "https://picsum.photos/1011",
                 "https://picsum.photos/1012",
             ],
-            itinerary={},
+            amenities=[
+                "HOTELS",
+                "FLIGHTS",
+                "MEALS",
+            ],
         ).save(),
         package4=Package(
             name="Royalty of Jaipur",
             price=200,
-            description="Experincy the royalty and plushiness of jaipur",
+            description="Experience the royalty and plushiness of jaipur",
             photos=[
                 "https://picsum.photos/1013",
                 "https://picsum.photos/1014",
                 "https://picsum.photos/1015",
                 "https://picsum.photos/1016",
             ],
-            itinerary={},
+            amenities=[
+                "HOTELS",
+                "SIGHTSEEING",
+                "TRANSFERS",
+                "ACTIVITIES",
+                "FLIGHTS",
+                "MEALS",
+                "CITY_TOURS",
+            ],
         ).save(),
         package5=Package(
-            name="Dil se Dilli dekho",
+            name="Dil se Dilli Dekho",
             price=500,
-            description="See the dehli for what it is, its heart",
+            description="See the delhi for what it is, its heart",
             photos=[
                 "https://picsum.photos/1017",
                 "https://picsum.photos/1018",
                 "https://picsum.photos/1019",
                 "https://picsum.photos/1020",
             ],
-            itinerary={},
+            amenities=[
+                "HOTELS",
+                "TRANSFERS",
+                "FLIGHTS",
+                "MEALS",
+            ],
         ).save(),
         package6=Package(
             name="Have Pleasure in Pune",
@@ -400,6 +428,51 @@ def seed_package():
                 "https://picsum.photos/1023",
                 "https://picsum.photos/1024",
             ],
-            itinerary={},
+            amenities=[
+                "HOTELS",
+                "ACTIVITIES",
+                "MEALS",
+                "CITY_TOURS",
+            ],
         ).save(),
     )
+
+
+def seed_package_day(packages, cities):
+    day1 = PackageDay(
+        title="Leaving for Mumbai", description="Leave for mumbai from pune station"
+    ).save()
+    day2 = PackageDay(title="Travelling full day").save()
+    day3 = PackageDay(
+        title="Reach mumbai and do masti",
+        description="Visit iconing bandra area of mumbai",
+    ).save()
+    day4 = PackageDay(
+        title="South Bombay",
+        description="Adore the victorian architecture of south bombay",
+    ).save()
+    day5 = PackageDay(
+        title="Back with memories",
+        description="Return to pune in flight",
+    ).save()
+
+    day1.visits_city.connect(cities["Pune"])
+    day3.visits_city.connect(cities["Mumbai"])
+    day4.visits_city.connect(cities["Mumbai"])
+    day5.visits_city.connect(cities["Pune"])
+
+    packages["package1"].has_day.connect(day1, {"day": 1})
+    packages["package1"].has_day.connect(day2, {"day": 2})
+    packages["package1"].has_day.connect(day3, {"day": 3})
+    packages["package1"].has_day.connect(day4, {"day": 4})
+    packages["package1"].has_day.connect(day5, {"day": 5})
+
+    packages["package2"].has_day.connect(day2, {"day": 1})
+    packages["package2"].has_day.connect(day3, {"day": 2})
+    packages["package2"].has_day.connect(day4, {"day": 3})
+
+    packages["package3"].has_day.connect(day1, {"day": 1})
+    packages["package3"].has_day.connect(day2, {"day": 2})
+    packages["package3"].has_day.connect(day3, {"day": 3})
+    packages["package3"].has_day.connect(day4, {"day": 4})
+    packages["package3"].has_day.connect(day5, {"day": 5})
