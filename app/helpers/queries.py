@@ -16,7 +16,7 @@ RETURN
     traveller.name AS authorName,
     traveller.profile_picture AS authorProfile,
     COUNT(like) AS likes,
-    EXISTS ((blog)-[:LIKES_BLOG]-(:User {uid:$user})) as liked
+    EXISTS ((blog)-[:LIKES_BLOG]-(:User {uid:$user})) AS liked
 """
 
 GET_BLOG_COMMENTS_QUERY = """
@@ -44,7 +44,7 @@ WITH
     location
 RETURN
     blog.uid AS id,
-    blog.photos[0] as coverUri,
+    blog.photos[0] AS coverUri,
     blog.title AS title,
     blog.published_on AS publishedOn,
     LEFT(blog.content, 100) AS content,
@@ -59,9 +59,9 @@ GET_TOP_BLOG_TOPICS_QUERY = """
 MATCH
     (blog:Blog)-[:TAGGED_TOPIC]->(topic:Topic)
 RETURN
-    topic.uid as id,
-    topic.name as name,
-    COUNT(blog) as blogs
+    topic.uid AS id,
+    topic.name AS name,
+    COUNT(blog) AS blogs
 ORDER BY blogs DESC
 LIMIT $n
 """
@@ -76,7 +76,7 @@ RETURN
     left(blog.content, 150) AS content,
     COUNT(like) AS likes,
     author.profile_picture AS authorProfile,
-    blog.photos[0] as coverUri,
+    blog.photos[0] AS coverUri,
     blog.published_on AS publishedOn
 ORDER BY likes DESC
 LIMIT $n;
@@ -126,7 +126,7 @@ RETURN
     blog.title AS title,
     left(blog.content, 100) AS content,
     COUNT(like) AS likes,
-    author.profile_picture as authorProfile
+    author.profile_picture AS authorProfile
 ORDER BY likes DESC LIMIT $n;
 """
 
@@ -136,49 +136,276 @@ MATCH
 OPTIONAL MATCH
     (hotel)-[review:REVIEWED_HOTEL]-()
 RETURN
-    hotel.uid as id,
-    hotel.photos as photos,
-    hotel.name as name,
-    city.name as city,
-    hotel.locality as locality,
-    hotel.address as address,
-    hotel.postal_code as postalCode,
-    AVG(review.rating) as rating,
-    hotel.phone as phoneNumber,
-    hotel.latitude as latitude,
-    hotel.longitude as longitude,
-    hotel.price as price,
-    hotel.description as about,
-    hotel.amenities as amenities,
-    EXISTS ((hotel)-[:LIKES_HOTEL]-(:User {uid:$user})) as liked
+    hotel.uid AS id,
+    hotel.photos AS photos,
+    hotel.name AS name,
+    city.name AS city,
+    hotel.locality AS locality,
+    hotel.address AS address,
+    hotel.postal_code AS postalCode,
+    AVG(review.rating) AS rating,
+    hotel.phone AS phoneNumber,
+    hotel.latitude AS latitude,
+    hotel.longitude AS longitude,
+    hotel.price AS price,
+    hotel.description AS about,
+    hotel.amenities AS amenities,
+    EXISTS ((hotel)-[:LIKES_HOTEL]-(:User {uid:$user})) AS liked,
+    EXISTS ((hotel)-[:VISITED_HOTEL]-(:User {uid:$user})) AS visited
 """
 
 GET_HOTEL_REVIEWS_QUERY = """
 MATCH
     (hotel:Hotel {uid:$hotel})-[review:REVIEWED_HOTEL]-(traveller:Traveller)
 RETURN
-    traveller.uid as id,
-    review.rating as rating,
-    left(review.review,150) as review,
-    review.datetime as datetime,
-    traveller.name as name
-ORDER BY datetime DESC
+    traveller.uid AS id,
+    review.rating AS rating,
+    review.review AS review,
+    review.datetime AS publishedOn,
+    traveller.name AS name
+ORDER BY publishedOn DESC
 LIMIT $n
 """
 
+<<<<<<< HEAD
 GET_OWNED_HOTELS = """
 MATCH
     (hotel:Hotel)-[:LOCATED_IN]->(city:City),
     (hotel)-[:OWNS_HOTEL]-(hotelOwner:HotelOwner {uid:$hotelierId})
 OPTIONAL MATCH
     (hotel)-[review:REVIEWED_HOTEL]-()
+=======
+GET_ALL_CITIES_QUERY = """
+MATCH (city:City)
+RETURN
+    city.uid AS id,
+    city.name AS name,
+    city.latitude AS latitude,
+    city.longitude AS longitude
+"""
+
+HOTEL_SEARCH_QUERY = """
+MATCH
+    (hotel:Hotel)-[:LOCATED_IN]->(city:City {uid:$cityId})
+OPTIONAL MATCH
+    (hotel)-[review:REVIEWED_HOTEL]-()
+WITH hotel, city, AVG(review.rating) as rating
+WHERE
+    toLower(hotel.name) CONTAINS $query
+    AND hotel.price >= $budgetMin
+    AND hotel.price <= $budgetMax
+>>>>>>> origin/master
 RETURN
     hotel.uid AS id,
     hotel.photos[0] AS coverUri,
     hotel.name AS name,
     city.name AS city,
+<<<<<<< HEAD
     AVG(review.rating) as rating,
     hotel.locality AS locality,
     hotel.price AS price
 ORDER BY rating DESC
 """
+=======
+    rating,
+    hotel.locality AS locality,
+    round(distance(
+        point({latitude: hotel.latitude, longitude: hotel.longitude}),
+        point({latitude: city.latitude, longitude: city.longitude})
+    ) / 1000) AS distance,
+    hotel.price AS price
+ORDER BY rating DESC
+"""
+
+GET_HOTEL_REVIEWS_ALL_QUERY = """
+MATCH (hotel:Hotel {uid:$hotelId})<-[review:REVIEWED_HOTEL]-(user)
+RETURN
+    ID(review) AS id,
+    user.name AS name,
+    user.profile_picture AS profileUri,
+    review.rating AS rating,
+    review.review AS review,
+    review.datetime AS publishedOn
+ORDER BY publishedOn DESC
+"""
+
+GET_HOTEL_BOOKING_DETAILS_QUERY = """
+MATCH
+    (:User)-[:HAS_BOOKING]->(booking:HotelBooking {uid:$hotelBooking}),
+    (booking)-[:FOR_HOTEL]->(hotel:Hotel)-[:LOCATED_IN]->(city:City)
+OPTIONAL MATCH
+    (hotel)-[review:REVIEWED_HOTEL]-()
+RETURN
+    {
+        id: hotel.uid,
+        name: hotel.name,
+        locality: hotel.locality,
+        coverUri: hotel.photos[0],
+        city: city.name,
+        rating: AVG(review.rating),
+        phone: hotel.phone,
+        price: hotel.price,
+        latitude: hotel.latitude,
+        longitude: hotel.longitude
+    } AS hotel,
+    {
+        adults: booking.adults,
+        children: booking.children,
+        rooms: booking.rooms,
+        days: booking.days,
+        date: booking.booking_date
+    } AS booking
+"""
+
+GET_PACKAGE_DETAILS_QUERY = """
+MATCH
+    (package:Package {uid:$package})
+CALL {
+    WITH package
+    MATCH
+        (package)-[dayRel:HAS_DAY]-(packageDay:PackageDay)
+    WITH
+        dayRel.day AS day,
+        packageDay
+    ORDER BY day
+    RETURN
+        COLLECT({
+            day: day,
+            title: packageDay.title,
+            description: packageDay.description
+        }) AS days
+}
+CALL {
+    WITH package
+    OPTIONAL MATCH
+        (package)-[review:REVIEWED_PACKAGE]-()
+    RETURN AVG(review.rating) AS rating
+}
+CALL {
+    WITH package
+    MATCH
+        (package)-[:OFFERS_PACKAGE]-(agency:Agency)
+    OPTIONAL MATCH
+        (agency)-[:OFFERS_PACKAGE]-(:Package)-[review:REVIEWED_PACKAGE]-()
+    RETURN
+        {
+            name: agency.name,
+            description: agency.description,
+            latitude: agency.latitude,
+            longitude: agency.longitude,
+            address: agency.address,
+            phone: agency.phone,
+            rating: AVG(review.rating)
+        } AS agency
+}
+RETURN
+    package.uid AS id,
+    package.photos AS photos,
+    package.name AS name,
+    package.price AS price,
+    package.description AS description,
+    rating,
+    package.amenities AS amenities,
+    days,
+    agency,
+    EXISTS ((package)-[:LIKES_PACKAGE]-(:User {uid:$user})) AS liked,
+    EXISTS ((package)-[:TAKEN_PACKAGE]-(:User {uid:$user})) AS visited
+"""
+
+GET_PACKAGE_REVIEWS_QUERY = """
+MATCH
+    (package:Package {uid:$package})-[review:REVIEWED_PACKAGE]-(traveller:Traveller)
+RETURN
+    traveller.uid AS id,
+    review.rating AS rating,
+    review.review AS review,
+    review.datetime AS publishedOn,
+    traveller.name AS name
+ORDER BY publishedOn DESC
+LIMIT $n
+"""
+
+GET_PACKAGE_REVIEWS_ALL_QUERY = """
+MATCH (package:Package {uid:$package})<-[review:REVIEWED_PACKAGE]-(user)
+RETURN
+    ID(review) AS id,
+    user.name AS name,
+    user.profile_picture AS profileUri,
+    review.rating AS rating,
+    review.review AS review,
+    review.datetime AS publishedOn
+ORDER BY publishedOn DESC
+"""
+
+PACKAGE_SEARCH_QUERY = """
+MATCH
+    (package:Package)-[:HAS_DAY]->(:PackageDay)-[:VISITS_CITY]-(:City {uid:$cityId})
+OPTIONAL MATCH
+    (package)-[review:REVIEWED_PACKAGE]-()
+WITH package, AVG(review.rating) as rating
+WHERE
+    toLower(package.name) CONTAINS $query
+    AND package.price >= $budgetMin
+    AND package.price <= $budgetMax
+CALL {
+    WITH package
+    MATCH
+        (package:Package)-[:HAS_DAY]->(day:PackageDay)
+    RETURN COUNT(day) AS days
+}
+RETURN
+    package.uid AS id,
+    package.photos[0] AS coverUri,
+    package.name AS name,
+    rating,
+    days,
+    package.price AS price
+ORDER BY rating DESC
+"""
+
+GET_PACKAGE_BOOKING_DETAILS_QUERY = """
+MATCH
+    (:User)-[:HAS_BOOKING]->(booking:PackageBooking {uid:$packageBooking}),
+    (booking)-[:FOR_PACKAGE]->(package:Package)
+OPTIONAL MATCH
+    (package)-[review:REVIEWED_PACKAGE]-()
+WITH package, booking, AVG(review.rating) AS rating
+CALL {
+    WITH package
+    MATCH
+        (package:Package)-[:HAS_DAY]->(day:PackageDay)
+    RETURN COUNT(day) AS days
+}
+CALL {
+    WITH package
+    MATCH
+        (package)-[:OFFERS_PACKAGE]-(agency:Agency)
+    OPTIONAL MATCH
+        (agency)-[:OFFERS_PACKAGE]-(:Package)-[review:REVIEWED_PACKAGE]-()
+    RETURN
+        {
+            name: agency.name,
+            description: agency.description,
+            latitude: agency.latitude,
+            longitude: agency.longitude,
+            address: agency.address,
+            phone: agency.phone,
+            rating: AVG(review.rating)
+        } AS agency
+}
+RETURN
+    {
+        id: package.uid,
+        name: package.name,
+        coverUri: package.photos[0],
+        rating: rating,
+        price: package.price,
+        days: days
+    } AS package,
+    {
+        people: booking.people,
+        date: booking.booking_date
+    } AS booking,
+    agency
+"""
+>>>>>>> origin/master
