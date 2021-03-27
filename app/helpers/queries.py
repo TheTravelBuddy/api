@@ -165,3 +165,20 @@ RETURN
 ORDER BY datetime DESC
 LIMIT $n
 """
+
+GET_OWNED_HOTELS = """
+MATCH
+    (hotel:Hotel)-[:LOCATED_IN]->(city:City),
+    (hotel)-[:OWNS_HOTEL]-(hotelOwner:HotelOwner {uid:$hotelierId})
+OPTIONAL MATCH
+    (hotel)-[review:REVIEWED_HOTEL]-()
+RETURN
+    hotel.uid AS id,
+    hotel.photos[0] AS coverUri,
+    hotel.name AS name,
+    city.name AS city,
+    AVG(review.rating) as rating,
+    hotel.locality AS locality,
+    hotel.price AS price
+ORDER BY rating DESC
+"""
