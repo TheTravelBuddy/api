@@ -241,7 +241,7 @@ RETURN
     } AS booking
 """
 GET_OWNED_HOTELS_QUERY = """
-MATCH (hotelowner:HotelOwner {uid:"243c20dfea6e482c9d1930434c8a713f"})-[:OWNS_HOTEL]-(hotel:Hotel),
+MATCH (hotelowner:HotelOwner {uid:$hotelierId})-[:OWNS_HOTEL]-(hotel:Hotel),
 	(hotel)-[:LOCATED_IN]-(city:City)
 OPTIONAL MATCH
 	(hotel)-[review:REVIEWED_HOTEL]-()
@@ -406,4 +406,28 @@ RETURN
         date: booking.booking_date
     } AS booking,
     agency
+"""
+
+
+GET_OFFERED_PACKAGES_QUERY = """
+MATCH
+	(agency:Agency {uid:$agencyId})-[:OFFERS_PACKAGE]-(package)
+OPTIONAL MATCH
+	(package)-[review:REVIEWED_PACKAGE]-()
+CALL {
+	WITH package
+    MATCH
+        (package)-[dayRel:HAS_DAY]-(packageDay:PackageDay)
+    WITH dayRel.day AS day, packageDay
+    ORDER BY day
+	RETURN
+       COUNT(day) AS days
+}
+RETURN
+	package.uid as id,
+	package.name as name,
+    package.price as price,
+    package.photos[0] as coverUri,
+    AVG(review.rating) as rating,
+    days
 """

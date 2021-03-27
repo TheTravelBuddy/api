@@ -12,5 +12,5 @@ router = APIRouter()
 
 # user=Depends(get_business)
 @router.get("/owned")
-async def get_hotels(hotelier=Depends(get_business)):
+async def get_owned_hotels(hotelier=Depends(get_business)):
     return get_query_response(GET_OWNED_HOTELS, {"hotelierId": hotelier.uid})
