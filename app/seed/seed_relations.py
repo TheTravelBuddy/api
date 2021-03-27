@@ -311,7 +311,6 @@ def seed_hotel_like_relation(travellers, hotels):
     travellers["Selena"].likes_hotel.connect(hotels["hotel5"])
 
 
-<<<<<<< HEAD
 def seed_hotelier_relations(hoteliers, hotels):
     hoteliers["Sanjiv"].owns_hotel.connect(hotels["hotel1"])
     hoteliers["Sanjiv"].owns_hotel.connect(hotels["hotel2"])
@@ -346,7 +345,8 @@ def seed_shopier_relation(shopiers, shops):
     shopiers["Ambani"].owns_shop.connect(shops["shop13"])
     shopiers["Ambani"].owns_shop.connect(shops["shop14"])
     shopiers["Ambani"].owns_shop.connect(shops["shop15"])
-=======
+
+
 def seed_package_agency(packages, agencies):
     packages["package1"].offered_by.connect(agencies["DNO"])
     packages["package2"].offered_by.connect(agencies["Manish"])
@@ -354,4 +354,3 @@ def seed_package_agency(packages, agencies):
     packages["package4"].offered_by.connect(agencies["DNO"])
     packages["package5"].offered_by.connect(agencies["Manish"])
     packages["package6"].offered_by.connect(agencies["Lohana"])
->>>>>>> origin/master

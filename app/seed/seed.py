@@ -7,23 +7,15 @@ from .seed_blog_relation import (
     seed_blog_topic_relation,
 )
 from .seed_blogs import seed_blog
-<<<<<<< HEAD
-from .seed_bookings import seed_hotel, seed_package
-from .seed_locations import seed_attraction, seed_city, seed_shops
-=======
 from .seed_bookings import seed_hotel, seed_package, seed_package_day
-from .seed_locations import seed_attraction, seed_city
->>>>>>> origin/master
+from .seed_locations import seed_attraction, seed_city, seed_shops
 from .seed_relations import (
     seed_city_review_relation,
     seed_hotel_city_relations,
     seed_hotel_like_relation,
     seed_hotel_review_relation,
-<<<<<<< HEAD
     seed_hotelier_relations,
-=======
     seed_package_agency,
->>>>>>> origin/master
     seed_package_review_relation,
     seed_shopier_relation,
 )
@@ -45,16 +37,10 @@ def seed_db():
         packages = seed_package()
         seed_attraction()
         cities = seed_city()
-<<<<<<< HEAD
         shops = seed_shops()
         agencies = seed_agency()
         hotelier = seed_hotel_owner()
         shopiers = seed_shop_owner()
-=======
-        agencies = seed_agency()
-        seed_hotel_owner()
-        seed_shop_owner()
->>>>>>> origin/master
         travellers = seed_traveller()
         blogs = seed_blog()
         topics = seed_topic()
@@ -72,10 +58,7 @@ def seed_db():
         )  # EXTRA: locations=cities+attractions
         seed_blog_comment_relation(travellers, blogs)
         seed_hotel_like_relation(travellers, hotels)
-<<<<<<< HEAD
         seed_hotelier_relations(hotelier, hotels)
         seed_shopier_relation(shopiers, shops)
-=======
         seed_package_agency(packages, agencies)
->>>>>>> origin/master
         print("Done.")

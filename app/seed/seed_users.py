@@ -155,7 +155,7 @@ def seed_hotel_owner():
             is_verified=True,
             latitude=28.644800,
             longitude=77.216721,
-        ),
+        ).save(),
         Ranveer=HotelOwner(
             name="Ranveer Bhar",
             phone="+919930989222",
@@ -163,7 +163,7 @@ def seed_hotel_owner():
             is_verified=True,
             latitude=19.076090,
             longitude=72.877426,
-        ),
+        ).save(),
         Vikas=HotelOwner(
             name="Vikas Khaana",
             phone="+919930989233",
@@ -174,5 +174,5 @@ def seed_hotel_owner():
             is_verified=True,
             latitude=19.076090,
             longitude=72.877426,
-        ),
+        ).save(),
     )

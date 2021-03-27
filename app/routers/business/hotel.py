@@ -3,7 +3,7 @@ from neomodel import db
 from pydantic import AnyUrl, BaseModel, confloat, constr
 
 from ...helpers.db_query import get_query_response
-from ...helpers.queries import GET_OWNED_HOTELS
+from ...helpers.queries import GET_OWNED_HOTELS_QUERY
 from ...models.database import Hotel, HotelOwner
 from .auth import get_business
 

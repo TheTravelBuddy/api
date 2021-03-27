@@ -167,14 +167,6 @@ ORDER BY publishedOn DESC
 LIMIT $n
 """
 
-<<<<<<< HEAD
-GET_OWNED_HOTELS = """
-MATCH
-    (hotel:Hotel)-[:LOCATED_IN]->(city:City),
-    (hotel)-[:OWNS_HOTEL]-(hotelOwner:HotelOwner {uid:$hotelierId})
-OPTIONAL MATCH
-    (hotel)-[review:REVIEWED_HOTEL]-()
-=======
 GET_ALL_CITIES_QUERY = """
 MATCH (city:City)
 RETURN
@@ -194,19 +186,11 @@ WHERE
     toLower(hotel.name) CONTAINS $query
     AND hotel.price >= $budgetMin
     AND hotel.price <= $budgetMax
->>>>>>> origin/master
 RETURN
     hotel.uid AS id,
     hotel.photos[0] AS coverUri,
     hotel.name AS name,
     city.name AS city,
-<<<<<<< HEAD
-    AVG(review.rating) as rating,
-    hotel.locality AS locality,
-    hotel.price AS price
-ORDER BY rating DESC
-"""
-=======
     rating,
     hotel.locality AS locality,
     round(distance(
@@ -255,6 +239,21 @@ RETURN
         days: booking.days,
         date: booking.booking_date
     } AS booking
+"""
+GET_OWNED_HOTELS_QUERY = """
+MATCH (hotelowner:HotelOwner {uid:"243c20dfea6e482c9d1930434c8a713f"})-[:OWNS_HOTEL]-(hotel:Hotel),
+	(hotel)-[:LOCATED_IN]-(city:City)
+OPTIONAL MATCH
+	(hotel)-[review:REVIEWED_HOTEL]-()
+RETURN
+	hotel.uid AS id,
+    hotel.photos[0] AS coverUri,
+    hotel.name AS name,
+    city.name AS city,
+    AVG(review.rating) as rating,
+    hotel.locality AS locality,
+    hotel.price AS price
+ORDER BY rating DESC
 """
 
 GET_PACKAGE_DETAILS_QUERY = """
@@ -408,4 +407,3 @@ RETURN
     } AS booking,
     agency
 """
->>>>>>> origin/master
