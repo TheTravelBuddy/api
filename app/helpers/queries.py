@@ -431,3 +431,14 @@ RETURN
     AVG(review.rating) as rating,
     days
 """
+
+GET_OWNED_SHOPS_QUERY = """
+MATCH (shopier:ShopOwner {uid:$shopierId})-[:OWNS_SHOP]-(shop:Shop)
+OPTIONAL MATCH (shop)-[review:REVIEWED_SHOP]-()
+RETURN 
+	shop.uid as id,
+    shop.name as name,
+    avg(review.rating) as rating,
+    shop.photos[0] as coverUri 
+ORDER BY rating DESC
+"""
