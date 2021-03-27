@@ -354,3 +354,129 @@ def seed_package_agency(packages, agencies):
     packages["package4"].offered_by.connect(agencies["DNO"])
     packages["package5"].offered_by.connect(agencies["Manish"])
     packages["package6"].offered_by.connect(agencies["Lohana"])
+
+
+def seed_shop_review_relation(travellers, shops):
+    travellers["Selena"].reviewed_shop.connect(
+        shops["shop1"],
+        {
+            "rating": 3,
+            "review": "nice shop, really polite customer service, cute stuff",
+            "photos": ["https://picsum.photos/1090"],
+        },
+    )
+    travellers["Justin"].reviewed_shop.connect(
+        shops["shop15"],
+        {
+            "rating": 4,
+            "review": "nice shop, really polite customer service, cute stuff",
+            "photos": ["https://picsum.photos/1090"],
+        },
+    )
+    travellers["Justin"].reviewed_shop.connect(
+        shops["shop2"],
+        {
+            "rating": 5,
+            "review": "nice shop, really polite customer service, cute stuff",
+            "photos": ["https://picsum.photos/1090"],
+        },
+    )
+    travellers["Lucifer"].reviewed_shop.connect(
+        shops["shop14"],
+        {
+            "rating": 4,
+            "review": "nice shop, really polite customer service, cute stuff",
+            "photos": ["https://picsum.photos/1090"],
+        },
+    )
+    travellers["Selena"].reviewed_shop.connect(
+        shops["shop13"],
+        {
+            "rating": 4,
+            "review": "nice shop, really polite customer service, cute stuff",
+            "photos": ["https://picsum.photos/1090"],
+        },
+    )
+    travellers["Selena"].reviewed_shop.connect(
+        shops["shop12"],
+        {
+            "rating": 5,
+            "review": "nice shop, really polite customer service, cute stuff",
+            "photos": ["https://picsum.photos/1090"],
+        },
+    )
+    travellers["Ester"].reviewed_shop.connect(
+        shops["shop11"],
+        {
+            "rating": 3,
+            "review": "nice shop, really polite customer service, cute stuff",
+            "photos": ["https://picsum.photos/1090"],
+        },
+    )
+    travellers["Ester"].reviewed_shop.connect(
+        shops["shop10"],
+        {
+            "rating": 3,
+            "review": "nice shop, really polite customer service, cute stuff",
+            "photos": ["https://picsum.photos/1090"],
+        },
+    )
+    travellers["Justin"].reviewed_shop.connect(
+        shops["shop4"],
+        {
+            "rating": 3,
+            "review": "nice shop, really polite customer service, cute stuff",
+            "photos": ["https://picsum.photos/1090"],
+        },
+    )
+    travellers["Selena"].reviewed_shop.connect(
+        shops["shop9"],
+        {
+            "rating": 5,
+            "review": "nice shop, really polite customer service, cute stuff",
+            "photos": ["https://picsum.photos/1090"],
+        },
+    )
+    travellers["Selena"].reviewed_shop.connect(
+        shops["shop5"],
+        {
+            "rating": 4,
+            "review": "nice shop, really polite customer service, cute stuff",
+            "photos": ["https://picsum.photos/1090"],
+        },
+    )
+    travellers["Justin"].reviewed_shop.connect(
+        shops["shop8"],
+        {
+            "rating": 5,
+            "review": "nice shop, really polite customer service, cute stuff",
+            "photos": ["https://picsum.photos/1090"],
+        },
+    )
+    travellers["Justin"].reviewed_shop.connect(
+        shops["shop6"],
+        {
+            "rating": 4,
+            "review": "nice shop, really polite customer service, cute stuff",
+            "photos": ["https://picsum.photos/1090"],
+        },
+    )
+    travellers["Ester"].reviewed_shop.connect(
+        shops["shop6"],
+        {
+            "rating": 5,
+            "review": "nice shop, really polite customer service, cute stuff",
+            "photos": ["https://picsum.photos/1090"],
+        },
+    )
+
+
+def seed_shop_like_relation(travellers, shops):
+    travellers["Justin"].likes_shop.connect(shops["shop1"])
+    travellers["Justin"].likes_shop.connect(shops["shop3"])
+    travellers["Lucifer"].likes_shop.connect(shops["shop5"])
+    travellers["Lucifer"].likes_shop.connect(shops["shop6"])
+    travellers["Selena"].likes_shop.connect(shops["shop2"])
+    travellers["Selena"].likes_shop.connect(shops["shop1"])
+    travellers["Selena"].likes_shop.connect(shops["shop5"])
+    travellers["Selena"].likes_shop.connect(shops["shop4"])
