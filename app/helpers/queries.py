@@ -439,6 +439,10 @@ RETURN
 	shop.uid as id,
     shop.name as name,
     avg(review.rating) as rating,
+    shop.locality as locality,
+    shop.latitude as latitude,
+    shop.longitude as longitude,
+    shop.phone as phone,
     shop.photos[0] as coverUri 
 ORDER BY rating DESC
 """

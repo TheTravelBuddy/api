@@ -150,13 +150,25 @@ class Attraction(Location):
 
     visited_by = RelationshipFrom("Traveller", "VISITED_ATTRACTION", model=VisitedRel)
 
+    located_in = RelationshipTo(
+        "City", "LOCATED_IN", model=OwnsRel, cardinality=cardinality.One
+    )
+
 
 class Shop(Location):
+    address = StringProperty(max_length=512, required=True)
+    locality = StringProperty(required=True)
+    postal_code = IntegerProperty(required=True)
+    phone = RegexProperty(expression=r"^\+(\d){12}$", required=True)
+
     liked_by = RelationshipFrom("Traveller", "LIKES_SHOP", model=LikesRel)
     reviewed_by = RelationshipFrom("Traveller", "REVIEWED_SHOP", model=ReviewedRel)
     owned_by = RelationshipFrom("ShopOwner", "OWNS_SHOP", model=OwnsRel)
-
     visited_by = RelationshipFrom("Traveller", "VISITED_SHOP", model=VisitedRel)
+
+    located_in = RelationshipTo(
+        "City", "LOCATED_IN", model=OwnsRel, cardinality=cardinality.One
+    )
 
 
 class Blog(StructuredNode):
