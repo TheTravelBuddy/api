@@ -5,70 +5,70 @@ from ..models.database import Agency, HotelOwner, ShopOwner, Traveller
 
 def seed_traveller():
     return dict(
-        Lucifer=Traveller(
+        traveller1=Traveller(
             name="Lucifer",
             phone="+917738886661",
             gender="M",
             dob=date(1999, 11, 1),
             mood="RELAX",
         ).save(),
-        Michael=Traveller(
+        traveller2=Traveller(
             name="Michael",
             phone="+917738883002",
             gender="M",
             dob=date(1998, 1, 4),
             mood="RELAX",
         ).save(),
-        Jenovah=Traveller(
+        traveller3=Traveller(
             name="Jenovah",
             phone="+917738883013",
             gender="M",
             dob=date(1999, 12, 25),
             mood="MIXED",
         ).save(),
-        Ester=Traveller(
+        traveller4=Traveller(
             name="Ester",
             phone="+917738883024",
             gender="F",
             dob=date(1999, 10, 18),
             mood="RELAX",
         ).save(),
-        Lahari=Traveller(
+        traveller5=Traveller(
             name="Lahari",
             phone="+917738883035",
             gender="M",
             dob=date(1999, 2, 20),
             mood="MIXED",
         ).save(),
-        Gautam=Traveller(
+        traveller6=Traveller(
             name="Gautam",
             phone="+917738883046",
             gender="M",
             dob=date(1999, 12, 12),
             mood="MIXED",
         ).save(),
-        Justin=Traveller(
+        traveller7=Traveller(
             name="Justin",
             phone="+917738883697",
             gender="M",
             dob=date(1999, 12, 13),
             mood="ADVENTURE",
         ).save(),
-        Selena=Traveller(
+        traveller8=Traveller(
             name="Selena",
             phone="+917738880377",
             gender="F",
             dob=date(1999, 7, 22),
             mood="ADVENTURE",
         ).save(),
-        Jelena=Traveller(
+        traveller9=Traveller(
             name="Jelena",
             phone="+917738881438",
             gender="F",
             dob=date(2010, 11, 7),
             mood="ADVENTURE",
         ).save(),
-        Karki=Traveller(
+        traveller10=Traveller(
             name="Karki",
             phone="+917738881429",
             gender="M",
@@ -80,7 +80,7 @@ def seed_traveller():
 
 def seed_agency():
     return dict(
-        Manish=Agency(
+        agency1=Agency(
             name="Manish Travel Agency",
             phone="+912228074493",
             address=(
@@ -91,7 +91,7 @@ def seed_agency():
             latitude=28.644800,
             longitude=77.216721,
         ).save(),
-        Lohana=Agency(
+        agency2=Agency(
             name="Lohana Tour's and Travel",
             phone="+912228056448",
             address=(
@@ -103,7 +103,7 @@ def seed_agency():
             latitude=19.076090,
             longitude=72.877426,
         ).save(),
-        DNO=Agency(
+        agency3=Agency(
             name="DiscountsAndOffers",
             phone="+919930989241",
             address="1,DiscountsAndOffers,Patel Road,Kandivali West,400067",
@@ -116,7 +116,7 @@ def seed_agency():
 
 def seed_shop_owner():
     return dict(
-        Mittal=ShopOwner(
+        shopowner1=ShopOwner(
             name="Mittal",
             phone="+919930989200",
             address="5, Race Course Road,New Delhi,110001",
@@ -124,7 +124,7 @@ def seed_shop_owner():
             latitude=28.644800,
             longitude=77.216721,
         ).save(),
-        Adani=ShopOwner(
+        shopowner2=ShopOwner(
             name="Adani",
             phone="+919930989201",
             address="7, Race Course Road,Mumbai,4000060",
@@ -132,7 +132,7 @@ def seed_shop_owner():
             latitude=19.076090,
             longitude=72.877426,
         ).save(),
-        Ambani=ShopOwner(
+        shopowner3=ShopOwner(
             name="Ambani",
             phone="+919930989200",
             address="1, Race Course Road,Ahemdabad,320008",
@@ -145,7 +145,7 @@ def seed_shop_owner():
 
 def seed_hotel_owner():
     return dict(
-        Sanjiv=HotelOwner(
+        hotelowner1=HotelOwner(
             name="Sanjiv Khana",
             phone="+919930989231",
             address=(
@@ -156,7 +156,7 @@ def seed_hotel_owner():
             latitude=28.644800,
             longitude=77.216721,
         ).save(),
-        Ranveer=HotelOwner(
+        hotelowner2=HotelOwner(
             name="Ranveer Bhar",
             phone="+919930989222",
             address="Balraj Sahani Marg, Juhu Beach, Juhu, Mumbai, Maharashtra 400049",
@@ -164,7 +164,7 @@ def seed_hotel_owner():
             latitude=19.076090,
             longitude=72.877426,
         ).save(),
-        Vikas=HotelOwner(
+        hotelowner3=HotelOwner(
             name="Vikas Khaana",
             phone="+919930989233",
             address=(
