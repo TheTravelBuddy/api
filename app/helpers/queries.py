@@ -93,6 +93,27 @@ ORDER BY rating DESC
 LIMIT $n
 """
 
+GET_RECOMMENDED_PACKAGES_QUERY = """
+MATCH (package:Package)-[review:REVIEWED_PACKAGE]-(user)
+WITH
+    package.uid AS id,
+    package.photos[0] AS coverUri,
+    package.name AS name,
+    AVG(review.rating) AS R,
+    COUNT(review.rating) AS v,
+    1 AS m
+CALL {
+    MATCH (:Package)-[review:REVIEWED_PACKAGE]-()
+    RETURN
+        AVG(review.rating) AS C
+}
+RETURN
+    id, coverUri, name, R AS rating,
+    (R*v + C*m)/(v + m) AS score
+ORDER BY score DESC
+LIMIT $n
+"""
+
 GET_TOP_DESTINATIONS_QUERY = """
 MATCH (city:City)-[review:REVIEWED_CITY]-(user)
 RETURN
@@ -115,6 +136,38 @@ RETURN
     hotel.locality AS locality,
     city.name AS city
 ORDER BY rating DESC
+LIMIT $n
+"""
+
+GET_NEARBY_HOTELS_QUERY = """
+MATCH (city:City)-[:LOCATED_IN]-(hotel:Hotel)-[review:REVIEWED_HOTEL]-(user)
+RETURN
+    hotel.uid AS id,
+    hotel.photos[0] AS coverUri,
+    hotel.name AS name,
+    hotel.price AS price,
+    AVG(review.rating) AS rating,
+    hotel.locality AS locality,
+    city.name AS city,
+    round(distance(
+        point({latitude: hotel.latitude, longitude: hotel.longitude}),
+        point({latitude: $latitude, longitude: $longitude})
+    ) / 1000) AS distance,
+ORDER BY distance
+LIMIT $n
+"""
+
+GET_BUDGET_HOTELS_QUERY = """
+MATCH (city:City)-[:LOCATED_IN]-(hotel:Hotel)-[review:REVIEWED_HOTEL]-(user)
+RETURN
+    hotel.uid AS id,
+    hotel.photos[0] AS coverUri,
+    hotel.name AS name,
+    hotel.price AS price,
+    AVG(review.rating) AS rating,
+    hotel.locality AS locality,
+    city.name AS city
+ORDER BY price
 LIMIT $n
 """
 
