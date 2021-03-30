@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List
+from typing import List, Optional
 
 from fastapi import APIRouter, Depends
 from neomodel import db
@@ -7,8 +7,14 @@ from pydantic import AnyUrl, BaseModel
 
 from ...dependencies.auth import get_registered_user
 from ...dependencies.entities import get_blog
+from ...helpers.conversion import deflate_request
 from ...helpers.db_query import get_query_response
-from ...helpers.queries import GET_BLOG_COMMENTS_QUERY, GET_BLOG_DETAILS_QUERY
+from ...helpers.queries import (
+    GET_ALL_TOPICS_QUERY,
+    GET_BLOG_COMMENTS_QUERY,
+    GET_BLOG_DETAILS_QUERY,
+)
+from ...models.database import Blog, Location, Topic
 
 router = APIRouter()
 
@@ -44,6 +50,39 @@ async def get_blog_data(blog=Depends(get_blog), user=Depends(get_registered_user
             GET_BLOG_COMMENTS_QUERY, {"blog": blog.uid, "n": 3}
         ),
     )
+
+
+class NewBlogRequest(BaseModel):
+    title: str
+    content: str
+    photos: List[AnyUrl]
+    topic: Optional[str]
+    location: Optional[str]
+
+
+@router.post("")
+async def add_new_blog(blogData: NewBlogRequest, user=Depends(get_registered_user)):
+    with db.transaction:
+        blog = Blog(**deflate_request(blogData, {"title", "content", "photos"})).save()
+        blog.authored_by.connect(user)
+
+        if blogData.topic:
+            blog.tagged_topic.connect(Topic.nodes.get(uid=blogData.topic))
+
+        if blogData.location:
+            blog.tagged_location.connect(Location.nodes.get(uid=blogData.location))
+
+        return blog.uid
+
+
+class TopicResponse(BaseModel):
+    id: str
+    name: str
+
+
+@router.get("/topic", response_model=List[TopicResponse])
+async def get_topics(_=Depends(get_registered_user)):
+    return get_query_response(GET_ALL_TOPICS_QUERY)
 
 
 @router.post("/like")

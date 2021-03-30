@@ -229,6 +229,13 @@ RETURN
     city.longitude AS longitude
 """
 
+GET_ALL_TOPICS_QUERY = """
+MATCH (topic:Topic)
+RETURN
+    topic.uid AS id,
+    topic.name AS name
+"""
+
 HOTEL_SEARCH_QUERY = """
 MATCH
     (hotel:Hotel)-[:LOCATED_IN]->(city:City {uid:$cityId})
