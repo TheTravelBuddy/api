@@ -31,8 +31,8 @@ class BlogApiResponse(BaseModel):
     content: str
     publishedOn: datetime
     photos: List[AnyUrl]
-    location: str
-    topic: str
+    location: Optional[str]
+    topic: Optional[str]
     authorName: str
     authorProfile: AnyUrl
     likes: int
@@ -42,6 +42,7 @@ class BlogApiResponse(BaseModel):
 
 @router.get("", response_model=BlogApiResponse)
 async def get_blog_data(blog=Depends(get_blog), user=Depends(get_registered_user)):
+    print(blog)
     return BlogApiResponse(
         **get_query_response(
             GET_BLOG_DETAILS_QUERY, {"blog": blog.uid, "user": user.uid}

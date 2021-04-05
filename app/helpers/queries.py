@@ -1,21 +1,23 @@
 GET_BLOG_DETAILS_QUERY = """
 MATCH
-    (blog:Blog {uid:$blog})-[:AUTHOR_OF]-(traveller:Traveller),
-    (blog)-[:TAGGED_TOPIC]-(topic),
-    (blog)-[:TAGGED_LOCATION]-(location)
+    (blog:Blog {uid:$blog})-[:AUTHOR_OF]-(traveller:Traveller)
 OPTIONAL MATCH
     (blog)-[like:LIKES_BLOG]-()
+WITH
+    COUNT(like) AS likes, blog, traveller
+OPTIONAL MATCH (blog)-[:TAGGED_LOCATION]-(location)
+OPTIONAL MATCH (blog)-[:TAGGED_TOPIC]-(topic)
 RETURN
     blog.uid AS id,
     blog.title AS title,
     blog.content AS content,
     blog.published_on AS publishedOn,
     blog.photos AS photos,
+    likes,
     topic.name AS topic,
     location.name AS location,
     traveller.name AS authorName,
     traveller.profile_picture AS authorProfile,
-    COUNT(like) AS likes,
     EXISTS ((blog)-[:LIKES_BLOG]-(:User {uid:$user})) AS liked
 """
 
@@ -391,18 +393,14 @@ WHERE
     toLower(package.name) CONTAINS $query
     AND package.price >= $budgetMin
     AND package.price <= $budgetMax
-CALL {
-    WITH package
-    MATCH
-        (package:Package)-[:HAS_DAY]->(day:PackageDay)
-    RETURN COUNT(day) AS days
-}
+MATCH
+    (package:Package)-[:HAS_DAY]->(day:PackageDay)
 RETURN
     package.uid AS id,
     package.photos[0] AS coverUri,
     package.name AS name,
     rating,
-    days,
+    COUNT(day) AS days,
     package.price AS price
 ORDER BY rating DESC
 """
@@ -451,4 +449,104 @@ RETURN
         date: booking.booking_date
     } AS booking,
     agency
+"""
+
+GET_USER_BOOKINGS_QUERY = """
+MATCH (user:User {uid: $user})
+CALL {
+    WITH user
+    MATCH
+        (user)-[:HAS_BOOKING]->(booking:HotelBooking),
+        (booking)-[:FOR_HOTEL]->(hotel:Hotel)-[:LOCATED_IN]->(city:City)
+    OPTIONAL MATCH
+        (hotel)-[review:REVIEWED_HOTEL]-()
+    RETURN
+        booking.uid AS id,
+        booking.booked_at AS bookedAt,
+        {
+            id: hotel.uid,
+            name: hotel.name,
+            locality: hotel.locality,
+            coverUri: hotel.photos[0],
+            city: city.name,
+            rating: AVG(review.rating),
+            phone: hotel.phone,
+            price: hotel.price
+        } AS details,
+        {
+            adults: booking.adults,
+            children: booking.children,
+            rooms: booking.rooms,
+            days: booking.days,
+            date: booking.booking_date
+        } AS booking,
+        "HOTEL" AS type
+    UNION ALL
+    WITH user
+    MATCH
+        (user)-[:HAS_BOOKING]->(booking:PackageBooking),
+        (booking)-[:FOR_PACKAGE]->(package:Package)
+    OPTIONAL MATCH
+        (package)-[review:REVIEWED_PACKAGE]-()
+    WITH package, booking, AVG(review.rating) AS rating
+    CALL {
+        WITH package
+        MATCH
+            (package:Package)-[:HAS_DAY]->(day:PackageDay)
+        RETURN COUNT(day) AS days
+    }
+    RETURN
+        booking.uid AS id,
+        booking.booked_at AS bookedAt,
+        {
+            id: package.uid,
+            name: package.name,
+            coverUri: package.photos[0],
+            rating: rating,
+            price: package.price,
+            days: days
+        } AS details,
+        {
+            people: booking.people,
+            date: booking.booking_date
+        } AS booking,
+        "PACKAGE" AS type
+}
+RETURN id, bookedAt, details, booking, type
+ORDER BY bookedAt DESC
+"""
+
+GET_USER_BLOGS_QUERY = """
+MATCH
+    (blog)-[:AUTHOR_OF]-(user:User {uid: $user})
+OPTIONAL MATCH
+    (blog)-[:TAGGED_LOCATION]-(location:Location)
+CALL {
+    WITH blog
+    OPTIONAL MATCH
+        (blog:Blog)-[like:LIKES_BLOG]-()
+    RETURN
+        COUNT(like) AS likes
+}
+RETURN
+    blog.uid AS id,
+    blog.title AS title,
+    blog.content AS content,
+    blog.published_on AS publishedOn,
+    likes,
+    user.name AS username,
+    location.name AS location
+ORDER BY likes DESC
+"""
+
+GET_FAVORITE_CITIES = """
+MATCH
+    (user:User {uid:$user})-[:LIKES_CITY]-(city:City)
+OPTIONAL MATCH
+    (city)-[review:REVIEWED_CITY]-()
+RETURN
+    city.uid AS id,
+    city.photos[0] AS coverUri,
+    city.name AS name,
+    AVG(review.rating) AS rating
 """
