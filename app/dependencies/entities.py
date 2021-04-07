@@ -1,6 +1,6 @@
 from fastapi import HTTPException, status
 
-from ..models.database import Blog, Hotel, HotelBooking, Package, PackageBooking
+from ..models.database import Blog, City, Hotel, HotelBooking, Package, PackageBooking
 
 
 async def get_blog(blogId: str):
@@ -9,6 +9,15 @@ async def get_blog(blogId: str):
     except Blog.DoesNotExist:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Blog not found."
+        )
+
+
+async def get_city(cityId: str):
+    try:
+        return City.nodes.get(uid=cityId)
+    except City.DoesNotExist:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="City not found."
         )
 
 

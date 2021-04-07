@@ -20,6 +20,23 @@ def seed_hotel_city_relations(hotels, cities):
     hotels["hotel16"].located_in.connect(cities["Ahmedabad"])
 
 
+def seed_attraction_city_relations(attraction, cities):
+    attraction["GOI"].located_in.connect(cities["Mumbai"])
+    attraction["sgnp"].located_in.connect(cities["Mumbai"])
+    attraction["rcwm"].located_in.connect(cities["Mumbai"])
+    attraction["trf"].located_in.connect(cities["Delhi"])
+    attraction["qm"].located_in.connect(cities["Delhi"])
+    attraction["dhnv"].located_in.connect(cities["Delhi"])
+    attraction["gbs"].located_in.connect(cities["Delhi"])
+    attraction["swp"].located_in.connect(cities["Pune"])
+    attraction["akp"].located_in.connect(cities["Pune"])
+    attraction["sf"].located_in.connect(cities["Pune"])
+    attraction["cp"].located_in.connect(cities["Jaipur"])
+    attraction["jm"].located_in.connect(cities["Jaipur"])
+    attraction["sr"].located_in.connect(cities["Ahmedabad"])
+    attraction["Balvatika"].located_in.connect(cities["Ahmedabad"])
+
+
 def seed_package_review_relation(travellers, packages):
     travellers["Selena"].reviewed_package.connect(
         packages["package1"],

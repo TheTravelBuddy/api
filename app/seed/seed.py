@@ -10,6 +10,7 @@ from .seed_blogs import seed_blog
 from .seed_bookings import seed_hotel, seed_package, seed_package_day
 from .seed_locations import seed_attraction, seed_city
 from .seed_relations import (
+    seed_attraction_city_relations,
     seed_city_review_relation,
     seed_hotel_city_relations,
     seed_hotel_like_relation,
@@ -33,7 +34,7 @@ def seed_db():
         print("Seeding Nodes...")
         hotels = seed_hotel()
         packages = seed_package()
-        seed_attraction()
+        attractions = seed_attraction()
         cities = seed_city()
         agencies = seed_agency()
         seed_hotel_owner()
@@ -44,6 +45,7 @@ def seed_db():
         seed_package_day(packages, cities)
 
         print("Seeding Relations...")
+        seed_attraction_city_relations(attractions, cities)
         seed_hotel_city_relations(hotels, cities)
         seed_blog_relations(travellers, blogs)
         seed_package_review_relation(travellers, packages)

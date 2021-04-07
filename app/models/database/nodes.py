@@ -127,7 +127,6 @@ class Location(StructuredNode):
     latitude = FloatProperty(required=True)
     longitude = FloatProperty(required=True)
     photos = ArrayProperty(base_property=StringProperty(), default=[])
-    is_in = RelationshipFrom("Blog", "IS_IN", model=TaggedRel)
 
     tagged_in_blog = RelationshipFrom("Blog", "TAGGED_LOCATION", model=TaggedRel)
 
@@ -143,12 +142,18 @@ class City(Location):
 
 
 class Attraction(Location):
+    timing = StringProperty()
+
     liked_by = RelationshipFrom("Traveller", "LIKES_ATTRACTION", model=LikesRel)
     reviewed_by = RelationshipFrom(
         "Traveller", "REVIEWED_ATTRACTION", model=ReviewedRel
     )
 
     visited_by = RelationshipFrom("Traveller", "VISITED_ATTRACTION", model=VisitedRel)
+
+    located_in = RelationshipTo(
+        "City", "LOCATED_IN", model=OwnsRel, cardinality=cardinality.One
+    )
 
 
 class Shop(Location):

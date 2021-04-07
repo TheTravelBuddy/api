@@ -550,3 +550,130 @@ RETURN
     city.name AS name,
     AVG(review.rating) AS rating
 """
+
+GET_CITY_DETAILS_QUERY = """
+MATCH
+    (city:City {uid:$city})
+OPTIONAL MATCH
+    (city)-[review:REVIEWED_CITY]-()
+WITH
+    AVG(review.rating) AS rating,
+    city
+CALL {
+    WITH city
+    MATCH
+        (city)-[review:REVIEWED_CITY]-(user)
+    WITH
+        {
+            id: ID(review),
+            name: user.name,
+            profileUri: user.profile_picture,
+            rating: review.rating,
+            review: review.review,
+            publishedOn: review.datetime
+        } AS review
+    ORDER BY review.publishedOn DESC
+    LIMIT 3
+    RETURN COLLECT(review) AS reviews
+}
+CALL {
+    WITH city
+    MATCH
+        (city)-[:LOCATED_IN]-(attraction:Attraction)
+    OPTIONAL MATCH
+        (attraction)-[review:REVIEWED_ATTRACTION]-()
+    WITH
+        attraction,
+        city,
+        AVG(review.rating) AS rating
+    ORDER BY rating DESC
+    LIMIT 5
+    RETURN
+        COLLECT({
+            id: attraction.uid,
+            coverUri: attraction.photos[0],
+            name: attraction.name,
+            rating: rating
+        }) AS topAttractions
+}
+CALL {
+    WITH city
+    MATCH
+        (package:Package)-[:HAS_DAY]->(:PackageDay)-[:VISITS_CITY]-(city)
+    OPTIONAL MATCH
+        (package)-[review:REVIEWED_PACKAGE]-()
+    WITH
+        package,
+        AVG(review.rating) AS rating
+    ORDER BY rating DESC
+    LIMIT 5
+    MATCH
+        (package:Package)-[:HAS_DAY]->(day:PackageDay)
+    WITH
+        package,
+        COUNT(day) AS days,
+        rating
+    RETURN
+        COLLECT({
+            id: package.uid,
+            coverUri: package.photos[0],
+            name: package.name,
+            price: package.price,
+            days: days,
+            rating: rating
+        }) AS topPackages
+}
+CALL {
+    WITH city
+    MATCH
+        (hotel:Hotel)-[:LOCATED_IN]->(city)
+    OPTIONAL MATCH
+        (hotel)-[review:REVIEWED_HOTEL]-()
+    WITH hotel, city, AVG(review.rating) as rating
+    ORDER BY rating DESC
+    LIMIT 5
+    RETURN
+        COLLECT({
+            id: hotel.uid,
+            coverUri: hotel.photos[0],
+            name: hotel.name,
+            city: city.name,
+            locality: hotel.locality,
+            price: hotel.price,
+            rating: rating
+        }) AS topHotels
+}
+CALL {
+    WITH city
+    MATCH
+        (blog:Blog)-[like:LIKES_BLOG]-(),
+        (blog:Blog)-[:AUTHOR_OF]-(author),
+        (blog:Blog)-[:TAGGED_LOCATION]-(city)
+    WITH blog, author, city, COUNT(like) AS likes
+    ORDER BY likes DESC
+    LIMIT 5
+    RETURN
+        COLLECT({
+            id: blog.uid,
+            title: blog.title,
+            content: LEFT(blog.content, 100),
+            likes: likes,
+            authorProfile: author.profile_picture
+        }) AS topBlogs
+}
+RETURN
+    city.uid AS id,
+    city.photos AS photos,
+    city.name AS name,
+    city.description AS about,
+    city.latitude AS latitude,
+    city.longitude AS longitude,
+    rating,
+    EXISTS ((city)-[:LIKES_CITY]-(:User {uid:$user})) AS liked,
+    EXISTS ((city)-[:VISITED_CITY]-(:User {uid:$user})) AS visited,
+    reviews,
+    topAttractions,
+    topPackages,
+    topHotels,
+    topBlogs
+"""

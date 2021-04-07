@@ -56,7 +56,8 @@ def seed_attraction():
             ),
             latitude=18.9204,
             longitude=72.8301,
-            photos=[],
+            photos=["https://picsum.photos/1169"],
+            timing="7:30 AM - 5:00 PM, Monday-Saturday",
         ).save(),
         sgnp=Attraction(
             name="Sanjay Gandhi National Park",
@@ -67,7 +68,8 @@ def seed_attraction():
             ),
             latitude=19.2288,
             longitude=72.9182,
-            photos=[],
+            photos=["https://picsum.photos/1170"],
+            timing="7:30 AM - 5:00 PM, Monday-Saturday",
         ).save(),
         rcwm=Attraction(
             name="Red Carpet Wax Museum",
@@ -77,7 +79,8 @@ def seed_attraction():
             ),
             latitude=19.099356,
             longitude=72.916344,
-            photos=[],
+            photos=["https://picsum.photos/1171"],
+            timing="7:30 AM - 5:00 PM, Monday-Saturday",
         ).save(),
         trf=Attraction(
             name="The Red Fort",
@@ -88,6 +91,7 @@ def seed_attraction():
             latitude=28.656473,
             longitude=77.242943,
             photos=[],
+            timing="7:30 AM - 5:00 PM, Monday-Saturday",
         ).save(),
         qm=Attraction(
             name=" Qutub Minar",
@@ -98,7 +102,8 @@ def seed_attraction():
             ),
             latitude=28.6266,
             longitude=77.2091,
-            photos=[],
+            photos=["https://picsum.photos/1172"],
+            timing="7:30 AM - 5:00 PM, Monday-Saturday",
         ).save(),
         dhnv=Attraction(
             name="Dada Hari Ni Vav",
@@ -109,6 +114,7 @@ def seed_attraction():
             latitude=23.0512,
             longitude=72.6055,
             photos=[],
+            timing="7:30 AM - 5:00 PM, Monday-Saturday",
         ).save(),
         sr=Attraction(
             name="Sarkhej Roza",
@@ -119,7 +125,8 @@ def seed_attraction():
             ),
             latitude=22.9960,
             longitude=72.4997,
-            photos=[],
+            photos=["https://picsum.photos/1173"],
+            timing="7:30 AM - 5:00 PM, Monday-Saturday",
         ).save(),
         Balvatika=Attraction(
             name="Balvatika",
@@ -129,7 +136,8 @@ def seed_attraction():
             ),
             latitude=23.0022,
             longitude=72.3604,
-            photos=[],
+            photos=["https://picsum.photos/1174"],
+            timing="7:30 AM - 5:00 PM, Monday-Saturday",
         ).save(),
         swp=Attraction(
             name="Shaniwar Wada Palace",
@@ -139,7 +147,8 @@ def seed_attraction():
             ),
             latitude=18.5181,
             longitude=73.8533,
-            photos=[],
+            photos=["https://picsum.photos/1175"],
+            timing="7:30 AM - 5:00 PM, Monday-Saturday",
         ).save(),
         akp=Attraction(
             name="Aga Khan Palace",
@@ -149,7 +158,8 @@ def seed_attraction():
             ),
             latitude=18.5523,
             longitude=73.9015,
-            photos=[],
+            photos=["https://picsum.photos/1176"],
+            timing="7:30 AM - 5:00 PM, Monday-Saturday",
         ).save(),
         dht=Attraction(
             name="Dagdusheth Halwai Temple",
@@ -159,7 +169,8 @@ def seed_attraction():
             ),
             latitude=18.5098,
             longitude=73.8535,
-            photos=[],
+            photos=["https://picsum.photos/1177"],
+            timing="7:30 AM - 5:00 PM, Monday-Saturday",
         ).save(),
         gbs=Attraction(
             name="Gurudwara Bangle Sahib",
@@ -169,7 +180,8 @@ def seed_attraction():
             ),
             latitude=28.6267,
             longitude=77.2089,
-            photos=[],
+            photos=["https://picsum.photos/1178"],
+            timing="7:30 AM - 5:00 PM, Monday-Saturday",
         ).save(),
         cp=Attraction(
             name="City Palace",
@@ -183,7 +195,8 @@ def seed_attraction():
             ),
             latitude=26.9258,
             longitude=75.8237,
-            photos=[],
+            photos=["https://picsum.photos/1179"],
+            timing="7:30 AM - 5:00 PM, Monday-Saturday",
         ).save(),
         jm=Attraction(
             name="Jantar Mantar",
@@ -196,7 +209,8 @@ def seed_attraction():
             ),
             latitude=26.9248,
             longitude=75.8246,
-            photos=[],
+            photos=["https://picsum.photos/1180"],
+            timing="7:30 AM - 5:00 PM, Monday-Saturday",
         ).save(),
         sf=Attraction(
             name="Sinhagad Fort",
@@ -206,7 +220,8 @@ def seed_attraction():
             ),
             latitude=18.21563,
             longitude=73.451897,
-            photos=[],
+            photos=["https://picsum.photos/1181"],
+            timing="7:30 AM - 5:00 PM, Monday-Saturday",
         ).save(),
     )
 
