@@ -154,7 +154,7 @@ RETURN
     round(distance(
         point({latitude: hotel.latitude, longitude: hotel.longitude}),
         point({latitude: $latitude, longitude: $longitude})
-    ) / 1000) AS distance,
+    ) / 1000) AS distance
 ORDER BY distance
 LIMIT $n
 """
@@ -676,4 +676,36 @@ RETURN
     topPackages,
     topHotels,
     topBlogs
+"""
+
+GET_EXPLORE_DATA_QUERY = """
+MATCH
+    (city:City {uid:$city})
+CALL {
+    WITH city
+    MATCH
+        (city)-[:LOCATED_IN]-(attraction:Attraction)
+    OPTIONAL MATCH
+        (attraction)-[review:REVIEWED_ATTRACTION]-()
+    WITH
+        attraction,
+        city,
+        AVG(review.rating) AS rating,
+        round(distance(
+            point({latitude: attraction.latitude, longitude: attraction.longitude}),
+            point({latitude: $latitude, longitude: $longitude})
+        ) / 1000) AS distance
+    ORDER BY distance
+    LIMIT 5
+    RETURN
+        COLLECT({
+            id: attraction.uid,
+            coverUri: attraction.photos[0],
+            name: attraction.name,
+            rating: rating,
+            distance: distance
+        }) AS nearbyAttractions
+}
+RETURN
+    nearbyAttractions
 """
