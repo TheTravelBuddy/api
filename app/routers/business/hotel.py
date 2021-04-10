@@ -8,7 +8,7 @@ from ...helpers.conversion import deflate_request
 from ...helpers.db_query import get_query_response
 from ...helpers.queries import GET_OWNED_HOTELS_QUERY
 from ...helpers.validation import HotelAmenitiesEnum
-from ...models.database import Hotel, HotelOwner
+from ...models.database import Hotel
 from .auth import get_business
 
 router = APIRouter()
