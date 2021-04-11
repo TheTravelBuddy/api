@@ -446,3 +446,64 @@ RETURN
     shop.photos[0] as coverUri
 ORDER BY rating DESC
 """
+
+GET_ALL_FAV_QUERY = """
+MATCH (t:Traveller {uid:$userId})
+CALL {
+WITH t
+OPTIONAL MATCH (t)-[lb:LIKES_BLOG]-(b:Blog)
+WITH b ORDER BY lb.datetime DESC LIMIT 3
+RETURN
+    COLLECT({id:b.uid,
+    title:b.title,
+    photos:b.photos,
+    published:b.published_on,
+    content:b.content
+    })
+AS favblogs
+}
+CALL {
+WITH t
+OPTIONAL MATCH (t)-[lh:LIKES_HOTEL]-(h:Hotel)
+WITH h ORDER BY lh.datetime DESC LIMIT 3
+RETURN
+    COLLECT({
+    id:h.uid,
+    name:h.name,
+    description:h.description,
+    amenities:h.amenities,
+    photos:h.photos,
+    phone:h.phone,
+    address:h.address,
+    locality:h.locality,
+    postal_code:h.postal_code,
+    latitude:h.latitude,
+    longitude:h.longitude,
+    price:h.price
+    })
+AS favhotels
+}
+CALL {
+WITH t
+OPTIONAL MATCH (t)-[ls:LIKES_SHOP]-(s:Shop)
+WITH s ORDER BY ls.datetime DESC LIMIT 3
+RETURN
+    COLLECT({
+    id:s.uid,
+    name:s.name,
+    description:s.description,
+    photos:s.photos,
+    address:s.address,
+    phone:s.phone,
+    locality:s.locality,
+    postal_code:s.postal_code,
+    latitude:s.latitude,
+    longitude:s.longitude
+    })
+AS favshops
+}
+RETURN
+    favblogs,
+    favhotels,
+    favshops
+"""
