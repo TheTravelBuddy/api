@@ -452,33 +452,28 @@ MATCH (t:Traveller {uid:$userId})
 CALL {
 WITH t
 OPTIONAL MATCH (t)-[lb:LIKES_BLOG]-(b:Blog)
-WITH b ORDER BY lb.datetime DESC LIMIT 3
+optional match (b)-[like:LIKES_BLOG]-()
+WITH b,count(like) as likes,lb ORDER BY lb.datetime DESC LIMIT 3
 RETURN
-    COLLECT({id:b.uid,
-    title:b.title,
-    photos:b.photos,
-    published:b.published_on,
-    content:b.content
+    COLLECT({
+        id:b.uid,
+        title:b.title,
+        content:left(b.content,100),
+        likes:likes
     })
 AS favblogs
 }
 CALL {
 WITH t
-OPTIONAL MATCH (t)-[lh:LIKES_HOTEL]-(h:Hotel)
-WITH h ORDER BY lh.datetime DESC LIMIT 3
+OPTIONAL MATCH (t)-[lh:LIKES_HOTEL]-(h:Hotel),(h)-[:LOCATED_IN]-(c:City)
+WITH h,c ORDER BY lh.datetime DESC LIMIT 3
 RETURN
     COLLECT({
     id:h.uid,
     name:h.name,
-    description:h.description,
-    amenities:h.amenities,
-    photos:h.photos,
-    phone:h.phone,
-    address:h.address,
+    coverUri:h.photos[0],
+    city:c.name,
     locality:h.locality,
-    postal_code:h.postal_code,
-    latitude:h.latitude,
-    longitude:h.longitude,
     price:h.price
     })
 AS favhotels
@@ -536,11 +531,42 @@ order by lb.datetime desc
 """
 GET_FAV_PACKAGE_QUERY = """
 match (t:Traveller {uid:$userId})-[lp:LIKES_PACKAGE]-(p:Package)
+optional match (p)-[review:REVIEWED_PACKAGE]-()
+with avg(review.rating) as rating,p,lp.datetime as datetime
+call {
+with p
+match (p)-[dayrel:HAS_DAY]-(pday:PackageDay)
+with dayrel.day AS day, pday
+order by day
+return
+count(day) AS days
+}
 return
 p.uid as id,
 p.name as name,
 p.price as price,
 p.photos as photos,
+rating,
+days,
 p.description as description
-order by lp.datetime desc
+order by datetime desc
+"""
+
+GET_FAV_SHOPS_QUERY = """
+match (t:Traveller {uid:"2062eae3b22e41fbb35841e3dd7cf1fd"})-[ls:LIKES_SHOP]-(s:Shop)
+optional match (s)-[review:REVIEWED_SHOP]-()
+with avg(review.rating) as rating,s,ls.datetime as datetime
+return
+    s.uid as id,
+    s.name as name,
+    s.photos as photos,
+    s.description as description,
+    s.phone as phone,
+    s.address as address,
+    s.locality as locality,
+    rating,
+    s.postal_code as postal_code,
+    s.latitude as latitude,
+    s.longitude as longitude
+order by datetime desc
 """
