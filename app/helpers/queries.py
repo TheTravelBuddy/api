@@ -242,11 +242,11 @@ RETURN
 """
 GET_OWNED_HOTELS_QUERY = """
 MATCH (hotelowner:HotelOwner {uid:$hotelierId})-[:OWNS_HOTEL]-(hotel:Hotel),
-	(hotel)-[:LOCATED_IN]-(city:City)
+    (hotel)-[:LOCATED_IN]-(city:City)
 OPTIONAL MATCH
-	(hotel)-[review:REVIEWED_HOTEL]-()
+    (hotel)-[review:REVIEWED_HOTEL]-()
 RETURN
-	hotel.uid AS id,
+    hotel.uid AS id,
     hotel.photos[0] AS coverUri,
     hotel.name AS name,
     city.name AS city,
@@ -411,21 +411,21 @@ RETURN
 
 GET_OFFERED_PACKAGES_QUERY = """
 MATCH
-	(agency:Agency {uid:$agencyId})-[:OFFERS_PACKAGE]-(package)
+    (agency:Agency {uid:$agencyId})-[:OFFERS_PACKAGE]-(package)
 OPTIONAL MATCH
-	(package)-[review:REVIEWED_PACKAGE]-()
+    (package)-[review:REVIEWED_PACKAGE]-()
 CALL {
-	WITH package
+    WITH package
     MATCH
         (package)-[dayRel:HAS_DAY]-(packageDay:PackageDay)
     WITH dayRel.day AS day, packageDay
     ORDER BY day
-	RETURN
-       COUNT(day) AS days
+    RETURN
+        COUNT(day) AS days
 }
 RETURN
-	package.uid as id,
-	package.name as name,
+    package.uid as id,
+    package.name as name,
     package.price as price,
     package.photos[0] as coverUri,
     AVG(review.rating) as rating,
@@ -435,14 +435,14 @@ RETURN
 GET_OWNED_SHOPS_QUERY = """
 MATCH (shopier:ShopOwner {uid:$shopierId})-[:OWNS_SHOP]-(shop:Shop)
 OPTIONAL MATCH (shop)-[review:REVIEWED_SHOP]-()
-RETURN 
-	shop.uid as id,
+RETURN
+    shop.uid as id,
     shop.name as name,
     avg(review.rating) as rating,
     shop.locality as locality,
     shop.latitude as latitude,
     shop.longitude as longitude,
     shop.phone as phone,
-    shop.photos[0] as coverUri 
+    shop.photos[0] as coverUri
 ORDER BY rating DESC
 """

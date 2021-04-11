@@ -7,11 +7,7 @@ from pydantic import AnyUrl, BaseModel, confloat, constr
 
 from ...helpers.conversion import deflate_request
 from ...helpers.db_query import get_query_response
-from ...helpers.queries import (
-    GET_HOTEL_DETAILS_QUERY,
-    GET_HOTEL_REVIEWS_QUERY,
-    GET_OWNED_HOTELS_QUERY,
-)
+from ...helpers.queries import GET_HOTEL_REVIEWS_QUERY, GET_OWNED_HOTELS_QUERY
 from ...helpers.validation import PHONE_NUMBER_REGEX, HotelAmenitiesEnum
 from ...models.database import Hotel
 from .auth import get_business
@@ -39,7 +35,7 @@ MATCH
 OPTIONAL MATCH
     (hotel)-[review:REVIEWED_HOTEL]-()
 OPTIONAL MATCH
-	(hotel)-[likes:LIKES_HOTEL]-()
+    (hotel)-[likes:LIKES_HOTEL]-()
 RETURN
     hotel.uid AS id,
     hotel.photos AS photos,
@@ -89,7 +85,7 @@ class HotelApiResponse(BaseModel):
 # user=Depends(get_business)
 @router.get("/owned")
 async def get_owned_hotels(hotelier=Depends(get_business)):
-    return get_query_response(GET_OWNED_HOTELS, {"hotelierId": hotelier.uid})
+    return get_query_response(GET_OWNED_HOTELS_QUERY, {"hotelierId": hotelier.uid})
 
 
 @router.post("/add")
