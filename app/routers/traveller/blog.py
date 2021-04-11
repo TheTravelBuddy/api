@@ -8,7 +8,11 @@ from pydantic import AnyUrl, BaseModel
 from ...dependencies.auth import get_registered_user
 from ...dependencies.entities import get_blog
 from ...helpers.db_query import get_query_response
-from ...helpers.queries import GET_BLOG_COMMENTS_QUERY, GET_BLOG_DETAILS_QUERY
+from ...helpers.queries import (
+    GET_BLOG_COMMENTS_QUERY,
+    GET_BLOG_DETAILS_QUERY,
+    GET_FAV_BLOG_QUERY,
+)
 
 router = APIRouter()
 
@@ -58,3 +62,8 @@ async def blog_unlike(blog=Depends(get_blog), user=Depends(get_registered_user))
     with db.transaction:
         if user.likes_blog.is_connected(blog):
             user.likes_blog.disconnect(blog)
+
+
+@router.get("/favs")
+async def get_fav_blogs(user: str):
+    return get_query_response(GET_FAV_BLOG_QUERY, {"userId": user})

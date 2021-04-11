@@ -510,13 +510,27 @@ RETURN
 GET_FAV_HOTELS_QUERY = """
 match (t:Traveller {uid:$userId})-[lh:LIKES_HOTEL]-(h:Hotel)
 return
-h.uid as id,
-h.name as name,
-h.description as description,
-h.phone as phone,
-h.address as address,
-h.locality as locality,
-h.postal_code as postal_code,
-h.photos as photos,
-h.price as price
+    h.uid as id,
+    h.name as name,
+    h.description as description,
+    h.phone as phone,
+    h.address as address,
+    h.locality as locality,
+    h.postal_code as postal_code,
+    h.latitude as latitude,
+    h.longitude as longitude,
+    h.photos as photos,
+    h.price as price
+order by lh.datetime desc
+"""
+
+GET_FAV_BLOG_QUERY = """
+match (t:Traveller {uid:$userId})-[lb:LIKES_BLOG]-(b:Blog)
+return
+    b.uid as id,
+    b.title as title,
+    b.content as content,
+    b.photos as photos,
+    b.published_on as published_on
+order by lb.datetime desc
 """
