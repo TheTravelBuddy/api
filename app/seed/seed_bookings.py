@@ -456,10 +456,10 @@ def seed_package_day(packages, cities):
         description="Return to pune in flight",
     ).save()
 
-    day1.visits_city.connect(cities["Pune"])
-    day3.visits_city.connect(cities["Mumbai"])
-    day4.visits_city.connect(cities["Mumbai"])
-    day5.visits_city.connect(cities["Pune"])
+    day1.visits_city.connect(cities["city2"])
+    day3.visits_city.connect(cities["city1"])
+    day4.visits_city.connect(cities["city1"])
+    day5.visits_city.connect(cities["city2"])
 
     packages["package1"].has_day.connect(day1, {"day": 1})
     packages["package1"].has_day.connect(day2, {"day": 2})

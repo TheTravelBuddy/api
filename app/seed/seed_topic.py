@@ -3,8 +3,8 @@ from ..models.database import Topic
 
 def seed_topic():
     return dict(
-        adventure=Topic(name="Adventure").save(),
-        cuisine=Topic(name="Cuisine").save(),
-        beaches=Topic(name="Beaches").save(),
-        history=Topic(name="Historical").save(),
+        topic1=Topic(name="Adventure").save(),
+        topic2=Topic(name="Cuisine").save(),
+        topic3=Topic(name="Beaches").save(),
+        topic4=Topic(name="Historical").save(),
     )

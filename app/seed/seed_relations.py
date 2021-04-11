@@ -1,27 +1,27 @@
 def seed_hotel_city_relations(hotels, cities):
-    hotels["hotel1"].located_in.connect(cities["Mumbai"])
-    hotels["hotel2"].located_in.connect(cities["Mumbai"])
-    hotels["hotel3"].located_in.connect(cities["Mumbai"])
+    hotels["hotel1"].located_in.connect(cities["city1"])
+    hotels["hotel2"].located_in.connect(cities["city1"])
+    hotels["hotel3"].located_in.connect(cities["city1"])
 
-    hotels["hotel5"].located_in.connect(cities["Delhi"])
-    hotels["hotel6"].located_in.connect(cities["Delhi"])
-    hotels["hotel7"].located_in.connect(cities["Delhi"])
+    hotels["hotel5"].located_in.connect(cities["city3"])
+    hotels["hotel6"].located_in.connect(cities["city3"])
+    hotels["hotel7"].located_in.connect(cities["city3"])
 
-    hotels["hotel8"].located_in.connect(cities["Pune"])
-    hotels["hotel9"].located_in.connect(cities["Pune"])
-    hotels["hotel10"].located_in.connect(cities["Pune"])
+    hotels["hotel8"].located_in.connect(cities["city2"])
+    hotels["hotel9"].located_in.connect(cities["city2"])
+    hotels["hotel10"].located_in.connect(cities["city2"])
 
-    hotels["hotel11"].located_in.connect(cities["Jaipur"])
-    hotels["hotel12"].located_in.connect(cities["Jaipur"])
-    hotels["hotel13"].located_in.connect(cities["Jaipur"])
+    hotels["hotel11"].located_in.connect(cities["city4"])
+    hotels["hotel12"].located_in.connect(cities["city4"])
+    hotels["hotel13"].located_in.connect(cities["city4"])
 
-    hotels["hotel14"].located_in.connect(cities["Ahmedabad"])
-    hotels["hotel15"].located_in.connect(cities["Ahmedabad"])
-    hotels["hotel16"].located_in.connect(cities["Ahmedabad"])
+    hotels["hotel14"].located_in.connect(cities["city5"])
+    hotels["hotel15"].located_in.connect(cities["city5"])
+    hotels["hotel16"].located_in.connect(cities["city5"])
 
 
 def seed_package_review_relation(travellers, packages):
-    travellers["Selena"].reviewed_package.connect(
+    travellers["traveller1"].reviewed_package.connect(
         packages["package1"],
         {
             "rating": 3,
@@ -29,7 +29,7 @@ def seed_package_review_relation(travellers, packages):
             "photos": ["https://picsum.photos/1090"],
         },
     )
-    travellers["Justin"].reviewed_package.connect(
+    travellers["traveller2"].reviewed_package.connect(
         packages["package1"],
         {
             "rating": 4,
@@ -37,7 +37,7 @@ def seed_package_review_relation(travellers, packages):
             "photos": ["https://picsum.photos/1090"],
         },
     )
-    travellers["Justin"].reviewed_package.connect(
+    travellers["traveller2"].reviewed_package.connect(
         packages["package2"],
         {
             "rating": 5,
@@ -45,7 +45,7 @@ def seed_package_review_relation(travellers, packages):
             "photos": ["https://picsum.photos/1090"],
         },
     )
-    travellers["Lucifer"].reviewed_package.connect(
+    travellers["traveller3"].reviewed_package.connect(
         packages["package2"],
         {
             "rating": 4,
@@ -53,7 +53,7 @@ def seed_package_review_relation(travellers, packages):
             "photos": ["https://picsum.photos/1090"],
         },
     )
-    travellers["Selena"].reviewed_package.connect(
+    travellers["traveller1"].reviewed_package.connect(
         packages["package2"],
         {
             "rating": 4,
@@ -61,7 +61,7 @@ def seed_package_review_relation(travellers, packages):
             "photos": ["https://picsum.photos/1090"],
         },
     )
-    travellers["Selena"].reviewed_package.connect(
+    travellers["traveller4"].reviewed_package.connect(
         packages["package3"],
         {
             "rating": 5,
@@ -69,7 +69,7 @@ def seed_package_review_relation(travellers, packages):
             "photos": ["https://picsum.photos/1090"],
         },
     )
-    travellers["Ester"].reviewed_package.connect(
+    travellers["traveller5"].reviewed_package.connect(
         packages["package3"],
         {
             "rating": 3,
@@ -77,7 +77,7 @@ def seed_package_review_relation(travellers, packages):
             "photos": ["https://picsum.photos/1090"],
         },
     )
-    travellers["Ester"].reviewed_package.connect(
+    travellers["traveller5"].reviewed_package.connect(
         packages["package3"],
         {
             "rating": 3,
@@ -85,7 +85,7 @@ def seed_package_review_relation(travellers, packages):
             "photos": ["https://picsum.photos/1090"],
         },
     )
-    travellers["Justin"].reviewed_package.connect(
+    travellers["traveller2"].reviewed_package.connect(
         packages["package4"],
         {
             "rating": 3,
@@ -93,7 +93,7 @@ def seed_package_review_relation(travellers, packages):
             "photos": ["https://picsum.photos/1090"],
         },
     )
-    travellers["Selena"].reviewed_package.connect(
+    travellers["traveller4"].reviewed_package.connect(
         packages["package4"],
         {
             "rating": 5,
@@ -101,7 +101,7 @@ def seed_package_review_relation(travellers, packages):
             "photos": ["https://picsum.photos/1090"],
         },
     )
-    travellers["Selena"].reviewed_package.connect(
+    travellers["traveller4"].reviewed_package.connect(
         packages["package5"],
         {
             "rating": 4,
@@ -109,7 +109,7 @@ def seed_package_review_relation(travellers, packages):
             "photos": ["https://picsum.photos/1090"],
         },
     )
-    travellers["Justin"].reviewed_package.connect(
+    travellers["traveller2"].reviewed_package.connect(
         packages["package5"],
         {
             "rating": 5,
@@ -117,7 +117,7 @@ def seed_package_review_relation(travellers, packages):
             "photos": ["https://picsum.photos/1090"],
         },
     )
-    travellers["Justin"].reviewed_package.connect(
+    travellers["traveller2"].reviewed_package.connect(
         packages["package6"],
         {
             "rating": 4,
@@ -125,7 +125,7 @@ def seed_package_review_relation(travellers, packages):
             "photos": ["https://picsum.photos/1090"],
         },
     )
-    travellers["Ester"].reviewed_package.connect(
+    travellers["traveller5"].reviewed_package.connect(
         packages["package6"],
         {
             "rating": 5,
@@ -136,70 +136,70 @@ def seed_package_review_relation(travellers, packages):
 
 
 def seed_city_review_relation(travellers, cities):
-    travellers["Selena"].reviewed_city.connect(
-        cities["Mumbai"],
+    travellers["traveller4"].reviewed_city.connect(
+        cities["city1"],
         {"rating": 3, "review": "sweet city", "photos": ["https://picsum.photos/1666"]},
     )
-    travellers["Justin"].reviewed_city.connect(
-        cities["Mumbai"],
+    travellers["traveller2"].reviewed_city.connect(
+        cities["city1"],
         {"rating": 3, "review": "sweet city", "photos": ["https://picsum.photos/1666"]},
     )
-    travellers["Lucifer"].reviewed_city.connect(
-        cities["Mumbai"],
+    travellers["traveller3"].reviewed_city.connect(
+        cities["city1"],
         {"rating": 5, "review": "sweet city", "photos": ["https://picsum.photos/1666"]},
     )
-    travellers["Justin"].reviewed_city.connect(
-        cities["Pune"],
+    travellers["traveller2"].reviewed_city.connect(
+        cities["city2"],
         {"rating": 5, "review": "sweet city", "photos": ["https://picsum.photos/1666"]},
     )
-    travellers["Lucifer"].reviewed_city.connect(
-        cities["Pune"],
+    travellers["traveller3"].reviewed_city.connect(
+        cities["city2"],
         {"rating": 5, "review": "sweet city", "photos": ["https://picsum.photos/1666"]},
     )
-    travellers["Selena"].reviewed_city.connect(
-        cities["Pune"],
+    travellers["traveller4"].reviewed_city.connect(
+        cities["city2"],
         {"rating": 5, "review": "sweet city", "photos": ["https://picsum.photos/1666"]},
     )
-    travellers["Lucifer"].reviewed_city.connect(
-        cities["Delhi"],
+    travellers["traveller3"].reviewed_city.connect(
+        cities["city3"],
         {"rating": 4, "review": "sweet city", "photos": ["https://picsum.photos/1666"]},
     )
-    travellers["Justin"].reviewed_city.connect(
-        cities["Delhi"],
+    travellers["traveller2"].reviewed_city.connect(
+        cities["city3"],
         {"rating": 4, "review": "sweet city", "photos": ["https://picsum.photos/1666"]},
     )
-    travellers["Selena"].reviewed_city.connect(
-        cities["Delhi"],
+    travellers["traveller4"].reviewed_city.connect(
+        cities["city3"],
         {"rating": 3, "review": "sweet city", "photos": ["https://picsum.photos/1666"]},
     )
-    travellers["Jelena"].reviewed_city.connect(
-        cities["Jaipur"],
+    travellers["traveller4"].reviewed_city.connect(
+        cities["city4"],
         {"rating": 5, "review": "sweet city", "photos": ["https://picsum.photos/1666"]},
     )
-    travellers["Ester"].reviewed_city.connect(
-        cities["Jaipur"],
+    travellers["traveller5"].reviewed_city.connect(
+        cities["city4"],
         {"rating": 4, "review": "sweet city", "photos": ["https://picsum.photos/1666"]},
     )
-    travellers["Lucifer"].reviewed_city.connect(
-        cities["Jaipur"],
+    travellers["traveller3"].reviewed_city.connect(
+        cities["city4"],
         {"rating": 4, "review": "sweet city", "photos": ["https://picsum.photos/1666"]},
     )
-    travellers["Selena"].reviewed_city.connect(
-        cities["Ahmedabad"],
+    travellers["traveller4"].reviewed_city.connect(
+        cities["city5"],
         {"rating": 5, "review": "sweet city", "photos": ["https://picsum.photos/1666"]},
     )
-    travellers["Lucifer"].reviewed_city.connect(
-        cities["Ahmedabad"],
+    travellers["traveller3"].reviewed_city.connect(
+        cities["city5"],
         {"rating": 5, "review": "sweet city", "photos": ["https://picsum.photos/1666"]},
     )
-    travellers["Ester"].reviewed_city.connect(
-        cities["Ahmedabad"],
+    travellers["traveller5"].reviewed_city.connect(
+        cities["city5"],
         {"rating": 3, "review": "sweet city", "photos": ["https://picsum.photos/1666"]},
     )
 
 
 def seed_hotel_review_relation(travellers, hotels):
-    travellers["Selena"].reviewed_hotel.connect(
+    travellers["traveller4"].reviewed_hotel.connect(
         hotels["hotel1"],
         {
             "rating": 5,
@@ -209,7 +209,7 @@ def seed_hotel_review_relation(travellers, hotels):
             ],
         },
     )
-    travellers["Justin"].reviewed_hotel.connect(
+    travellers["traveller2"].reviewed_hotel.connect(
         hotels["hotel1"],
         {
             "rating": 3,
@@ -219,7 +219,7 @@ def seed_hotel_review_relation(travellers, hotels):
             ],
         },
     )
-    travellers["Lucifer"].reviewed_hotel.connect(
+    travellers["traveller3"].reviewed_hotel.connect(
         hotels["hotel2"],
         {
             "rating": 5,
@@ -229,7 +229,7 @@ def seed_hotel_review_relation(travellers, hotels):
             ],
         },
     )
-    travellers["Jelena"].reviewed_hotel.connect(
+    travellers["traveller4"].reviewed_hotel.connect(
         hotels["hotel3"],
         {
             "rating": 5,
@@ -239,7 +239,7 @@ def seed_hotel_review_relation(travellers, hotels):
             ],
         },
     )
-    travellers["Justin"].reviewed_hotel.connect(
+    travellers["traveller2"].reviewed_hotel.connect(
         hotels["hotel3"],
         {
             "rating": 4,
@@ -249,7 +249,7 @@ def seed_hotel_review_relation(travellers, hotels):
             ],
         },
     )
-    travellers["Selena"].reviewed_hotel.connect(
+    travellers["traveller4"].reviewed_hotel.connect(
         hotels["hotel7"],
         {
             "rating": 5,
@@ -259,7 +259,7 @@ def seed_hotel_review_relation(travellers, hotels):
             ],
         },
     )
-    travellers["Lucifer"].reviewed_hotel.connect(
+    travellers["traveller3"].reviewed_hotel.connect(
         hotels["hotel7"],
         {
             "rating": 5,
@@ -269,7 +269,7 @@ def seed_hotel_review_relation(travellers, hotels):
             ],
         },
     )
-    travellers["Lucifer"].reviewed_hotel.connect(
+    travellers["traveller3"].reviewed_hotel.connect(
         hotels["hotel5"],
         {
             "rating": 4,
@@ -279,7 +279,7 @@ def seed_hotel_review_relation(travellers, hotels):
             ],
         },
     )
-    travellers["Selena"].reviewed_hotel.connect(
+    travellers["traveller4"].reviewed_hotel.connect(
         hotels["hotel5"],
         {
             "rating": 4,
@@ -289,7 +289,7 @@ def seed_hotel_review_relation(travellers, hotels):
             ],
         },
     )
-    travellers["Justin"].reviewed_hotel.connect(
+    travellers["traveller2"].reviewed_hotel.connect(
         hotels["hotel5"],
         {
             "rating": 4,
@@ -302,19 +302,220 @@ def seed_hotel_review_relation(travellers, hotels):
 
 
 def seed_hotel_like_relation(travellers, hotels):
-    travellers["Justin"].likes_hotel.connect(hotels["hotel1"])
-    travellers["Justin"].likes_hotel.connect(hotels["hotel3"])
-    travellers["Lucifer"].likes_hotel.connect(hotels["hotel5"])
-    travellers["Lucifer"].likes_hotel.connect(hotels["hotel6"])
-    travellers["Selena"].likes_hotel.connect(hotels["hotel2"])
-    travellers["Selena"].likes_hotel.connect(hotels["hotel1"])
-    travellers["Selena"].likes_hotel.connect(hotels["hotel5"])
+    travellers["traveller2"].likes_hotel.connect(hotels["hotel1"])
+    travellers["traveller2"].likes_hotel.connect(hotels["hotel3"])
+    travellers["traveller3"].likes_hotel.connect(hotels["hotel5"])
+    travellers["traveller3"].likes_hotel.connect(hotels["hotel6"])
+    travellers["traveller4"].likes_hotel.connect(hotels["hotel2"])
+    travellers["traveller4"].likes_hotel.connect(hotels["hotel1"])
+    travellers["traveller4"].likes_hotel.connect(hotels["hotel5"])
+
+
+def seed_hotelier_relations(hoteliers, hotels):
+    hoteliers["hotelowner1"].owns_hotel.connect(hotels["hotel1"])
+    hoteliers["hotelowner1"].owns_hotel.connect(hotels["hotel2"])
+    hoteliers["hotelowner1"].owns_hotel.connect(hotels["hotel3"])
+    hoteliers["hotelowner1"].owns_hotel.connect(hotels["hotel5"])
+    hoteliers["hotelowner1"].owns_hotel.connect(hotels["hotel6"])
+    hoteliers["hotelowner1"].owns_hotel.connect(hotels["hotel7"])
+    hoteliers["hotelowner1"].owns_hotel.connect(hotels["hotel8"])
+    hoteliers["hotelowner1"].owns_hotel.connect(hotels["hotel9"])
+    hoteliers["hotelowner3"].owns_hotel.connect(hotels["hotel10"])
+    hoteliers["hotelowner3"].owns_hotel.connect(hotels["hotel11"])
+    hoteliers["hotelowner3"].owns_hotel.connect(hotels["hotel12"])
+    hoteliers["hotelowner3"].owns_hotel.connect(hotels["hotel13"])
+    hoteliers["hotelowner3"].owns_hotel.connect(hotels["hotel14"])
+    hoteliers["hotelowner3"].owns_hotel.connect(hotels["hotel15"])
+    hoteliers["hotelowner3"].owns_hotel.connect(hotels["hotel16"])
+
+
+def seed_shopier_relation(shopiers, shops):
+    shopiers["shopowner1"].owns_shop.connect(shops["shop1"])
+    shopiers["shopowner1"].owns_shop.connect(shops["shop2"])
+    shopiers["shopowner1"].owns_shop.connect(shops["shop3"])
+    shopiers["shopowner1"].owns_shop.connect(shops["shop4"])
+    shopiers["shopowner1"].owns_shop.connect(shops["shop5"])
+    shopiers["shopowner2"].owns_shop.connect(shops["shop6"])
+    shopiers["shopowner2"].owns_shop.connect(shops["shop7"])
+    shopiers["shopowner2"].owns_shop.connect(shops["shop8"])
+    shopiers["shopowner2"].owns_shop.connect(shops["shop9"])
+    shopiers["shopowner2"].owns_shop.connect(shops["shop10"])
+    shopiers["shopowner3"].owns_shop.connect(shops["shop11"])
+    shopiers["shopowner3"].owns_shop.connect(shops["shop12"])
+    shopiers["shopowner3"].owns_shop.connect(shops["shop13"])
+    shopiers["shopowner3"].owns_shop.connect(shops["shop14"])
+    shopiers["shopowner3"].owns_shop.connect(shops["shop15"])
 
 
 def seed_package_agency(packages, agencies):
-    packages["package1"].offered_by.connect(agencies["DNO"])
-    packages["package2"].offered_by.connect(agencies["Manish"])
-    packages["package3"].offered_by.connect(agencies["Lohana"])
-    packages["package4"].offered_by.connect(agencies["DNO"])
-    packages["package5"].offered_by.connect(agencies["Manish"])
-    packages["package6"].offered_by.connect(agencies["Lohana"])
+    packages["package1"].offered_by.connect(agencies["agency1"])
+    packages["package2"].offered_by.connect(agencies["agency2"])
+    packages["package3"].offered_by.connect(agencies["agency3"])
+    packages["package4"].offered_by.connect(agencies["agency1"])
+    packages["package5"].offered_by.connect(agencies["agency2"])
+    packages["package6"].offered_by.connect(agencies["agency3"])
+
+
+def seed_shop_review_relation(travellers, shops):
+    travellers["traveller1"].reviewed_shop.connect(
+        shops["shop1"],
+        {
+            "rating": 3,
+            "review": "nice shop, really polite customer service, cute stuff",
+            "photos": ["https://picsum.photos/1090"],
+        },
+    )
+    travellers["traveller2"].reviewed_shop.connect(
+        shops["shop15"],
+        {
+            "rating": 4,
+            "review": "nice shop, really polite customer service, cute stuff",
+            "photos": ["https://picsum.photos/1090"],
+        },
+    )
+    travellers["traveller2"].reviewed_shop.connect(
+        shops["shop2"],
+        {
+            "rating": 5,
+            "review": "nice shop, really polite customer service, cute stuff",
+            "photos": ["https://picsum.photos/1090"],
+        },
+    )
+    travellers["traveller3"].reviewed_shop.connect(
+        shops["shop14"],
+        {
+            "rating": 4,
+            "review": "nice shop, really polite customer service, cute stuff",
+            "photos": ["https://picsum.photos/1090"],
+        },
+    )
+    travellers["traveller1"].reviewed_shop.connect(
+        shops["shop13"],
+        {
+            "rating": 4,
+            "review": "nice shop, really polite customer service, cute stuff",
+            "photos": ["https://picsum.photos/1090"],
+        },
+    )
+    travellers["traveller1"].reviewed_shop.connect(
+        shops["shop12"],
+        {
+            "rating": 5,
+            "review": "nice shop, really polite customer service, cute stuff",
+            "photos": ["https://picsum.photos/1090"],
+        },
+    )
+    travellers["traveller5"].reviewed_shop.connect(
+        shops["shop11"],
+        {
+            "rating": 3,
+            "review": "nice shop, really polite customer service, cute stuff",
+            "photos": ["https://picsum.photos/1090"],
+        },
+    )
+    travellers["traveller5"].reviewed_shop.connect(
+        shops["shop10"],
+        {
+            "rating": 3,
+            "review": "nice shop, really polite customer service, cute stuff",
+            "photos": ["https://picsum.photos/1090"],
+        },
+    )
+    travellers["traveller2"].reviewed_shop.connect(
+        shops["shop4"],
+        {
+            "rating": 3,
+            "review": "nice shop, really polite customer service, cute stuff",
+            "photos": ["https://picsum.photos/1090"],
+        },
+    )
+    travellers["traveller1"].reviewed_shop.connect(
+        shops["shop9"],
+        {
+            "rating": 5,
+            "review": "nice shop, really polite customer service, cute stuff",
+            "photos": ["https://picsum.photos/1090"],
+        },
+    )
+    travellers["traveller1"].reviewed_shop.connect(
+        shops["shop5"],
+        {
+            "rating": 4,
+            "review": "nice shop, really polite customer service, cute stuff",
+            "photos": ["https://picsum.photos/1090"],
+        },
+    )
+    travellers["traveller2"].reviewed_shop.connect(
+        shops["shop8"],
+        {
+            "rating": 5,
+            "review": "nice shop, really polite customer service, cute stuff",
+            "photos": ["https://picsum.photos/1090"],
+        },
+    )
+    travellers["traveller2"].reviewed_shop.connect(
+        shops["shop6"],
+        {
+            "rating": 4,
+            "review": "nice shop, really polite customer service, cute stuff",
+            "photos": ["https://picsum.photos/1090"],
+        },
+    )
+    travellers["traveller5"].reviewed_shop.connect(
+        shops["shop6"],
+        {
+            "rating": 5,
+            "review": "nice shop, really polite customer service, cute stuff",
+            "photos": ["https://picsum.photos/1090"],
+        },
+    )
+
+
+def seed_shop_like_relation(travellers, shops):
+    travellers["traveller2"].likes_shop.connect(shops["shop1"])
+    travellers["traveller2"].likes_shop.connect(shops["shop3"])
+    travellers["traveller3"].likes_shop.connect(shops["shop5"])
+    travellers["traveller3"].likes_shop.connect(shops["shop6"])
+    travellers["traveller1"].likes_shop.connect(shops["shop2"])
+    travellers["traveller1"].likes_shop.connect(shops["shop1"])
+    travellers["traveller1"].likes_shop.connect(shops["shop5"])
+    travellers["traveller1"].likes_shop.connect(shops["shop4"])
+
+
+def seed_shop_city_relation(shops, cities):
+    shops["shop1"].located_in.connect(cities["city1"])
+    shops["shop2"].located_in.connect(cities["city1"])
+    shops["shop3"].located_in.connect(cities["city1"])
+
+    shops["shop4"].located_in.connect(cities["city3"])
+    shops["shop5"].located_in.connect(cities["city3"])
+    shops["shop6"].located_in.connect(cities["city3"])
+    shops["shop7"].located_in.connect(cities["city3"])
+
+    shops["shop8"].located_in.connect(cities["city2"])
+    shops["shop9"].located_in.connect(cities["city2"])
+    shops["shop10"].located_in.connect(cities["city2"])
+
+    shops["shop11"].located_in.connect(cities["city4"])
+    shops["shop12"].located_in.connect(cities["city4"])
+
+    shops["shop13"].located_in.connect(cities["city5"])
+    shops["shop15"].located_in.connect(cities["city5"])
+
+
+def seed_attraction_city_relation(attractions, cities):
+    attractions["attraction1"].located_in.connect(cities["city1"])
+    attractions["attraction2"].located_in.connect(cities["city1"])
+    attractions["attraction3"].located_in.connect(cities["city1"])
+    attractions["attraction4"].located_in.connect(cities["city2"])
+    attractions["attraction5"].located_in.connect(cities["city2"])
+    attractions["attraction6"].located_in.connect(cities["city2"])
+    attractions["attraction7"].located_in.connect(cities["city3"])
+    attractions["attraction8"].located_in.connect(cities["city3"])
+    attractions["attraction9"].located_in.connect(cities["city3"])
+    attractions["attraction10"].located_in.connect(cities["city4"])
+    attractions["attraction11"].located_in.connect(cities["city4"])
+    attractions["attraction12"].located_in.connect(cities["city4"])
+    attractions["attraction13"].located_in.connect(cities["city5"])
+    attractions["attraction14"].located_in.connect(cities["city5"])
+    attractions["attraction15"].located_in.connect(cities["city5"])
