@@ -519,3 +519,12 @@ def seed_attraction_city_relation(attractions, cities):
     attractions["attraction13"].located_in.connect(cities["city5"])
     attractions["attraction14"].located_in.connect(cities["city5"])
     attractions["attraction15"].located_in.connect(cities["city5"])
+
+
+def seed_package_like_relation(packages, travellers):
+    travellers["traveller1"].likes_package.connect(packages["package1"])
+    travellers["traveller2"].likes_package.connect(packages["package2"])
+    travellers["traveller3"].likes_package.connect(packages["package3"])
+    travellers["traveller1"].likes_package.connect(packages["package4"])
+    travellers["traveller2"].likes_package.connect(packages["package5"])
+    travellers["traveller3"].likes_package.connect(packages["package6"])

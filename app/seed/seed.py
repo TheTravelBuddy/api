@@ -17,6 +17,7 @@ from .seed_relations import (
     seed_hotel_review_relation,
     seed_hotelier_relations,
     seed_package_agency,
+    seed_package_like_relation,
     seed_package_review_relation,
     seed_shop_city_relation,
     seed_shop_like_relation,
@@ -69,4 +70,5 @@ def seed_db():
         seed_shop_like_relation(travellers, shops)
         seed_attraction_city_relation(attractions, cities)
         seed_shop_city_relation(shops, cities)
+        seed_package_like_relation(packages, travellers)
         print("Done.")

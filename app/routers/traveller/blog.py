@@ -65,5 +65,5 @@ async def blog_unlike(blog=Depends(get_blog), user=Depends(get_registered_user))
 
 
 @router.get("/favs")
-async def get_fav_blogs(user: str):
-    return get_query_response(GET_FAV_BLOG_QUERY, {"userId": user})
+async def get_fav_blogs(user=Depends(get_registered_user)):
+    return get_query_response(GET_FAV_BLOG_QUERY, {"userId": user.uid})

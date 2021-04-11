@@ -534,3 +534,13 @@ return
     b.published_on as published_on
 order by lb.datetime desc
 """
+GET_FAV_PACKAGE_QUERY = """
+match (t:Traveller {uid:$userId})-[lp:LIKES_PACKAGE]-(p:Package)
+return
+p.uid as id,
+p.name as name,
+p.price as price,
+p.photos as photos,
+p.description as description
+order by lp.datetime desc
+"""
