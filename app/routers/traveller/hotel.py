@@ -10,6 +10,7 @@ from ...dependencies.entities import get_hotel, get_hotel_booking
 from ...helpers.conversion import deflate_request
 from ...helpers.db_query import get_query_response
 from ...helpers.queries import (
+    GET_FAV_HOTELS_QUERY,
     GET_HOTEL_BOOKING_DETAILS_QUERY,
     GET_HOTEL_DETAILS_QUERY,
     GET_HOTEL_REVIEWS_ALL_QUERY,
@@ -180,3 +181,8 @@ async def get_hotel_booking(
         GET_HOTEL_BOOKING_DETAILS_QUERY,
         {"hotelBooking": hotel_booking.uid},
     )[0]
+
+
+@router.get("/favs")
+async def get_fav_hotels(user=Depends(get_registered_user)):
+    return get_query_response(GET_FAV_HOTELS_QUERY, {"userId": user.uid})

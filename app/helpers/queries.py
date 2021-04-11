@@ -507,3 +507,16 @@ RETURN
     favhotels,
     favshops
 """
+GET_FAV_HOTELS_QUERY = """
+match (t:Traveller {uid:$userId})-[lh:LIKES_HOTEL]-(h:Hotel)
+return
+h.uid as id,
+h.name as name,
+h.description as description,
+h.phone as phone,
+h.address as address,
+h.locality as locality,
+h.postal_code as postal_code,
+h.photos as photos,
+h.price as price
+"""
