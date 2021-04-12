@@ -451,6 +451,29 @@ GET_ALL_FAV_QUERY = """
 MATCH (t:Traveller {uid:$userId})
 CALL {
 WITH t
+match (t)-[lc:LIKES_CITY]-(c:City)
+with c,lc order by lc.datetime desc limit 3
+return
+collect ({
+id:c.uid,
+name:c.name,
+coverUri:c.photos[0]})
+as favcities
+}
+CALL{
+with t
+match (t)-[la:LIKES_ATTRACTION]-(a:Attraction)
+with a,la order by la.datetime desc limit 3
+return
+collect ({
+id:a.uid,
+name:a.name,
+coverUri:a.photos[0]
+})
+as favattractions
+}
+CALL {
+WITH t
 OPTIONAL MATCH (t)-[lb:LIKES_BLOG]-(b:Blog)
 optional match (b)-[like:LIKES_BLOG]-()
 WITH b,count(like) as likes,lb ORDER BY lb.datetime DESC LIMIT 3
@@ -500,7 +523,9 @@ AS favshops
 RETURN
     favblogs,
     favhotels,
-    favshops
+    favshops,
+    favcities,
+    favattractions
 """
 GET_FAV_HOTELS_QUERY = """
 match (t:Traveller {uid:$userId})-[lh:LIKES_HOTEL]-(h:Hotel)
@@ -553,7 +578,7 @@ order by datetime desc
 """
 
 GET_FAV_SHOPS_QUERY = """
-match (t:Traveller {uid:"2062eae3b22e41fbb35841e3dd7cf1fd"})-[ls:LIKES_SHOP]-(s:Shop)
+match (t:Traveller {uid:$userId})-[ls:LIKES_SHOP]-(s:Shop)
 optional match (s)-[review:REVIEWED_SHOP]-()
 with avg(review.rating) as rating,s,ls.datetime as datetime
 return
@@ -569,4 +594,14 @@ return
     s.latitude as latitude,
     s.longitude as longitude
 order by datetime desc
+"""
+
+GET_FAV_CITIES_QUERY = """
+match (t:Traveller {uid:$userId})-[lc:LIKES_CITY]-(c:City)
+with c,lc order by lc.datetime desc limit 3
+return
+c.uid as id,
+c.name as name,
+c.description as description,
+c.photos[0] as coverUri
 """

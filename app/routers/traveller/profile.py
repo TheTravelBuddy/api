@@ -27,5 +27,5 @@ async def edit_profile(
 
 
 @router.get("/favs")
-async def profile_favs(user=Depends(get_registered_user)):
-    return get_query_response(GET_ALL_FAV_QUERY, {"userId": user.uid})
+async def profile_favs(user: str):
+    return get_query_response(GET_ALL_FAV_QUERY, {"userId": user})

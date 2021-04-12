@@ -528,3 +528,25 @@ def seed_package_like_relation(packages, travellers):
     travellers["traveller1"].likes_package.connect(packages["package4"])
     travellers["traveller2"].likes_package.connect(packages["package5"])
     travellers["traveller3"].likes_package.connect(packages["package6"])
+
+
+def seed_city_like_relation(cities, travellers):
+    travellers["traveller1"].likes_city.connect(cities["city1"])
+    travellers["traveller1"].likes_city.connect(cities["city2"])
+    travellers["traveller2"].likes_city.connect(cities["city3"])
+    travellers["traveller2"].likes_city.connect(cities["city4"])
+    travellers["traveller3"].likes_city.connect(cities["city5"])
+    travellers["traveller3"].likes_city.connect(cities["city1"])
+
+
+def seed_attraction_like_relation(travellers, attractions):
+    travellers["traveller1"].likes_attraction.connect(attractions["attraction1"])
+    travellers["traveller1"].likes_attraction.connect(attractions["attraction2"])
+    travellers["traveller2"].likes_attraction.connect(attractions["attraction3"])
+    travellers["traveller2"].likes_attraction.connect(attractions["attraction4"])
+    travellers["traveller3"].likes_attraction.connect(attractions["attraction5"])
+    travellers["traveller3"].likes_attraction.connect(attractions["attraction6"])
+    travellers["traveller4"].likes_attraction.connect(attractions["attraction7"])
+    travellers["traveller4"].likes_attraction.connect(attractions["attraction8"])
+    travellers["traveller5"].likes_attraction.connect(attractions["attraction9"])
+    travellers["traveller5"].likes_attraction.connect(attractions["attraction10"])
