@@ -1,6 +1,17 @@
 from fastapi import APIRouter
 
-from . import auth, blog, city, community, home, hotel, package, profile, shop
+from . import (
+    attraction,
+    auth,
+    blog,
+    city,
+    community,
+    home,
+    hotel,
+    package,
+    profile,
+    shop,
+)
 
 router = APIRouter()
 
@@ -13,3 +24,4 @@ router.include_router(package.router, prefix="/package")
 router.include_router(profile.router, prefix="/profile")
 router.include_router(city.router, prefix="/city")
 router.include_router(shop.router, prefix="/shop")
+router.include_router(attraction.router, prefix="/attraction")

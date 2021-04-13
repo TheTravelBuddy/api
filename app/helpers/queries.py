@@ -605,3 +605,15 @@ c.name as name,
 c.description as description,
 c.photos[0] as coverUri
 """
+
+GET_FAV_ATT_QUERY = """
+match (t:Traveller {uid:$userId})-[la:LIKES_ATTRACTION]-(a:Attraction)-[:LOCATED_IN]-(c:City)
+return 
+a.uid as id,
+a.name as name,
+a.description as description,
+a.photos as photos,
+c.name as city,
+a.latitude as latitude,
+a.longitude as longitude
+"""
