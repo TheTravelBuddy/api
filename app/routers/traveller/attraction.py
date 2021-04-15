@@ -1,10 +1,10 @@
-from fastapi import APIrouter, Depends
+from fastapi import APIRouter, Depends
 
 from ...dependencies.auth import get_registered_user
 from ...helpers.db_query import get_query_response
 from ...helpers.queries import GET_FAV_ATT_QUERY
 
-router = APIrouter()
+router = APIRouter()
 
 
 @router.get("/fav")
